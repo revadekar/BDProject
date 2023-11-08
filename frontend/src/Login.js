@@ -20,6 +20,7 @@ export const Login = (props) => {
           } catch (error) {
             console.error('Error:', error);
           }
+          
     }
 
     return (
