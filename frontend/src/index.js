@@ -1,15 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-//import App from './material-dashboard-react-main/src/App';
-import Dashboard from './Dashboard';
+import App from './App';
+//import Dashboard from './Dashboard';
+//import CustomerForm from './Components/Items/CustomerForm';
 import reportWebVitals from './reportWebVitals';
-import { MaterialUIControllerProvider } from './material-dashboard-react-main/src/context';
 import { BrowserRouter as Router } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 ReactDOM.render(
   <React.StrictMode>
-   <Dashboard/>
+    <Router>
+    <App/>
+    {/* <CustomerForm></CustomerForm> */}
+    </Router>
+
   </React.StrictMode>,
   document.getElementById('root')
 );

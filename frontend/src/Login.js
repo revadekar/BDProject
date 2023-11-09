@@ -1,26 +1,34 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const Login = (props) => {
     const [username, setusername] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState(''); // State for error message
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-       // console.log(email);
+
         try {
-            console.log('response recived:' ,username,password);
             const response = await fetch('http://localhost:5000/login', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ username, password }),
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password }),
             });
-            // Handle the response from your server
-          } catch (error) {
+
+            if (response.status === 200) {
+                navigate("/dashboard");
+            } else {
+                // Handle invalid credentials here
+                setErrorMessage('Invalid username or password');
+            }
+        } catch (error) {
             console.error('Error:', error);
-          }
-          
+            setErrorMessage('An error occurred while logging in');
+        }
     }
 
     return (
@@ -28,12 +36,33 @@ export const Login = (props) => {
             <h2>Login</h2>
             <form className="login-form" onSubmit={handleSubmit}>
                 <label htmlFor="username">User Name</label>
-                <input value={username} onChange={(e) => setusername(e.target.value)}type="text" placeholder="your username" id="username" name="username" />
+                <input
+                    className="form-group mb-2"
+                    value={username}
+                    onChange={(e) => setusername(e.target.value)}
+                    type="text"
+                    placeholder="Your username"
+                    id="username"
+                    name="username"
+                />
                 <label htmlFor="password">Password</label>
-                <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="********" id="password" name="password" />
+                <input
+                    className="form-group mb-2"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    type="password"
+                    placeholder="********"
+                    id="password"
+                    name="password"
+                />
                 <button type="submit">Log In</button>
             </form>
-            <button className="link-btn" onClick={() => props.onFormSwitch('register')}>Don't have an account? Register here.</button>
+
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
+
+            <button className="link-btn" onClick={() => props.onFormSwitch('register')}>
+                Don't have an account? Register here.
+            </button>
         </div>
-    )
+    );
 }

@@ -77,6 +77,42 @@ console.log('username: ', username,'password:',password);
   });
 });
 
+// Create an API endpoint to get customer data
+app.get('/getCustomers', (req, res) => {
+  const query = 'SELECT * FROM customer_detail';
+  
+  // Execute the database query
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Error executing the query: ' + err.message);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      // Send the results back to the client as JSON
+      res.json(results);
+      console.log(results);
+    }
+  });
+});
+app.post('/addCustomer', (req, res) => {
+  const { Cust_name, Address, City, State, Country } = req.body;
+
+  // Validate the data here if needed
+
+  const query = `INSERT INTO customer_detail (Cust_name, Address, City, State, Country)
+                 VALUES (?, ?, ?, ?, ?)`;
+
+  db.query(query, [Cust_name, Address, City, State, Country], (err, result) => {
+    if (err) {
+      console.error('Error:', err);
+      res.status(500).json({ error: 'Error inserting data' });
+    } else {
+      console.log('Customer Data inserted successfully');
+      res.status(201).json({ message: 'Data inserted successfully' });
+    }
+  });
+});
+
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
