@@ -7,6 +7,7 @@ import DashboardHeader from './dashboardHeader';
 import CustomersComponent from './Items/customers'; // Import the CustomersComponent
 //import UsersComponent from './UsersComponent'; // Import the UsersComponent
 import HomePage from './Items/HomePage';
+import ContactDetailsForm from './Items/contactDetailsForm';
 
 const Dashboard = () => {
   const [open, setOpen] = React.useState(false);
@@ -18,8 +19,8 @@ const Dashboard = () => {
   const renderContent = () => {
     if (activeMenuItem === 'Customers') {
       return <CustomersComponent />;
-    } else if (activeMenuItem === 'Users') {
-      //return <UsersComponent />;
+    } else if (activeMenuItem === 'Contact Details') {
+      return <ContactDetailsForm />;
     }else if(activeMenuItem === 'Home'){
         return <HomePage />;
     }else{

@@ -11,10 +11,13 @@ const CustomerForm = ({ onCloseForm, onAddCustomer }) => {
       State: '',
       Country: '',
     });
-    const [showSuccessMessage, setShowSuccessMessage] = useState(false); // State to control the success message
+    //const [showSuccessMessage, setShowSuccessMessage] = useState(false); // State to control the success message
     const [showErrorMesage,setShowErrorMessage]=useState(false);
 
     //const [dataInserted, setDataInserted]=useState(datainserted);
+   const handleCancel=()=>{
+    onCloseForm();
+   };
     const handleAddCustomer = () => {
       // Check if all fields are filled
       if (newCustomer.Cust_name && newCustomer.City && newCustomer.State) {
@@ -42,10 +45,10 @@ const CustomerForm = ({ onCloseForm, onAddCustomer }) => {
            onAddCustomer();
            //setDataInserted(true);
            onCloseForm();
-            setShowSuccessMessage(true); // Show the success message
-            setTimeout(() => {
-              setShowSuccessMessage(false); // Hide the success message after 5 seconds
-            }, 5000);
+            // setShowSuccessMessage(true); // Show the success message
+            // setTimeout(() => {
+            //   setShowSuccessMessage(false); // Hide the success message after 5 seconds
+            // }, 5000);
           })
           .catch((error) => {
             console.error('Error:', error);
@@ -58,18 +61,23 @@ const CustomerForm = ({ onCloseForm, onAddCustomer }) => {
     };
   
   return (
-    <div>
+    <div className='container-fluid' style={{color:"black", margin:"10px"}}>
+    <h2>Add Customer</h2>
     {showErrorMesage && (
-        <div className="alert alert-danger">
-          Please fill in all fields.
+        <div className="d-flex justify-content-center align-items-center">
+            <p style={{color:"red"}}>Please fill in all fields.</p>
         </div>
       )}
-    <form className='form-horizontal' style={{padding: "10px"}}>
+
+      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '50vh'}}>
+        
+      <div  className='card col-sm-6' style={{paddingLeft:"1vw"}}>
+    <form className='form-horizontal' style={{padding: "10px", fontFamily:"serif", fontWeight:"bold"}}>
       <div className='form-group row' style={{padding: "10px"}}>
-        <label htmlFor='custName' className='control-label col-sm-2'>
+        <label htmlFor='custName' className='control-label col-sm-4'>
           Customer Name:
         </label>
-        <div className='col-sm-4'>
+        <div className='col-sm-6'>
           <input
             type='text'
             id='custName'
@@ -82,10 +90,10 @@ const CustomerForm = ({ onCloseForm, onAddCustomer }) => {
         </div>
       </div>
       <div className='form-group row' style={{padding: "10px"}}>
-        <label htmlFor='Address' className='control-label col-sm-2'>
+        <label htmlFor='Address' className='control-label col-sm-4'>
           Address:
         </label>
-        <div className='col-sm-4'>
+        <div className='col-sm-6'>
           <input
             type='text'
             id='Address'
@@ -98,10 +106,10 @@ const CustomerForm = ({ onCloseForm, onAddCustomer }) => {
         </div>
       </div>
       <div className='form-group row' style={{padding: "10px"}}>
-        <label htmlFor='city' className='control-label col-sm-2'>
+        <label htmlFor='city' className='control-label col-sm-4'>
           City:
         </label>
-        <div className='col-sm-4'>
+        <div className='col-sm-6'>
           <input
             type='text'
             id='city'
@@ -114,10 +122,10 @@ const CustomerForm = ({ onCloseForm, onAddCustomer }) => {
         </div>
       </div>
       <div className='form-group row' style={{padding: "10px"}}>
-        <label htmlFor='state' className='control-label col-sm-2'>
+        <label htmlFor='state' className='control-label col-sm-4'>
           State:
         </label>
-        <div className='col-sm-4'>
+        <div className='col-sm-6'>
           <input
             type='text'
             id='state'
@@ -129,34 +137,28 @@ const CustomerForm = ({ onCloseForm, onAddCustomer }) => {
           />
         </div>
       </div>
-      <div className='form-group row' style={{padding: "10px"}}>
-        <label htmlFor='Country' className='control-label col-sm-2'>
-          Country:
-        </label>
-        <div className='col-sm-4'>
-          <input
-            type='text'
-            id='Country'
-            className='form-control'
-            value={newCustomer.Country}
-            onChange={(e) =>
-              setNewCustomer({ ...newCustomer, Country: e.target.value })
-            }
-          />
-        </div>
-      </div>
-      <div className='form-group' style={{padding: "10px"}}>
-        <div className='col-sm-offset-2 col-sm-10'>
-          <button
-            type='button'
-            className='btn btn-primary'
-            onClick={handleAddCustomer}
-          >
-           Save
-          </button>
-        </div>
-      </div>
+      <div className='form-group row' style={{ padding: "10px" }}>
+  <div className='col-sm-offset-2 col-sm-12'>
+    <button
+      type='button'
+      className='btn btn-danger'
+      style={{ marginRight: '10px' }} 
+      onClick={handleCancel}
+    >
+      Cancel
+    </button>
+    <button
+      type='button'
+      className='btn btn-primary '
+      onClick={handleAddCustomer}
+    >
+      Save
+    </button>
+  </div>
+</div>
     </form>
+    </div>
+    </div>
     </div>
   );
 };

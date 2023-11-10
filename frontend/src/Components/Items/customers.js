@@ -28,6 +28,7 @@ const CustomersComponent = () => {
     }
     fetchCustomerData();
   }, [showForm, datainserted]);
+
   useEffect(() => {
     // Use setTimeout to reset datainserted after a delay
     if (datainserted) {
@@ -39,8 +40,8 @@ const CustomersComponent = () => {
   }, [datainserted]);
   
   return (
-    <CustomersComponentWrapper>
-      <div style={{ marginLeft: "600px", padding: "20px" }}>
+    <CustomersComponentWrapper className='container-fluid'>
+      <div style={{ marginLeft: "60vw", padding:"10px"}}>
         <button className='btn btn-primary' onClick={() => setShowForm(true)} >Add Customer</button>
       </div>
       {showForm && <CustomerForm
@@ -54,12 +55,12 @@ const CustomersComponent = () => {
       />} {/* Render the form when showForm is true */}
       
       {datainserted && (
-        <div className="alert alert-success" role="alert">
-          Data inserted successfully!
+        <div className="alert alert-success" role="alert" style={{width:"max-content"}}>
+          Record inserted successfully!
         </div>
       )}
-
-      <table className="table table-bordered table-striped">
+      <div className='table-responsive' style={{padding:"20px", marginLeft:"2vw"}}>
+      <table className="table table-bordered table-striped table-lg">
         <thead>
           <tr>
             <th>Customer Name</th>
@@ -70,13 +71,14 @@ const CustomersComponent = () => {
         <tbody>
           {customerData.map((customer, index) => (
             <tr key={index}>
-              <td>{customer.Cust_name}</td>
+              <td style={{textAlign:"left", width:"max-content", paddingLeft:"20px"}}>{customer.Cust_name}</td>
               <td>{customer.City}</td>
               <td>{customer.State}</td>
             </tr>
           ))}
         </tbody>
       </table>
+      </div>
     </CustomersComponentWrapper>
   );
 };
@@ -87,7 +89,8 @@ const CustomersComponentWrapper = styled('div', {
   // Add specific styling for the CustomersComponent if needed
   //background: 'white',
   color:'black',
-  marginLeft: '200px',
-  marginTop:"0.5rem"
+  marginLeft: '0px',
+  //marginTop:"0.5rem",
+  width:"100%"
   // padding: '10px'
 });

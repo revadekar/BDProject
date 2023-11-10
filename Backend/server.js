@@ -107,7 +107,25 @@ app.post('/addCustomer', (req, res) => {
       res.status(500).json({ error: 'Error inserting data' });
     } else {
       console.log('Customer Data inserted successfully');
-      res.status(201).json({ message: 'Data inserted successfully' });
+      res.status(201).json({ message: 'Customer Data inserted successfully' });
+    }
+  });
+});
+app.post('/addContact', (req, res) => {
+  const { contact_person, Designation, Email_id, Mobile, Landline,Fax, Cust_id } = req.body;
+
+  // Validate the data here if needed
+
+  const query = `INSERT INTO customer_detail (contact_person, Designation, Email_id, Mobile, Landline,Fax, Cust_id)
+                 VALUES (?, ?, ?, ?, ?,?,?)`;
+
+  db.query(query, [contact_person, Designation, Email_id, Mobile, Landline,Fax, Cust_id], (err, result) => {
+    if (err) {
+      console.error('Error:', err);
+      res.status(500).json({ error: 'Error inserting data' });
+    } else {
+      console.log('Contact Details inserted successfully');
+      res.status(201).json({ message: 'Contact Details inserted successfully' });
     }
   });
 });

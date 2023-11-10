@@ -53,7 +53,7 @@ const Sidebar = ({ open, setOpen, activeMenuItem, setActiveMenuItem }) => {
       <Logo>
         <img
           className={css({
-            width: '4rem',
+            width: '6rem',
             height: '4rem',
             marginRight: '0.5rem',
           })}
