@@ -28,7 +28,16 @@ const CustomersComponent = () => {
     }
     fetchCustomerData();
   }, [showForm, datainserted]);
-
+  useEffect(() => {
+    // Use setTimeout to reset datainserted after a delay
+    if (datainserted) {
+      const timeout = setTimeout(() => {
+        setDataInserted(false);
+      }, 5000); // Adjust the delay (in milliseconds) as needed
+      return () => clearTimeout(timeout); // Cleanup the timeout on unmount
+    }
+  }, [datainserted]);
+  
   return (
     <CustomersComponentWrapper>
       <div style={{ marginLeft: "600px", padding: "20px" }}>
@@ -37,7 +46,7 @@ const CustomersComponent = () => {
       {showForm && <CustomerForm
         onCloseForm={() => {
           setShowForm(false);
-          setDataInserted(false); // Reset datainserted when closing the form
+          //setDataInserted(false); // Reset datainserted when closing the form
         }}
         onAddCustomer={() => {
           setDataInserted(true); // Set datainserted to true when data is successfully inserted

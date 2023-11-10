@@ -12,6 +12,7 @@ const CustomerForm = ({ onCloseForm, onAddCustomer }) => {
       Country: '',
     });
     const [showSuccessMessage, setShowSuccessMessage] = useState(false); // State to control the success message
+    const [showErrorMesage,setShowErrorMessage]=useState(false);
 
     //const [dataInserted, setDataInserted]=useState(datainserted);
     const handleAddCustomer = () => {
@@ -51,15 +52,16 @@ const CustomerForm = ({ onCloseForm, onAddCustomer }) => {
           });
       } else {
         // Handle validation or show an error message
+        setShowErrorMessage(true);
         console.error('Invalid data. Please fill in all fields.');
       }
     };
   
   return (
     <div>
-    {showSuccessMessage && (
-        <div className="alert alert-success">
-          Record inserted successfully. This message will disappear in 5 seconds.
+    {showErrorMesage && (
+        <div className="alert alert-danger">
+          Please fill in all fields.
         </div>
       )}
     <form className='form-horizontal' style={{padding: "10px"}}>
@@ -150,7 +152,7 @@ const CustomerForm = ({ onCloseForm, onAddCustomer }) => {
             className='btn btn-primary'
             onClick={handleAddCustomer}
           >
-            Add Customer
+           Save
           </button>
         </div>
       </div>
