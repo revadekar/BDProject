@@ -1,3 +1,4 @@
+import { Button } from 'baseui/button';
 import React, { useState } from 'react';
 //import {useNavigate } from 'react-router-dom';
 
@@ -139,21 +140,23 @@ const CustomerForm = ({ onCloseForm, onAddCustomer }) => {
       </div>
       <div className='form-group row' style={{ padding: "10px" }}>
   <div className='col-sm-offset-2 col-sm-12'>
-    <button
+    <Button
+    size='compact'
       type='button'
       className='btn btn-danger'
-      style={{ marginRight: '10px' }} 
+      style={{ marginRight: '10px',backgroundColor:"darkred" }} 
       onClick={handleCancel}
     >
       Cancel
-    </button>
-    <button
+    </Button>
+    <Button
+    size='compact'
       type='button'
-      className='btn btn-primary '
+      style={{backgroundColor:"darkslategray"}}
       onClick={handleAddCustomer}
     >
       Save
-    </button>
+    </Button>
   </div>
 </div>
     </form>

@@ -1,4 +1,4 @@
-import { FaBook, FaChartPie, FaLightbulb, FaTicketAlt, FaUsers, FaUserTie } from 'react-icons/fa';
+import { FaBook, FaChartPie, FaLightbulb, FaUsers } from 'react-icons/fa';
 export const menuData = [
   {
     title: 'Home',
@@ -10,7 +10,7 @@ export const menuData = [
     },
     {
         title: 'Users',
-        icon: <FaTicketAlt style={{ marginRight: '0.5rem' }} />,
+        icon: <FaUsers style={{ marginRight: '0.5rem' }} />,
         active: true
     },
     {

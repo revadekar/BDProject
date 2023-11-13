@@ -86,8 +86,8 @@ const Sidebar = ({ open, setOpen, activeMenuItem, setActiveMenuItem }) => {
 export default Sidebar;
 
 const SidebarWrapper = styled('section', {
-  position: 'fixed',
-  top: '0',
+  position: 'absolute',
+  top: '4.5vw',
   left: '0',
   width: '100%',
   maxWidth: '255px',

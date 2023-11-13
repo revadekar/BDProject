@@ -7,14 +7,14 @@ import { Route, Routes } from "react-router-dom";
 import { Client as Styletron } from 'styletron-engine-atomic';
 import { Provider as StyletronProvider } from 'styletron-react';
 import { LightTheme, BaseProvider } from 'baseui';
-import { useStyletron } from 'styletron-react';
+//import { useStyletron } from 'styletron-react';
 import Dashboard from './Components/dashboard';
-import Navbar from './Components/navbar';
+//import Navbar from './Components/navbar';
 
 const engine = new Styletron();
 
 function App() {
-  const [css] = useStyletron();
+  //const [css] = useStyletron();
 
   const [currentForm, setCurrentForm] = useState('login');
   const toggleForm = (formName) => {
@@ -26,11 +26,8 @@ function App() {
       <BaseProvider theme={LightTheme}>
         <div className="App">
           <Routes>
-            <Route path="/dashboard" element={
-              <StyletronProvider value={engine}> {/* Wrap Dashboard with StyletronProvider */}
-                <Dashboard />
-              </StyletronProvider>
-            } />
+            <Route path="/" element={<Login />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/customer" element={<CustomerTable />} />
             <Route path="/login" element={<Login onFormSwitch={toggleForm} />} />
             <Route path="/register" element={<Register onFormSwitch={toggleForm} />} />

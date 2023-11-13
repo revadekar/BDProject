@@ -1,11 +1,6 @@
 import React from 'react'
-import {
-    HeaderNavigation,
-    ALIGN,
-    StyledNavigationItem as NavigationItem,
-    StyledNavigationList as NavigationList,
-  } from 'baseui/header-navigation';
-import { Avatar } from "baseui/avatar";
+import { HeaderNavigation,ALIGN,StyledNavigationItem as NavigationItem,StyledNavigationList as NavigationList,} from 'baseui/header-navigation';
+//import { Avatar } from "baseui/avatar";
 import { useStyletron } from 'baseui';
 import Menu from 'baseui/icon/menu'
 const DashboardHeader = ({open, setOpen}) => {
@@ -47,11 +42,11 @@ const DashboardHeader = ({open, setOpen}) => {
             <NavigationList $align={ALIGN.center} />
             <NavigationList $align={ALIGN.right}>
                 <NavigationItem>
-                    <Avatar
+                    {/* <Avatar
                         name="Jane Doe"
                         size="2.5rem"
                         src="https://avatars.dicebear.com/api/human/yard.svg?width=285&mood=happy"
-                    />
+                    /> */}
                 </NavigationItem>
             </NavigationList>
         </HeaderNavigation>

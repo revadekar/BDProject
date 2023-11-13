@@ -20,6 +20,7 @@ export const Login = (props) => {
             });
 
             if (response.status === 200) {
+                localStorage.setItem("ActiveUser",username);
                 navigate("/dashboard");
             } else {
                 // Handle invalid credentials here

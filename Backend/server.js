@@ -69,6 +69,7 @@ console.log('username: ', username,'password:',password);
           res.status(500).send('Error comparing passwords');
         } else if (result === true) {
           res.status(200).send('Login successful');
+          localStorage.setItem("ActiveUser",)
         } else {
           res.status(401).send('Login failed');
         }
@@ -89,7 +90,7 @@ app.get('/getCustomers', (req, res) => {
     } else {
       // Send the results back to the client as JSON
       res.json(results);
-      console.log(results);
+      //console.log(results);
     }
   });
 });
@@ -116,7 +117,7 @@ app.post('/addContact', (req, res) => {
 
   // Validate the data here if needed
 
-  const query = `INSERT INTO customer_detail (contact_person, Designation, Email_id, Mobile, Landline,Fax, Cust_id)
+  const query = `INSERT INTO contact_details (contact_person, Designation, Email_id, Mobile, Landline,Fax, Cust_id)
                  VALUES (?, ?, ?, ?, ?,?,?)`;
 
   db.query(query, [contact_person, Designation, Email_id, Mobile, Landline,Fax, Cust_id], (err, result) => {

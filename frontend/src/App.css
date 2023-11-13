@@ -49,3 +49,10 @@ button {
   color: white;
   text-decoration: underline;
 }
+.error-message{
+  color: red;
+}
+Navbar {
+  background-color: red;
+  color: red;
+}

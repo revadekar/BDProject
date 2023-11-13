@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { styled } from 'baseui';
 import CustomerForm from './CustomerForm';
+import { Button } from 'baseui/button';
 
 const CustomersComponent = () => {
   const [customerData, setCustomerData] = useState([]);
@@ -41,8 +42,8 @@ const CustomersComponent = () => {
   
   return (
     <CustomersComponentWrapper className='container-fluid'>
-      <div style={{ marginLeft: "60vw", padding:"10px"}}>
-        <button className='btn btn-primary' onClick={() => setShowForm(true)} >Add Customer</button>
+      <div style={{ marginLeft: "70vw", padding:"10px"}}>
+        <Button  size='compact' style={{backgroundColor:"darkcyan"}} onClick={() => setShowForm(true)} >Add Customer</Button>
       </div>
       {showForm && <CustomerForm
         onCloseForm={() => {
