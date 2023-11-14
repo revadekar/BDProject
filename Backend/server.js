@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const db = require('./config/database');
-const cors=require('cors');
+const cors = require('cors');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -69,7 +69,7 @@ console.log('username: ', username,'password:',password);
           res.status(500).send('Error comparing passwords');
         } else if (result === true) {
           res.status(200).send('Login successful');
-          localStorage.setItem("ActiveUser",)
+        //  localStorage.setItem("ActiveUser",)
         } else {
           res.status(401).send('Login failed');
         }
@@ -80,7 +80,7 @@ console.log('username: ', username,'password:',password);
 
 // Create an API endpoint to get customer data
 app.get('/getCustomers', (req, res) => {
-  const query = 'SELECT * FROM customer_detail';
+  const query = 'SELECT * FROM customer_detail order by Cust_name';
   
   // Execute the database query
   db.query(query, (err, results) => {
@@ -130,6 +130,24 @@ app.post('/addContact', (req, res) => {
     }
   });
 });
+app.post('/getContactDetails',(req,res)=>{
+  const{selectedCustomer}=req.body;
+  console.log('selected customer',selectedCustomer);
+  const Cust_name=selectedCustomer;
+  const query=`SELECT * FROM contact_detail where Cust_name=?`
+
+
+  db.query(query, [Cust_name], (err, result) => {
+    if (err) {
+      console.error('Error:', err);
+      res.status(500).json({ error: 'Error receiving data' });
+    } else {
+      console.log('Contact Details received successfully');
+      console.log(result);
+      res.status(201).json(result);
+    }
+  });
+})
 
 
 app.listen(port, () => {

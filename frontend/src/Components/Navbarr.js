@@ -1,28 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useStyletron } from 'baseui';
-import { Button } from 'baseui/button';
+//import { Button } from 'baseui/button';
 import { Layer } from 'baseui/layer';
 import { ChevronDown, Delete, Overflow, Upload } from 'baseui/icon';
 import { AppNavBar, setItemActive } from 'baseui/app-nav-bar';
 import { useNavigate } from 'react-router-dom';
-import { LightTheme,DarkTheme, ThemeProvider } from 'baseui';
-import { createTheme } from 'baseui';
 
-const primitives = {
-  accent: '#F127E4', // hot pink
-  accent700: '#600F5B',
-};
-
-const customTheme = createTheme(primitives);
 export default function Example() {
   const [css] = useStyletron();
   const [activeUser, setActiveUser] = useState('');
   const Navigate = useNavigate();
-  const THEME = {
-    light: 'light',
-    dark: 'dark',
-  };
-  const [theme, setTheme] = React.useState(THEME.light);  
+
   useEffect(() => {
     // Fetch the active user from localStorage when the component mounts
     setActiveUser(localStorage.getItem('ActiveUser'));
@@ -83,7 +71,7 @@ export default function Example() {
       },
     },
   ];
-  const [isNavVisible, setIsNavVisible] = React.useState(false);
+  //const [isNavVisible, setIsNavVisible] = React.useState(false);
 
   function handleMainItemSelect(item) {
     setMainItems((prev) => setItemActive(prev, item));
@@ -91,9 +79,6 @@ export default function Example() {
 
   return (
     <>
-      <Button onClick={() => setIsNavVisible((prev) => !prev)}>
-        {isNavVisible ? 'Hide' : 'Show'} navigation bar
-      </Button>
       { (
         <Layer>
           <div
@@ -105,8 +90,6 @@ export default function Example() {
               left: '0',
             })}
           >
-           
-           <ThemeProvider theme={customTheme}>
             <AppNavBar
               title="Dashboard"
               mainItems={mainItems}
@@ -117,10 +100,6 @@ export default function Example() {
               usernameSubtitle={activeUser}
               userImgUrl=""
             />
-      {/* <Button onClick={() => setTheme(theme === THEME.light ? THEME.dark : THEME.light)}>
-        Toggle light/dark theme!
-      </Button> */}
-    </ThemeProvider>
           </div>
         </Layer>
       )}

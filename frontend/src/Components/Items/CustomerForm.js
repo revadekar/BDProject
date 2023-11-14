@@ -77,8 +77,10 @@ const CustomerForm = ({ onCloseForm, onAddCustomer }) => {
       <div className='form-group row' style={{padding: "10px"}}>
         <label htmlFor='custName' className='control-label col-sm-4'>
           Customer Name:
+          <span className='text-danger'>*</span>
         </label>
-        <div className='col-sm-6'>
+        
+        <div className='col-sm-8'>
           <input
             type='text'
             id='custName'
@@ -93,8 +95,9 @@ const CustomerForm = ({ onCloseForm, onAddCustomer }) => {
       <div className='form-group row' style={{padding: "10px"}}>
         <label htmlFor='Address' className='control-label col-sm-4'>
           Address:
+          <span className='text-danger'>*</span>
         </label>
-        <div className='col-sm-6'>
+        <div className='col-sm-8'>
           <input
             type='text'
             id='Address'
@@ -109,8 +112,9 @@ const CustomerForm = ({ onCloseForm, onAddCustomer }) => {
       <div className='form-group row' style={{padding: "10px"}}>
         <label htmlFor='city' className='control-label col-sm-4'>
           City:
+          <span className='text-danger'>*</span>
         </label>
-        <div className='col-sm-6'>
+        <div className='col-sm-8'>
           <input
             type='text'
             id='city'
@@ -125,8 +129,9 @@ const CustomerForm = ({ onCloseForm, onAddCustomer }) => {
       <div className='form-group row' style={{padding: "10px"}}>
         <label htmlFor='state' className='control-label col-sm-4'>
           State:
+          <span className='text-danger'>*</span>
         </label>
-        <div className='col-sm-6'>
+        <div className='col-sm-8'>
           <input
             type='text'
             id='state'

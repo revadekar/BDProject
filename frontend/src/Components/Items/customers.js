@@ -42,8 +42,10 @@ const CustomersComponent = () => {
   
   return (
     <CustomersComponentWrapper className='container-fluid'>
-      <div style={{ marginLeft: "70vw", padding:"10px"}}>
-        <Button  size='compact' style={{backgroundColor:"darkcyan"}} onClick={() => setShowForm(true)} >Add Customer</Button>
+     <div className='d-flex justify-content-end my-2' style={{ marginRight: '2vw' }}>
+        <Button size='compact' style={{ backgroundColor: 'darkcyan' }} onClick={() => setShowForm(true)}>
+          Add Customer
+        </Button>
       </div>
       {showForm && <CustomerForm
         onCloseForm={() => {
@@ -53,6 +55,7 @@ const CustomersComponent = () => {
         onAddCustomer={() => {
           setDataInserted(true); // Set datainserted to true when data is successfully inserted
         }}
+        
       />} {/* Render the form when showForm is true */}
       
       {datainserted && (
@@ -90,7 +93,7 @@ const CustomersComponentWrapper = styled('div', {
   // Add specific styling for the CustomersComponent if needed
   //background: 'white',
   color:'black',
-  marginLeft: '0px',
+  //marginLeft: '0px',
   //marginTop:"0.5rem",
   width:"100%"
   // padding: '10px'

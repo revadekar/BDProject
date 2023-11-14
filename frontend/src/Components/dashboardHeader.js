@@ -35,7 +35,6 @@ const DashboardHeader = ({open, setOpen}) => {
                             display: 'none',
                         }
                     })}>
-                        Tickets
                     </span>
                 </NavigationItem>
             </NavigationList>

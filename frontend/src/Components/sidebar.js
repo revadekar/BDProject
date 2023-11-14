@@ -3,10 +3,11 @@ import { styled, useStyletron } from 'baseui';
 import logo from './assets/images/cdac1.png';
 import SideNavListItem from './SideNavListItem';
 import { menuData } from './assets/constants';
+import { ChevronLeft } from 'baseui/icon';
 
-const Sidebar = ({ open, setOpen, activeMenuItem, setActiveMenuItem }) => {
+const Sidebar = ({ open, setOpen, activeMenuItem, setActiveMenuItem,setShowFabar }) => {
   const [css] = useStyletron();
-
+ setShowFabar(false);
   const menuItemStyles = (title) =>
     css({
       padding: '10px 20px',
@@ -20,7 +21,7 @@ const Sidebar = ({ open, setOpen, activeMenuItem, setActiveMenuItem }) => {
 
   const handleMenuItemClick = (title) => {
     setActiveMenuItem(title);
-    setOpen(false);
+    //setOpen(false);
   };
 
   return (
@@ -28,6 +29,7 @@ const Sidebar = ({ open, setOpen, activeMenuItem, setActiveMenuItem }) => {
       className={css({
         '@media (max-width: 768px)': {
           display: open ? 'block' : 'none',
+           transition: 'left 0.3s ease, width 0.3s ease'
         },
       })}
     >
@@ -51,6 +53,7 @@ const Sidebar = ({ open, setOpen, activeMenuItem, setActiveMenuItem }) => {
         }}
       />
       <Logo>
+       
         <img
           className={css({
             width: '6rem',
@@ -79,6 +82,25 @@ const Sidebar = ({ open, setOpen, activeMenuItem, setActiveMenuItem }) => {
           ))}
         </ul>
       </nav>
+      <div
+        className={css({
+          position: 'absolute', // Position the icon absolutely
+          top: '1rem', // Adjust top position as needed
+          right: '1rem', // Adjust right position as needed
+          cursor: 'pointer',
+          //backgroundColor:"lightgray",
+          boxShadow: "10px",
+          color:"wheat",
+          font:"caption",
+        })}
+        onClick={() => {
+          setActiveMenuItem(null);
+          setOpen(false);
+          setShowFabar(true);
+        }}
+      >
+        <ChevronLeft size="2vw"  />
+      </div>
     </SidebarWrapper>
   );
 };
@@ -86,17 +108,18 @@ const Sidebar = ({ open, setOpen, activeMenuItem, setActiveMenuItem }) => {
 export default Sidebar;
 
 const SidebarWrapper = styled('section', {
-  position: 'absolute',
-  top: '4.5vw',
+  position: 'fixed',
+  top: '4.4vw',
   left: '0',
   width: '100%',
   maxWidth: '255px',
   height: '100vh',
   background: '#363740',
   zIndex: '1',
-  overflowX: 'hidden',
+  overflowX: 'auto',
   padding: '1rem',
   color: 'grey',
+  transition: 'left 0.3s ease, width 0.3s ease'
 });
 
 const Logo = styled('div', {

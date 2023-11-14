@@ -1,22 +1,26 @@
 import React, { useState } from 'react';
-import { styled } from 'baseui';
-import { FaBars } from 'react-icons/fa';
+import { styled, useStyletron } from 'baseui';
 import Sidebar from './sidebar';
+import DashboardHeader from './dashboardHeader';
 import CustomersComponent from './Items/customers';
 import HomePage from './Items/HomePage';
-import ContactDetailsForm from './Items/contactDetailsForm';
+import ContactDetails from './Items/ContactDetails';
 import Navbar from './Navbarr';
 import { Button } from 'baseui/button';
+import { FaBars } from 'react-icons/fa';
 
 const Dashboard = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = React.useState(true);
   const [activeMenuItem, setActiveMenuItem] = useState(null);
+  const[showFabar, setShowFabar]=useState(false);
+
+  const [css] = useStyletron();
 
   const renderContent = () => {
     if (activeMenuItem === 'Customers') {
       return <CustomersComponent />;
     } else if (activeMenuItem === 'Contact Details') {
-      return <ContactDetailsForm />;
+      return <ContactDetails />;
     } else if (activeMenuItem === 'Home') {
       return <HomePage />;
     } else {
@@ -25,20 +29,21 @@ const Dashboard = () => {
   };
 
   return (
-    <DashboardWrapper open={open}>
+    <DashboardWrapper className={ css({ paddingLeft: open ? '285px' : '0' })}>
       <Navbar />
-      <Sidebar open={open} setOpen={setOpen} setActiveMenuItem={setActiveMenuItem} />
-      <DashboardContent>
-        <FaBars color='black' onClick={() => setOpen(!open)} style={{ cursor: 'pointer' }} />
-        {renderContent()}
-      </DashboardContent>
+      {open && <div ><Sidebar  open={open} setOpen={setOpen} setActiveMenuItem={setActiveMenuItem} setShowFabar={setShowFabar} /></div> }
+      {showFabar &&<Button style={{position:"fixed"}} variant='outline-primary' onClick={() => setOpen(!open) }>
+        <FaBars />
+      </Button>}
+      <DashboardHeader open={open} setOpen={setOpen} />
+      {renderContent()}
     </DashboardWrapper>
   );
 };
 
 export default Dashboard;
 
-const DashboardWrapper = styled('section', ({ $theme, $open }) => ({
+const DashboardWrapper = styled('section', {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
@@ -48,17 +53,9 @@ const DashboardWrapper = styled('section', ({ $theme, $open }) => ({
   minHeight: '100vh',
   maxWidth: '100vw',
   boxSizing: 'border-box',
-  transition: 'margin-left 0.3s ease', // CSS transition for smooth opening/closing
-  marginLeft: $open ? '285px' : '0', // Adjusted based on the open state
   '@media (max-width: 768px)': {
-    marginLeft: '0',
+    paddingLeft: '0',
   },
-}));
-
-const DashboardContent = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  width: '100%',
-  padding: '1rem',
+  paddingTop: '4rem',
+  transition: 'padding-left 0.3s ease, margin-left 0.3s ease, width 0.3s ease', // Add transitions for other properties
 });
