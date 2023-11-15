@@ -7,6 +7,8 @@ export const Register = (props) => {
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
   const [passwordMatchState, setPasswordMatchState] = useState(''); // Use the useState hook
+  const[username, setUserName]=useState('');
+  
 
   const handleConfirmPasswordChange = (e) => {
     const newPassword = e.target.value;
@@ -38,7 +40,7 @@ export const Register = (props) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, pass }),
+        body: JSON.stringify({ name, username, pass }),
       });
 
       if (response.status === 200) {
@@ -58,10 +60,12 @@ export const Register = (props) => {
         <p className="success-message">Registration successful!</p>
       ) : (
         <form className="register-form" onSubmit={handleSubmit}>
-          <label htmlFor="name">User Name</label>
-          <input value={name} name="name" onChange={(e) => setName(e.target.value)} id="name" placeholder="full Name" />
+          <label htmlFor="name">Full Name</label>
+          <input value={name} name="name" onChange={(e) => setName(e.target.value)} id="name" placeholder="full Name"  required/> 
+          <label htmlFor="username">User Name</label>
+          <input value={username} name="username" onChange={(e) => setUserName(e.target.value)} id="username" placeholder="UserName"  required/> 
           <label htmlFor="password">Password</label>
-          <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="********" id="password" name="password" />
+          <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="********" id="password" name="password" required />
           <label htmlFor="confirmPassword">Confirm Password</label>
           <input
             value={confirmPass}
@@ -71,6 +75,7 @@ export const Register = (props) => {
             id="confirmPassword"
             name="confirmPassword"
             style={{ borderColor: passwordsMatch ? 'green' : 'red' }}
+            required
           />
           { <p className="error-message" style={{ color: passwordsMatch ? 'green' : 'red' }}>{passwordMatchState}</p>}
           <button type="submit">Register</button>

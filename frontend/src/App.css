@@ -4,7 +4,6 @@
   min-height: 100vh;
   align-items: center;
   justify-content: center;
-  color: white;
   background-image: linear-gradient(79deg, #db3939,
    #C66FBC 48%, #f44df7);
 }
@@ -12,6 +11,7 @@
 .auth-form-container, .login-form, .register-form {
   display: flex;
   flex-direction: column;
+  color: white;
 }
 
 @media screen and (min-width: 600px) {
@@ -51,4 +51,7 @@ button {
 }
 .error-message{
   color: red;
+}
+#profile{
+  background-color: white;
 }

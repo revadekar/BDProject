@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useStyletron } from 'baseui';
 //import { Button } from 'baseui/button';
 import { Layer } from 'baseui/layer';
-import { ChevronDown, Delete, Overflow, Upload } from 'baseui/icon';
+import { ChevronDown, Delete, Upload } from 'baseui/icon';
 import { AppNavBar, setItemActive } from 'baseui/app-nav-bar';
 import { useNavigate } from 'react-router-dom';
+import { FaUser } from 'react-icons/fa';
 
-export default function Example() {
+export default function Navbar({setActiveMenuItem}) {
   const [css] = useStyletron();
   const [activeUser, setActiveUser] = useState('');
   const Navigate = useNavigate();
@@ -18,9 +19,9 @@ export default function Example() {
 
   const LogoutIcon = () => (
     <img
-      src={require('./assets/images/logout.png')}
+      src={require('./assets/images/logout1.png')}
       alt="Logout"
-      style={{ width: '24px', height: '24px' }} // Adjust the size as needed
+      style={{ width: '2vw', height: '2vw' }} // Adjust the size as needed
     />
   );
   const [mainItems, setMainItems] = React.useState([
@@ -56,8 +57,11 @@ export default function Example() {
   ]);
   const userItems = [
     {
-      icon: Overflow,
-      label: 'Account item1',
+      icon: FaUser,
+      label: 'Profile',
+      onClick: () => {
+        setActiveMenuItem('Profile');
+      }
     },
     {
       icon: LogoutIcon,
@@ -91,7 +95,7 @@ export default function Example() {
             })}
           >
             <AppNavBar
-              title="Dashboard"
+              title={`Welcome ! ${activeUser}`}
               mainItems={mainItems}
               userItems={userItems}
               onMainItemSelect={handleMainItemSelect}

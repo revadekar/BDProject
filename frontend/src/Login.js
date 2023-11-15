@@ -45,6 +45,7 @@ export const Login = (props) => {
                     placeholder="Your username"
                     id="username"
                     name="username"
+                    required
                 />
                 <label htmlFor="password">Password</label>
                 <input
@@ -55,6 +56,7 @@ export const Login = (props) => {
                     placeholder="********"
                     id="password"
                     name="password"
+                    required
                 />
                 <button type="submit">Log In</button>
             </form>

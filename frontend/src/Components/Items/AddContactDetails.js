@@ -89,7 +89,7 @@ const handleAddContact = () => {
   return (
     <>
      <div className='container-fluid' style={{color:"black", margin:"10px"}}>
-        <h2>Add Contact</h2>
+        <h4>Add Contact</h4>
         {showErrorMessage && (
         <div className="d-flex justify-content-center align-items-center">
             <p style={{color:"red"}}>Name,Email, Designation and Mobile No is required</p>

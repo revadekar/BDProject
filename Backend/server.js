@@ -17,8 +17,8 @@ app.get('/', (req, res) => {
 
 app.post('/register', (req, res) => {
   // Parse the request body to retrieve 'name' and 'pass'
-  console.log('this is register page');
-  const { name, pass } = req.body;
+  //console.log('this is register page');
+  const { name,username, pass } = req.body;
   
   const saltRounds = 10;
 
@@ -29,7 +29,8 @@ app.post('/register', (req, res) => {
       res.status(500).send('Error in password hashing');
     } else {
       const newUser = {
-        user_name: name,
+        Name: name,
+        user_name: username,
         password: hash,
         // Add other user data as needed
       };
@@ -146,6 +147,24 @@ app.post('/getContactDetails',(req,res)=>{
       console.log(result);
       res.status(201).json(result);
     }
+  });
+})
+
+app.post('/getUserProfile',(req,res)=>{
+  const {ActiveUser} =req.body;
+  const User=ActiveUser;
+  console.log('AciveUser',User);
+  const query=`SELECT * FROM profile where user_name= ?`
+  db.query(query,[User],(err,result)=>{
+    if(err){
+      console.error('Error:', err);
+      res.status(500).json({ error: 'Error receiving data' });
+    }else{
+      console.log('User Details received successfully');
+      console.log(result);
+      res.status(201).json(result);
+    }
+
   });
 })
 

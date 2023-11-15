@@ -8,6 +8,7 @@ import ContactDetails from './Items/ContactDetails';
 import Navbar from './Navbarr';
 import { Button } from 'baseui/button';
 import { FaBars } from 'react-icons/fa';
+import Profile from './Items/Profile';
 
 const Dashboard = () => {
   const [open, setOpen] = React.useState(true);
@@ -23,14 +24,16 @@ const Dashboard = () => {
       return <ContactDetails />;
     } else if (activeMenuItem === 'Home') {
       return <HomePage />;
-    } else {
-      return <HomePage />;
+    } else if(activeMenuItem === 'Profile') {
+      return <Profile />;
+    }else{
+      return <HomePage/>
     }
   };
 
   return (
     <DashboardWrapper className={ css({ paddingLeft: open ? '285px' : '0' })}>
-      <Navbar />
+      <Navbar setActiveMenuItem={setActiveMenuItem} />
       {open && <div ><Sidebar  open={open} setOpen={setOpen} setActiveMenuItem={setActiveMenuItem} setShowFabar={setShowFabar} /></div> }
       {showFabar &&<Button style={{position:"fixed"}} variant='outline-primary' onClick={() => setOpen(!open) }>
         <FaBars />

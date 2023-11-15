@@ -19,6 +19,11 @@ const Sidebar = ({ open, setOpen, activeMenuItem, setActiveMenuItem,setShowFabar
       // },
     });
 
+    const handleChevronClick=(async)=>{
+      setOpen(false);
+      setShowFabar(true);
+    }
+
   const handleMenuItemClick = (title) => {
     setActiveMenuItem(title);
     //setOpen(false);
@@ -94,12 +99,13 @@ const Sidebar = ({ open, setOpen, activeMenuItem, setActiveMenuItem,setShowFabar
           font:"caption",
         })}
         onClick={() => {
-          setActiveMenuItem(null);
-          setOpen(false);
-          setShowFabar(true);
+          //setActiveMenuItem(null);
+          handleChevronClick();
+          // setOpen(false);
+          // setShowFabar(true);
         }}
       >
-        <ChevronLeft size="2vw"  />
+        <ChevronLeft size="1.5rem"  />
       </div>
     </SidebarWrapper>
   );
@@ -119,7 +125,7 @@ const SidebarWrapper = styled('section', {
   overflowX: 'auto',
   padding: '1rem',
   color: 'grey',
-  transition: 'left 0.3s ease, width 0.3s ease'
+  transition: 'left 1s ease, width 0.3s ease'
 });
 
 const Logo = styled('div', {
