@@ -9,6 +9,7 @@ import Navbar from './Navbarr';
 import { Button } from 'baseui/button';
 import { FaBars } from 'react-icons/fa';
 import Profile from './Items/Profile';
+import Users from './Items/Users';
 
 const Dashboard = () => {
   const [open, setOpen] = React.useState(true);
@@ -26,8 +27,10 @@ const Dashboard = () => {
       return <HomePage />;
     } else if(activeMenuItem === 'Profile') {
       return <Profile />;
+    }else if(activeMenuItem === 'Users'){
+      return <Users/>
     }else{
-      return <HomePage/>
+      return <HomePage></HomePage>
     }
   };
 

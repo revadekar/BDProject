@@ -1,8 +1,7 @@
 import React, { useState,useEffect } from "react";
 import { Button } from "baseui/button";
 
-const EditContactDetails = ({onCloseForm, onAddContact, editingContact}) => {
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false); // State to control the success message
+const EditContactDetails = ({onCloseForm, onEditContact, editingContact}) => {
   const[showErrorMessage,setShowErrorMessage]=useState(false);
   const[customerData,setCustomerData]=useState([]);
   const [newContact, setNewContact] = useState(editingContact);
@@ -26,27 +25,23 @@ const handleCancel=()=>{
   onCloseForm();
   setShowErrorMessage(false);
  };
-const handleAddContact = () => {
+const handleEditContact = () => {
       
-    // Find the selected customer based on the name
-    const selectedCustomer = customerData.find(
-      (customer) => customer.Cust_name === newContact.Customer
-    );
     // Check if all fields are filled
-      if (newContact.Name && newContact.Email && newContact.Designation && newContact.Mobile && selectedCustomer) {
+      if (newContact.contact_person && newContact.Email_id && newContact.Designation && newContact.Mobile ) {
         // Create a new customer object
         const contact = {
-          contact_person: newContact.Name,
+          contact_id:newContact.contact_id,
+          contact_person: newContact.contact_person,
           Designation: newContact.Designation,
-          Email_id: newContact.Email,
+          Email_id: newContact.Email_id,
           Mobile: newContact.Mobile,
-          Cust_id: selectedCustomer.Cust_id,
           Landline: newContact.Landline,
           Fax: newContact.Fax
         };
   
         // Send a request to your server to add the new customer
-        fetch('http://localhost:5000/addContact', {
+        fetch('http://localhost:5000/editContact', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -61,12 +56,8 @@ const handleAddContact = () => {
            //setDataInserted(true);
           // onCloseForm();
            setShowErrorMessage(false);
-            setShowSuccessMessage(true); // Show the success message
             onCloseForm();
-            onAddContact();
-             setTimeout(() => {
-               setShowSuccessMessage(false); // Hide the success message after 5 seconds
-             }, 5000);
+            onEditContact();
           })
           .catch((error) => {
             console.error('Error:', error);
@@ -87,13 +78,6 @@ const handleAddContact = () => {
         </div>
         )}
         
-        {showSuccessMessage && (
-        <div className="d-flex justify-content-center align-items-center">
-        <div className="alert alert-success" style={{paddingTop:"10px", paddingBottom:"10px", paddingLeft:"50px",paddingRight:"50px", width:"max-content"}}>
-         Contact details updated successfully.
-        </div>
-        </div>
-        )}
         <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '50vh'}}>
         
         <div  className='card col-sm-6' style={{paddingLeft:"1vw"}}>
@@ -132,7 +116,7 @@ const handleAddContact = () => {
             className='form-control'
             value={newContact.contact_person}
             onChange={(e) =>
-                setNewContact({ ...newContact, Name: e.target.value })
+                setNewContact({ ...newContact, contact_person: e.target.value })
             }
           />
         </div>
@@ -167,7 +151,7 @@ const handleAddContact = () => {
         className='form-control'
         value={newContact.Email_id}
         onChange={(e) =>
-          setNewContact({ ...newContact, Email: e.target.value })
+          setNewContact({ ...newContact, Email_id: e.target.value })
         }
         />
         </div>
@@ -238,7 +222,7 @@ const handleAddContact = () => {
         size='compact'
         type='button'
         style={{ marginLeft:"10px", backgroundColor:"darkslategray"}}
-        onClick={handleAddContact}
+        onClick={handleEditContact}
         >
         Save
         </Button>

@@ -15,12 +15,23 @@ const ContactDetails = () => {
       // State to store the details of the contact being edited
     const [editingContact, setEditingContact] = useState(null);
     const[dataUpdated,setDataUpdated]=useState(false);
+    const[dataDeleted,setDataDeleted]=useState(false);
+    //const[deletingContact,setDeletingContact]=useState(null);
 
    // Function to handle the edit button click
    const handleEditClick = (contact) => {
     setEditingContact(contact);
     setShowEditContactForm(true);
    // setButtonClicked(false);
+  };
+  const handleDeleteClick = (contact) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this contact?');
+
+    if (confirmDelete) {
+      // Perform the deletion logic here
+      // deletingContact(contact);
+      handleDeleteContact(contact);
+    }
   };
   
  
@@ -42,17 +53,20 @@ const ContactDetails = () => {
               });
       },[])
 
-    useEffect(() => {
-      // Use setTimeout to reset datainserted after a delay
-      if (dataInserted) {
-        const timeout = setTimeout(() => {
-          setDataInserted(false);
-        }, 5000); // Adjust the delay (in milliseconds) as needed
-        return () => clearTimeout(timeout); // Cleanup the timeout on unmount
-      }
-    }, [dataInserted]);
+      useEffect(() => {
+        fetchContactDetails();
+        // Use setTimeout to reset dataInserted after a delay
+        if (dataInserted || dataUpdated||dataDeleted) {
+          const timeout = setTimeout(() => {
+            setDataInserted(false);
+            setDataUpdated(false);
+            setDataDeleted(false);
+          }, 5000); // Adjust the delay (in milliseconds) as needed
+          return () => clearTimeout(timeout); // Cleanup the timeout on unmount
+        }
+      }, [dataInserted, dataUpdated, dataDeleted]);
 
-    const handleFormSubmit = () => {
+    const fetchContactDetails  = () => {
       setShowAddContactForm(false);
       setShowEditContactForm(false);
       if(selectedCustomer){
@@ -67,6 +81,7 @@ const ContactDetails = () => {
         .then((response) => response.json())
         .then((data) => {
                     setContactDetails(data);
+                    
           setButtonClicked(true);
 
         })
@@ -76,9 +91,29 @@ const ContactDetails = () => {
     } else {
       // Handle validation or show an error message
       //setShowErrorMessage(true);
-      console.error('Invalid data. Please fill in all fields.');
+      console.error('Please select customer.');
     }
 
+    };
+
+    const handleDeleteContact = (deletingContact) => {
+      fetch('http://localhost:5000/deleteContact', {
+        method: 'DELETE', 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        // Additional options, such as body if needed
+         body: JSON.stringify(deletingContact),
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Handle the response data
+          setDataDeleted(true);
+          console.log('Contact deleted successfully', data);
+        })
+        .catch(error => {
+          console.error('Error deleting contact:', error);
+        });
     };
   return (
 <div className='container-fluid' style={{color:"black"}}> 
@@ -109,7 +144,7 @@ const ContactDetails = () => {
               size='compact'
               style={{ backgroundColor: 'darkcyan' }}
               type='button'
-              onClick={handleFormSubmit}
+              onClick={fetchContactDetails }
             >
               Get Details
             </Button>
@@ -150,11 +185,7 @@ const ContactDetails = () => {
           Record inserted successfully!
         </div>
       )}
-       {dataUpdated && (
-        <div className="alert alert-success" role="alert" style={{width:"max-content"}}>
-          Contact details updated successfully!
-        </div>
-      )}
+      
     {buttonClicked && (
         <div className='table-responsive' style={{marginRight:"0.5vw" ,marginTop:"1vw"}}>
           <table className='table table-bordered table-striped table-sm'>
@@ -184,7 +215,11 @@ const ContactDetails = () => {
                     <Button size='compact'style={{ backgroundColor: 'orange' }} onClick={() => handleEditClick(contact)}>
                       Edit
                     </Button>
+                    <Button size='compact'style={{ backgroundColor: 'darkred',marginLeft:"0.3rem" }} onClick={() => handleDeleteClick(contact)}>
+                      Delete
+                    </Button>
                   </td>
+
                 </tr>
               ))}
             </tbody>
@@ -206,6 +241,16 @@ const ContactDetails = () => {
 
           }}
         />
+      )}
+       {dataUpdated && (
+        <div className="alert alert-success" role="alert" style={{width:"max-content"}}>
+          Contact details updated successfully!
+        </div>
+      )}
+      {dataDeleted && (
+        <div className="alert alert-success" role="alert" style={{width:"max-content"}}>
+          Contact deleted successfully!
+        </div>
       )}
 </div>
   );

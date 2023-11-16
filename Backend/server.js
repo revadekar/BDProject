@@ -15,10 +15,23 @@ app.get('/', (req, res) => {
   res.send('Hello, Node.js!');
 });
 
+app.get('/getRoles',(req,res)=>{
+  const query='select * from roles';
+  db.query(query,(err,result)=>{
+    if (err) {
+      console.error('Error getting roles: ' + err.message);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      // Send the results back to the client as JSON
+      res.status(200).json(result);
+      //console.log(results);
+    }
+  })
+})
 app.post('/register', (req, res) => {
   // Parse the request body to retrieve 'name' and 'pass'
   //console.log('this is register page');
-  const { name,username, pass } = req.body;
+  const { name,username, pass,roleId } = req.body;
   
   const saltRounds = 10;
 
@@ -32,6 +45,7 @@ app.post('/register', (req, res) => {
         Name: name,
         user_name: username,
         password: hash,
+        role_id:roleId,
         // Add other user data as needed
       };
       
@@ -165,6 +179,55 @@ app.post('/getUserProfile',(req,res)=>{
       res.status(201).json(result);
     }
 
+  });
+})
+
+app.get('/getUsers',(req,res)=>{
+  const query=`SELECT * FROM profile `
+  db.query(query,(err,result)=>{
+    if(err){
+      console.error('Error:', err);
+      res.status(500).json({ error: 'Error receiving data' });
+    }else{
+      console.log('Users received successfully');
+      console.log(result);
+      res.status(201).json(result);
+    }
+
+  });
+})
+
+app.post('/editContact', (req, res) => {
+  const { contact_person, Designation, Email_id, Mobile, Landline,Fax, contact_id } = req.body;
+
+  // Validate the data here if needed
+
+  const query = `update contact_details
+  set contact_person=?,designation=?,Email_id=?,mobile=?, landline=?,fax=? where contact_id=?`;
+
+  db.query(query, [contact_person, Designation, Email_id, Mobile, Landline,Fax, contact_id], (err, result) => {
+    if (err) {
+      console.error('Error:', err);
+      res.status(500).json({ error: 'Error updating data' });
+    } else {
+      console.log('Contact Details updated successfully');
+      res.status(201).json({ message: 'Contact Details updated successfully' });
+    }
+  });
+});
+
+app.delete('/deleteContact',(req,res)=>{
+  const {contact_id}=req.body;
+  console.log(contact_id);
+  const query=`delete from contact_details where contact_id=?`
+  db.query(query,contact_id,(err,result)=>{
+    if(err){
+      console.error('Error:', err);
+      res.status(500).json({ error: 'Error deleting data' });
+    } else {
+      console.log('Contact Details deleted successfully');
+      res.status(201).json({ message: 'Contact Details deleted successfully' });
+    }
   });
 })
 

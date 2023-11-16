@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useStyletron } from 'baseui';
+import { LightTheme, useStyletron } from 'baseui';
 //import { Button } from 'baseui/button';
 import { Layer } from 'baseui/layer';
 import { ChevronDown, Delete, Upload } from 'baseui/icon';
 import { AppNavBar, setItemActive } from 'baseui/app-nav-bar';
 import { useNavigate } from 'react-router-dom';
 import { FaUser } from 'react-icons/fa';
+import {ThemeProvider} from 'baseui';
 
 export default function Navbar({setActiveMenuItem}) {
   const [css] = useStyletron();
@@ -94,7 +95,8 @@ export default function Navbar({setActiveMenuItem}) {
               left: '0',
             })}
           >
-            <AppNavBar
+            <ThemeProvider theme={LightTheme}>
+              <AppNavBar
               title={`Welcome ! ${activeUser}`}
               mainItems={mainItems}
               userItems={userItems}
@@ -103,7 +105,8 @@ export default function Navbar({setActiveMenuItem}) {
               username={activeUser}
               usernameSubtitle={activeUser}
               userImgUrl=""
-            />
+            /></ThemeProvider>
+            
           </div>
         </Layer>
       )}
