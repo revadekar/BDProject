@@ -9,11 +9,19 @@ export const Register = (props) => {
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
   const [passwordMatchState, setPasswordMatchState] = useState('');
   const [username, setUserName] = useState('');
-  const [userRole, setUserRole] = useState(''); // Initialize with an appropriate default
+  const [userRole, setUserRole] = useState('');
   const [roles, setRoles] = useState(null);
-  const[roleId,setRoleId]=useState('');
+  const [roleId, setRoleId] = useState('');
 
-  const[errorMessage,setErrorMessage]=useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  useEffect(() => {
+    if (roles !== null) {
+      const selectedRole = roles.find((role) => role.role_name === userRole);
+      setRoleId(selectedRole ? selectedRole.role_id : '');
+    }
+  }, [userRole, roles]);
+
   useEffect(() => {
     fetch('http://localhost:5000/getRoles', {
       method: 'GET',
@@ -44,17 +52,12 @@ export const Register = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-
     if (!passwordsMatch) {
       console.error('Passwords do not match');
       return;
     }
 
     try {
-
-        const selectedRole=roles.find((role)=>role.role_name===userRole);
-        setRoleId(selectedRole.role_id);
       const response = await fetch('http://localhost:5000/register', {
         method: 'POST',
         headers: {
@@ -78,7 +81,7 @@ export const Register = (props) => {
   return (
     <div className="auth-form-container">
       <h2>Register</h2>
-      {errorMessage && <p style={{color:"red"}}>{errorMessage}</p>}
+      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       {registrationSuccess ? (
         <p className="success-message">Registration successful!</p>
       ) : (
@@ -91,7 +94,7 @@ export const Register = (props) => {
             id="role"
             required
           >
-            <option value="" disabled >Select Role</option>
+            <option value="" disabled>Select Role</option>
             {roles &&
               roles.map((role) => (
                 <option key={role.role_id}>{role.role_name}</option>

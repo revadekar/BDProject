@@ -183,7 +183,7 @@ app.post('/getUserProfile',(req,res)=>{
 })
 
 app.get('/getUsers',(req,res)=>{
-  const query=`SELECT * FROM profile `
+  const query=`SELECT * FROM profile`
   db.query(query,(err,result)=>{
     if(err){
       console.error('Error:', err);
