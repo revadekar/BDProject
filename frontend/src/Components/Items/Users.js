@@ -4,8 +4,27 @@ import React, { useEffect, useState } from "react";
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [editingUser, setEditingUser] = useState(null);
+  const[Roles,setRoles]=useState([]);
+  const [changedRole,setChangedRole]=useState();
+  const [changedRoleId,setChangedRoleId]=useState('');
 
+  useEffect(()=>{
+    console.log(Roles);
+  },[Roles]);
   useEffect(() => {
+    
+    fetch('http://localhost:5000/getRoles', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then(response => response.json())
+    .then(data => {
+      setRoles(data);
+    })
+    .catch(error => console.error('Fetch error:', error));
+    
     fetch('http://localhost:5000/getUsers', {
       method: 'GET',
       headers: {
@@ -23,6 +42,7 @@ const Users = () => {
 
   const handleEditClick = (user) => {
     setEditingUser(user); // Copy user object to avoid direct mutation
+   
   };
 
   const handleCancelEdit = () => {
@@ -30,21 +50,48 @@ const Users = () => {
   };
 
   const handleSaveEdit = () => {
-    // Implement your logic to save the edited user data
-    // For example, make a request to update the user on the server
-    // After saving, setEditingUser(null) to exit the edit mode
+    fetch('http://localhost:5000/editUser', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ user_id: editingUser.user_id, changedRoleId }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        const activeUser = localStorage.getItem("ActiveUser");
+        const filteredUsers = data.filter(user => user.user_name !== activeUser);
+        setUsers(filteredUsers);
+      })
+      .catch(error => console.error('Fetch error:', error));
     setEditingUser(null);
   };
+  
 
+  useEffect(() => {
+    console.log("Editing User after update:", editingUser);
+    const selectedRole = Roles.find((role) => role.role_name === changedRole);
+  
+    // Check if selectedRole is defined before accessing its properties
+    if (selectedRole) {
+      setChangedRoleId(selectedRole.role_id);
+      editingUser.role_name = changedRole;
+    } else {
+      console.error(`Role not found for role_name: ${changedRole}`);
+    }
+  }, [changedRole]);
+  
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     console.log("Editing User before update:", editingUser);
-    // setEditingUser((prevUser) => ({
-    //   ...prevUser,
-    //   [name]: value,
-    // }));
+    setEditingUser((prevUser) => ({
+      ...prevUser,
+      [name]: value,
+    }));
     console.log("Editing User after update:", editingUser);
   };
+  
   
   
 
@@ -66,9 +113,24 @@ const Users = () => {
         <tbody>
           {users.map(user => (
             <tr key={user.user_id}>
-              <td>{editingUser === user ? <input type="text" name="name" value={editingUser ? editingUser.name : ''} onChange={handleInputChange} /> : user.name}</td>
-              <td>{editingUser === user ? <input type="text" name="user_name" value={editingUser ? editingUser.user_name : ''} onChange={handleInputChange} /> : user.user_name}</td>
-              <td>{editingUser === user ?<input type="text" name="role_name" value={editingUser ? editingUser.role_name : ''} onChange={handleInputChange} /> : user.role_name}</td>
+              <td>{user.name}</td>
+              <td>{user.user_name}</td>
+              <td>
+               {editingUser === user ? (
+               <select
+               name="role_name"
+               value={changedRole}
+               onChange={(e) => setChangedRole(e.target.value)}
+             >
+              <option value='' disabled selected>Select Role</option>
+               {Roles.map((role) => (
+                 <option key={role.role_id} value={role.role_name}>
+                   {role.role_name}
+                 </option>
+               ))}
+             </select>
+             ) : (user.role_name)}
+             </td>
               <td>
                 {editingUser === user ? (
                   <>

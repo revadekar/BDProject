@@ -24,7 +24,7 @@ app.get('/getRoles',(req,res)=>{
     } else {
       // Send the results back to the client as JSON
       res.status(200).json(result);
-      //console.log(results);
+      console.log(result);
     }
   })
 })
@@ -230,6 +230,23 @@ app.delete('/deleteContact',(req,res)=>{
     }
   });
 })
+
+app.post('/editUser', (req, res) => {
+  const { user_id, changedRoleId } = req.body;
+  console.log('user_id', user_id);
+  console.log('changedRoleId', changedRoleId);
+  const query=`update users set role_id=? where user_id=?`
+  db.query(query,[changedRoleId,user_id],(err,result)=>{
+    if(err){
+      console.error('Error:', err);
+      res.status(500).json({ error: 'Error editing user' });
+    } else {
+      console.log(result);
+      console.log('user Details edited successfully');
+      res.status(201).json({ message: 'user Details edited successfully' });
+    }
+  })
+});
 
 
 app.listen(port, () => {
