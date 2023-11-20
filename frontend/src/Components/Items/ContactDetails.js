@@ -1,11 +1,13 @@
 import { Button } from 'baseui/button';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import ContactDetailsForm from './AddContactDetails';
 import EditContactDetails from './EditContactDetails';
 //import {useNavigate } from 'react-router-dom';
 
 const ContactDetails = () => {
    // const Navigate = useNavigate();
+   const[showServerError,setShowServerError]=useState(false);
+   const[showErrorMessage,setShowErrorMessage]=useState(false);
     const [showAddContactForm, setShowAddContactForm]=useState(false);
     const [showEditContactForm, setShowEditContactForm]=useState(false);
     const [customerData,setCustomerData]=useState([]);
@@ -53,50 +55,53 @@ const ContactDetails = () => {
               });
       },[])
 
-      useEffect(() => {
-        fetchContactDetails();
-        // Use setTimeout to reset dataInserted after a delay
-        if (dataInserted || dataUpdated||dataDeleted) {
-          const timeout = setTimeout(() => {
-            setDataInserted(false);
-            setDataUpdated(false);
-            setDataDeleted(false);
-          }, 5000); // Adjust the delay (in milliseconds) as needed
-          return () => clearTimeout(timeout); // Cleanup the timeout on unmount
+
+      const fetchContactDetails = useCallback(() => {
+        setShowAddContactForm(false);
+        setShowEditContactForm(false);
+        if (selectedCustomer) {
+          // Send a request to your server to add the new customer
+          fetch('http://localhost:5000/getContactDetails', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ selectedCustomer }),
+          })
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error('Failed to fetch contact details');
+              }
+              return response.json();
+            })
+            .then((data) => {
+              setContactDetails(data);
+              setButtonClicked(true);
+            })
+            .catch((error) => {
+              setShowErrorMessage(true);
+              console.error('Error:', error);
+            });
+        } else {
+          console.error('Please select customer.');
         }
-      }, [dataInserted, dataUpdated, dataDeleted]);
+      }, [selectedCustomer]);
 
-    const fetchContactDetails  = () => {
-      setShowAddContactForm(false);
-      setShowEditContactForm(false);
-      if(selectedCustomer){
-      // Send a request to your server to add the new customer
-      fetch('http://localhost:5000/getContactDetails', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({selectedCustomer}),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-                    setContactDetails(data);
-                    
-          setButtonClicked(true);
-
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
-    } else {
-      // Handle validation or show an error message
-      //setShowErrorMessage(true);
-      console.error('Please select customer.');
-    }
-
-    };
+    useEffect(() => {
+      fetchContactDetails();
+      // Use setTimeout to reset dataInserted after a delay
+      if (dataInserted || dataUpdated||dataDeleted) {
+        const timeout = setTimeout(() => {
+          setDataInserted(false);
+          setDataUpdated(false);
+          setDataDeleted(false);
+        }, 2000); // Adjust the delay (in milliseconds) as needed
+        return () => clearTimeout(timeout); // Cleanup the timeout on unmount
+      }
+    }, [dataInserted, dataUpdated, dataDeleted,fetchContactDetails]);
 
     const handleDeleteContact = (deletingContact) => {
+      console.log('deleting contact',deletingContact);
       fetch('http://localhost:5000/deleteContact', {
         method: 'DELETE', 
         headers: {
@@ -105,13 +110,20 @@ const ContactDetails = () => {
         // Additional options, such as body if needed
          body: JSON.stringify(deletingContact),
       })
-        .then(response => response.json())
+        .then((response) => {
+          if (!response.ok) {
+          throw new Error(`Failed to delete contact: ${response.statusText}`);
+         }
+         return response.json();
+    })
         .then(data => {
           // Handle the response data
+          setShowServerError(false);
           setDataDeleted(true);
           console.log('Contact deleted successfully', data);
         })
         .catch(error => {
+          setShowServerError(true);
           console.error('Error deleting contact:', error);
         });
     };
@@ -158,6 +170,7 @@ const ContactDetails = () => {
     size='compact'
     style={{ backgroundColor: 'darkcyan' }}
     onClick={() => {
+      setShowEditContactForm(false);
       setShowAddContactForm(true);
       setButtonClicked(false);
     }}
@@ -167,7 +180,11 @@ const ContactDetails = () => {
 </div>
 
   </div>
-
+  {showServerError && (
+        <div className="d-flex justify-content-center align-items-center">
+            <p style={{color:"red"}}>Sorry! There is a server error occurred</p>
+        </div>
+        )}
 
       
     {showAddContactForm && (<ContactDetailsForm 
@@ -180,11 +197,7 @@ const ContactDetails = () => {
     }}
     />
     )}
-     {dataInserted && (
-        <div className="alert alert-success" role="alert" style={{width:"max-content"}}>
-          Record inserted successfully!
-        </div>
-      )}
+  
       
     {buttonClicked && (
         <div className='table-responsive' style={{marginRight:"0.5vw" ,marginTop:"1vw"}}>
@@ -242,16 +255,38 @@ const ContactDetails = () => {
           }}
         />
       )}
-       {dataUpdated && (
-        <div className="alert alert-success" role="alert" style={{width:"max-content"}}>
-          Contact details updated successfully!
+      {showErrorMessage && (
+        <div className="d-flex justify-content-center align-items-center">
+            <p style={{color:"red"}}>Unable to get contact details</p>
         </div>
-      )}
-      {dataDeleted && (
-        <div className="alert alert-success" role="alert" style={{width:"max-content"}}>
-          Contact deleted successfully!
-        </div>
-      )}
+        )}
+         {/* // Update the styles for dataInserted alert */}
+{dataInserted && (
+  <div className="d-flex justify-content-center align-items-center" style={{ position: "fixed", top: "5rem", left: "50%", transform: "translate(-50%, -50%)", width: "50%" }}>
+    <div role="alert" style={{ backgroundColor: "lightgreen", padding:"1rem" }}>
+      Record inserted successfully!
+    </div>
+  </div>
+)}
+
+{/* // Update the styles for dataUpdated alert */}
+{dataUpdated && (
+  <div className="d-flex justify-content-center align-items-center" style={{ position: "fixed", top: "5rem", left: "50%", transform: "translate(-50%, -50%)", width: "max-content" }}>
+    <div role="alert" style={{ backgroundColor: "lightgreen", padding:"1rem" }}>
+      Contact details updated successfully!
+    </div>
+  </div>
+)}
+
+{/* // Update the styles for dataDeleted alert */}
+{dataDeleted && (
+  <div className="d-flex justify-content-center align-items-center" style={{ position: "fixed", top: "5rem", left: "50%", transform: "translate(-50%, -50%)", width: "max-content" }}>
+   <div role="alert" style={{ backgroundColor: "lightgreen", padding:"1rem" }}>
+      Contact details deleted successfully!
+    </div>
+  </div>
+)}
+
 </div>
   );
 };

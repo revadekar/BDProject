@@ -138,7 +138,7 @@ app.post('/addContact', (req, res) => {
   db.query(query, [contact_person, Designation, Email_id, Mobile, Landline,Fax, Cust_id], (err, result) => {
     if (err) {
       console.error('Error:', err);
-      res.status(500).json({ error: 'Error inserting data' });
+      res.status(500).json({ error: 'Unable to add contact details', details: err.message });
     } else {
       console.log('Contact Details inserted successfully');
       res.status(201).json({ message: 'Contact Details inserted successfully' });
@@ -216,20 +216,22 @@ app.post('/editContact', (req, res) => {
   });
 });
 
-app.delete('/deleteContact',(req,res)=>{
-  const {contact_id}=req.body;
+app.delete('/deleteContact', (req, res) => {
+  const { contact_id } = req.body;
   console.log(contact_id);
-  const query=`delete from contact_details where contact_id=?`
-  db.query(query,contact_id,(err,result)=>{
-    if(err){
+  const query = 'DELETE FROM contact_details WHERE contact_id = ?';
+
+  db.query(query, contact_id, (err, result) => {
+    if (err) {
       console.error('Error:', err);
-      res.status(500).json({ error: 'Error deleting data' });
+      res.status(500).json({ error: 'Error deleting data', message: err.message });
     } else {
       console.log('Contact Details deleted successfully');
       res.status(201).json({ message: 'Contact Details deleted successfully' });
     }
   });
-})
+});
+
 
 app.post('/editUser', (req, res) => {
   const { user_id, changedRoleId } = req.body;
@@ -247,6 +249,21 @@ app.post('/editUser', (req, res) => {
     }
   })
 });
+app.post('/deleteUser',(req,res)=>{
+  const {user_id}=req.body;
+  console.log('deletingUserId',user_id);
+  const query=`delete from users where user_id=?`
+  db.query(query,[user_id],(err,result)=>{
+    if(err){
+      console.error('Error',err);
+      res.status(500).json({error:'Error deleting user'});
+    }else{
+      console.log(result);
+      console.log('User deleted successfully');
+      res.status(201).json({message:'User deleted successfully'})
+    }
+  })
+})
 
 
 app.listen(port, () => {

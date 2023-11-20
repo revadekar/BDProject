@@ -5,6 +5,10 @@ const EditContactDetails = ({onCloseForm, onEditContact, editingContact}) => {
   const[showErrorMessage,setShowErrorMessage]=useState(false);
   const[customerData,setCustomerData]=useState([]);
   const [newContact, setNewContact] = useState(editingContact);
+  const [nameValid, setNameValid] = useState(false);
+  const [designationValid, setDesignationValid] = useState(false);
+  const [emailValid, setEmailValid] = useState(false);
+  const [mobileValid, setMobileValid] = useState(false);
 useEffect(()=>{
 fetch('http://localhost:5000/getCustomers', {
         method: 'GET',
@@ -25,10 +29,25 @@ const handleCancel=()=>{
   onCloseForm();
   setShowErrorMessage(false);
  };
+
+ const validateFields = () => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  // Validate each required field
+  setNameValid(!!newContact.contact_person);
+  setDesignationValid(!!newContact.Designation);
+  setEmailValid(emailRegex.test(newContact.Email_id));
+  setMobileValid(newContact.Mobile && /^\d{10}$/.test(newContact.Mobile));
+};
 const handleEditContact = () => {
       
+   // Validate each required field
+   validateFields();
     // Check if all fields are filled
-      if (newContact.contact_person && newContact.Email_id && newContact.Designation && newContact.Mobile ) {
+      if (
+      nameValid &&
+      designationValid &&
+      emailValid &&
+      mobileValid ) {
         // Create a new customer object
         const contact = {
           contact_id:newContact.contact_id,
@@ -104,6 +123,9 @@ const handleEditContact = () => {
         </div>
         </div>
         </div>
+        {!nameValid && (
+                    <div className="invalid-feedback">Name is required.</div>
+                  )}
         <div className='form-group row' style={{padding: "10px"}}>
         <label htmlFor='Name' className='control-label col-sm-4'>
         Contact Person Name:
@@ -121,6 +143,9 @@ const handleEditContact = () => {
           />
         </div>
         </div>
+        {designationValid && (
+                    <div className="invalid-feedback">Designation is required.</div>
+                  )}
         <div className='form-group row' style={{padding: "10px"}}>
         <label htmlFor='Designation' className='control-label col-sm-4'>
         Designation:
@@ -138,6 +163,11 @@ const handleEditContact = () => {
           />
         </div>
         </div>
+        {!emailValid && (
+  <div className="d-flex justify-content-center align-items-center">
+    <p style={{ color: "red" }}>Email is required and must be valid</p>
+  </div>
+)}
         <div className='form-group row' style={{ padding: '10px' }}>
         <label htmlFor='Email' className='control-label col-sm-4'>
         Email:
@@ -157,7 +187,11 @@ const handleEditContact = () => {
         </div>
         </div>
         </div>
-        
+        {!mobileValid && <div className="d-flex justify-content-center align-items-center">
+              <p style={{ color: "red" }}>
+              Invalid mobile number. Please enter 10 digits.
+            </p>
+             </div>}
         <div className='form-group row' style={{padding: "10px"}}>
         <label htmlFor='Mobile' className='control-label col-sm-4'>
           Mobile:
