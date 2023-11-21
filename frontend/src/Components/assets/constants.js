@@ -17,6 +17,10 @@ export const menuData = [
         title: 'Contact Details',
         icon: <FaLightbulb style={{ marginRight: '0.5rem' }} />,
     },
+    {
+      title: 'Employee Details',
+      icon: <FaLightbulb style={{ marginRight: '0.5rem' }} />,
+  },
 ]
 export const tableTitles = ["Ticket details", "Customer name", "Date", "Priority"]
 export const data=[

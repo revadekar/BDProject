@@ -264,6 +264,20 @@ app.post('/deleteUser',(req,res)=>{
     }
   })
 })
+app.get('/getEmployees',(req,res)=>{
+  const query='select * from employees';
+  db.query(query,(error,result)=>{
+    if(error){
+      console.error('Error',error);
+      res.status(500).json({error:'Error getting Employees'});
+    }else
+    {
+      console.log(result);
+      console.log('Employees details fetched successfully');
+      res.status(201).json(result);
+    }
+  })
+})
 
 
 app.listen(port, () => {

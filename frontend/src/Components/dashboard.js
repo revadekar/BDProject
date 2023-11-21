@@ -10,6 +10,7 @@ import { Button } from 'baseui/button';
 import { FaBars } from 'react-icons/fa';
 import Profile from './Items/Profile';
 import Users from './Items/Users';
+import EmployeeDetails from './Items/EmployeeDetails';
 
 const Dashboard = () => {
   const [open, setOpen] = React.useState(true);
@@ -29,7 +30,10 @@ const Dashboard = () => {
       return <Profile />;
     }else if(activeMenuItem === 'Users'){
       return <Users/>
-    }else{
+    }else if (activeMenuItem === 'Employee Details') {
+      return <EmployeeDetails />;
+    }
+    else{
       return <HomePage></HomePage>
     }
   };
