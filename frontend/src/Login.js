@@ -66,10 +66,6 @@ export const Login = (props) => {
                     </form>
 
                     {errorMessage && <p className="error-message">{errorMessage}</p>}
-
-                    <button className="link-btn" onClick={() => props.onFormSwitch('register')}>
-                        Don't have an account? Register here.
-                    </button>
                 </div>
             </div>
         </div>

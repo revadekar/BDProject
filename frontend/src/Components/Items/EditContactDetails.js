@@ -30,18 +30,18 @@ const handleCancel=()=>{
   setShowErrorMessage(false);
  };
 
- const validateFields = () => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  // Validate each required field
-  setNameValid(!!newContact.contact_person);
-  setDesignationValid(!!newContact.Designation);
-  setEmailValid(emailRegex.test(newContact.Email_id));
-  setMobileValid(newContact.Mobile && /^\d{10}$/.test(newContact.Mobile));
-};
+
+useEffect(()=>{
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // Validate each required field
+    setNameValid(!!newContact.contact_person);
+    setDesignationValid(!!newContact.Designation);
+    setEmailValid(emailRegex.test(newContact.Email_id));
+    setMobileValid(newContact.Mobile && /^\d{10}$/.test(newContact.Mobile));
+},[newContact])
+
 const handleEditContact = () => {
       
-   // Validate each required field
-   validateFields();
     // Check if all fields are filled
       if (
       nameValid &&
@@ -163,11 +163,6 @@ const handleEditContact = () => {
           />
         </div>
         </div>
-        {!emailValid && (
-  <div className="d-flex justify-content-center align-items-center">
-    <p style={{ color: "red" }}>Email is required and must be valid</p>
-  </div>
-)}
         <div className='form-group row' style={{ padding: '10px' }}>
         <label htmlFor='Email' className='control-label col-sm-4'>
         Email:
@@ -186,12 +181,12 @@ const handleEditContact = () => {
         />
         </div>
         </div>
+        {!emailValid && (
+  <div className="d-flex justify-content-center align-items-center">
+    <p style={{ color: "red", marginLeft:"10rem" }}>Email is required and must be valid</p>
+  </div>
+)}
         </div>
-        {!mobileValid && <div className="d-flex justify-content-center align-items-center">
-              <p style={{ color: "red" }}>
-              Invalid mobile number. Please enter 10 digits.
-            </p>
-             </div>}
         <div className='form-group row' style={{padding: "10px"}}>
         <label htmlFor='Mobile' className='control-label col-sm-4'>
           Mobile:
@@ -208,6 +203,12 @@ const handleEditContact = () => {
             }
           />
         </div>
+        {!mobileValid && <div className="d-flex justify-content-center align-items-center">
+              <p style={{ color: "red" , marginLeft:"10rem" }}>
+              Invalid mobile number. Please enter 10 digits.
+            </p>
+             </div>}
+                
         </div>
         
         <div className='form-group row' style={{padding: "10px"}}>

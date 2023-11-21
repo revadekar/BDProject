@@ -13,6 +13,7 @@ const Users = () => {
   const[userDeleted,setUserDeleted]=useState(false);
   const[showUserForm,setShowUserForm]=useState(false);
   const[userAdded,setUserAdded]=useState(false);
+  const[showUsers,setShowUsers]=useState(true);
 
   useEffect(()=>{
     console.log(Roles);
@@ -75,6 +76,7 @@ const Users = () => {
   }
 
   const handleAddClick=()=>{
+    setShowUsers(false);
     setShowUserForm(true);
 
   }
@@ -135,7 +137,9 @@ const Users = () => {
   
 
   return (
-    <div id="user" className="container mt-4">
+    <div id="user" className="container-fluid mt-4">
+      {showUsers &&
+      <div>
       <div className="d-flex justify-content-between">
       <div className="d-flex justify-content-start mb-4">
         <h2>Users</h2>
@@ -210,8 +214,8 @@ const Users = () => {
             </tr>
           ))}
         </tbody>
-      </table>
-      {showUserForm && <UserForm onSubmit={() => { setShowUserForm(false); setUserAdded(true); }} />}
+      </table> </div>}
+      {showUserForm && <UserForm onSubmit={() => { setShowUserForm(false); setUserAdded(true); setShowUsers(true)}} onCancel={() => {setShowUserForm(false); setShowUsers(true)}} />}
 
     </div>
   );

@@ -2,6 +2,7 @@ import { Button } from 'baseui/button';
 import React, { useCallback, useEffect, useState } from 'react';
 import ContactDetailsForm from './AddContactDetails';
 import EditContactDetails from './EditContactDetails';
+import { FaPencilAlt, FaTrash } from 'react-icons/fa';
 //import {useNavigate } from 'react-router-dom';
 
 const ContactDetails = () => {
@@ -23,7 +24,7 @@ const ContactDetails = () => {
    // Function to handle the edit button click
    const handleEditClick = (contact) => {
     setEditingContact(contact);
-    setShowEditContactForm(true);
+    setShowEditContactForm(!showEditContactForm);
    // setButtonClicked(false);
   };
   const handleDeleteClick = (contact) => {
@@ -225,12 +226,8 @@ const ContactDetails = () => {
                   <td>{contact.Landline}</td>
                   <td>{contact.Fax }</td>
                   <td>
-                    <Button size='compact'style={{ backgroundColor: 'orange' }} onClick={() => handleEditClick(contact)}>
-                      Edit
-                    </Button>
-                    <Button size='compact'style={{ backgroundColor: 'darkred',marginLeft:"0.3rem" }} onClick={() => handleDeleteClick(contact)}>
-                      Delete
-                    </Button>
+                    <FaPencilAlt onClick={() => handleEditClick(contact)} style={{cursor:"pointer"}}></FaPencilAlt>
+                    <FaTrash style={{ color:"red", marginLeft:"1rem" , cursor:"pointer"}} onClick={() => handleDeleteClick(contact)}></FaTrash>
                   </td>
 
                 </tr>

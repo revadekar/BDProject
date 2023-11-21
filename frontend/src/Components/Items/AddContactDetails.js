@@ -40,23 +40,21 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
     onCloseForm();
     setShowErrorMessage(false);
   };
-  const validateFields = () => {
+
+  useEffect(()=>{
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     // Validate each required field
     setNameValid(!!newContact.Name);
     setDesignationValid(!!newContact.Designation);
     setEmailValid(emailRegex.test(newContact.Email));
     setMobileValid(newContact.Mobile && /^\d{10}$/.test(newContact.Mobile));
-  };
+},[newContact])
 
   const handleAddContact = () => {
     // Find the selected customer based on the name
     const selectedCustomer = customerData.find(
       (customer) => customer.Cust_name === newContact.Customer
     );
-
-      // Validate each required field
-    validateFields();
 
     // Check if all required fields are filled
     if (
@@ -223,11 +221,7 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
                   />
                 </div>
               </div>
-              {!emailValid && (
-  <div className="d-flex justify-content-center align-items-center">
-    <p style={{ color: "red" }}>Email is required and must be valid</p>
-  </div>
-)}
+              
               <div className="form-group row" style={{ padding: "10px" }}>
                 <label htmlFor="Email" className="control-label col-sm-4">
                   Email:
@@ -247,12 +241,13 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
                     />
                   </div>
                 </div>
+                {!emailValid && (
+  <div className="d-flex justify-content-center align-items-center">
+    <p style={{ color: "red", marginLeft:"10rem" }}>Email is required and must be valid</p>
+  </div>
+)}
               </div>
-              {!mobileValid && <div className="d-flex justify-content-center align-items-center">
-              <p style={{ color: "red" }}>
-              Invalid mobile number. Please enter 10 digits.
-            </p>
-             </div>}
+            
               <div className="form-group row" style={{ padding: "10px" }}>
                 <label htmlFor="Mobile" className="control-label col-sm-4">
                   Mobile:
@@ -273,7 +268,14 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
                     required
                   />
                 </div>
+                {!mobileValid && <div className="d-flex justify-content-center align-items-center">
+              <p style={{ color: "red" , marginLeft:"10rem" }}>
+              Invalid mobile number. Please enter 10 digits.
+            </p>
+             </div>}
+                
               </div>
+              
              
               <div className="form-group row" style={{ padding: "10px" }}>
                 <label htmlFor="Landline" className="control-label col-sm-4">
