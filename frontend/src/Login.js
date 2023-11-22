@@ -35,12 +35,12 @@ export const Login = (props) => {
     return (
         <div className="container-fluid">
             <div className="d-flex justify-content-center">
-                <div className="auth-form-container col-md-8 col-lg-4">
+                <div className="auth-form-container col-md-8 col-lg-5">
                     <h2>Login</h2>
                     <form className="login-form" onSubmit={handleSubmit}>
                         <label htmlFor="username">User Name</label>
                         <input
-                            className="form-group mb-4 form-control"
+                            className="form-group mb-5 form-control"
                             value={username}
                             onChange={(e) => setusername(e.target.value)}
                             type="text"
@@ -51,7 +51,7 @@ export const Login = (props) => {
                         />
                         <label htmlFor="password">Password</label>
                         <input
-                            className="form-group mb-4 form-control"
+                            className="form-group mb-5 form-control"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             type="password"

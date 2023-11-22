@@ -43,7 +43,7 @@ const LoginPage = () => {
         <div  id='login-form' className="col-md-3">
           <form className="login-container" id="login-form" onSubmit={handleSubmit}>
             <h1 className="text-center mb-4">Login</h1>
-            <div className="mb-4">
+            <div className="mb-5">
               <div className="d-flex justify-content-start">
                 <label htmlFor="username" className="form-label">
                   Username:
@@ -63,7 +63,7 @@ const LoginPage = () => {
               
             </div>
 
-            <div className="mb-4">
+            <div className="mb-5">
               <div className="d-flex justify-content-start">
                 <label htmlFor="password" className="form-label">
                   Password:

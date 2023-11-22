@@ -6,3 +6,31 @@
   align-items: center;
   justify-content: center;
 }
+/* CSS file */
+.responsive-font {
+  font-size: 1vw; /* Adjust the font size based on the viewport */
+}
+
+/* CSS file */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  font-size: 1.0vw; /* Adjust font size based on the viewport */
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Media query to adjust font size for smaller screens */
+@media screen and (max-width: 768px) {
+  .table th,
+  .table td {
+    font-size: 3vw; /* Change font size for smaller screens */
+  }
+}
+
+

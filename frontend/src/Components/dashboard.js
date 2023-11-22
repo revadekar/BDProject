@@ -11,6 +11,7 @@ import { FaBars } from 'react-icons/fa';
 import Profile from './Items/Profile';
 import Users from './Items/Users';
 import EmployeeDetails from './Items/EmployeeDetails';
+import ProjectDetails from './Items/ProjectDetails';
 
 const Dashboard = () => {
   const [open, setOpen] = React.useState(true);
@@ -32,8 +33,9 @@ const Dashboard = () => {
       return <Users/>
     }else if (activeMenuItem === 'Employee Details') {
       return <EmployeeDetails />;
-    }
-    else{
+    }else if (activeMenuItem === 'Project Details') {
+      return <ProjectDetails/>;
+    }else{
       return <HomePage></HomePage>
     }
   };
