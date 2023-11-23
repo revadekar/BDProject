@@ -48,7 +48,10 @@ const Dashboard = () => {
         <FaBars />
       </Button>}
       <DashboardHeader open={open} setOpen={setOpen} />
+      <div id='dashboard' className='container-fluid'>
       {renderContent()}
+      </div>
+
     </DashboardWrapper>
   );
 };
