@@ -131,13 +131,13 @@ const ContactDetails = () => {
   return (
 <div className='container-fluid' style={{color:"black"}}> 
   <div className='d-flex justify-content-between'>
-    <div className='card col-sm-6'>
-      <form className='form-horizontal' style={{ padding: '20px' }}>
+    <div className=' col-sm-6'>
+      <form className='form-horizontal' style={{ padding: '10px' }}>
         <div className='form-group row'>
           <div className='col-sm-8'>
             <div className='dropdown'>
               <select
-                className='form-control'
+                className='form-select'
                 value={selectedCustomer}
                 onChange={(e) => setSelectedCustomer(e.target.value)}
               >
@@ -155,7 +155,6 @@ const ContactDetails = () => {
           <div className='col-sm-4'>
             <Button
               size='compact'
-              style={{ backgroundColor: 'darkcyan' }}
               type='button'
               onClick={fetchContactDetails }
             >
@@ -169,7 +168,7 @@ const ContactDetails = () => {
     <div className='my-2' style={{ marginRight: "0.5vw" }}>
   <Button
     size='compact'
-    style={{ backgroundColor: 'darkcyan' }}
+    className='button'
     onClick={() => {
       setShowEditContactForm(false);
       setShowAddContactForm(true);

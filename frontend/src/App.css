@@ -18,6 +18,9 @@
   border-collapse: collapse;
   
 }
+.table tbody{
+ padding: 2rem;
+}
 
 .table thead th{
   position: sticky;
@@ -59,6 +62,21 @@
   max-height: 75vh;
   overflow-y: auto;
    
+}
+/* form{
+  border-radius: 1rem;
+  padding: 1rem;
+  background-color: rgb(235, 224, 224);
+} */
+
+.userform .form1 {
+  /* Add your styles here for the card class */
+  border-radius: 1rem;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 1.5rem;
+  /* margin: 20px; */
+  background-color: rgb(222, 202, 233);
+  text-align: start;
 }
 
 

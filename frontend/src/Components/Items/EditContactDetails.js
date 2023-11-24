@@ -89,7 +89,7 @@ const handleEditContact = () => {
     };
   return (
     <>
-     <div className='container-fluid' style={{color:"black", margin:"10px"}}>
+     <div className='container-fluid userform' style={{color:"black", margin:"10px"}}>
         <h4>Edit Contact</h4>
         {showErrorMessage && (
         <div className="d-flex justify-content-center align-items-center">
@@ -99,10 +99,10 @@ const handleEditContact = () => {
         
         <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '50vh'}}>
         
-        <div  className='card col-sm-6' style={{paddingLeft:"1vw"}}>
-        <form className='form-horizontal' style={{padding: "10px", fontFamily:"serif", fontWeight:"bold"}}>
-        <div className='form-group row' style={{ padding: '10px' }}>
-        <label htmlFor='Customer' className='control-label col-sm-4'>
+        <div  className='card col-sm-6 form1' >
+        <form className='form-horizontal' style={{fontFamily:"serif", fontWeight:"bold"}}>
+        <div className='form-group row mb-3' >
+        <label htmlFor='Customer' className='control-label col-sm-4 '>
         Customer Name:
         <span className='text-danger'>*</span>
         </label>
@@ -126,8 +126,8 @@ const handleEditContact = () => {
         {!nameValid && (
                     <div className="invalid-feedback">Name is required.</div>
                   )}
-        <div className='form-group row' style={{padding: "10px"}}>
-        <label htmlFor='Name' className='control-label col-sm-4'>
+        <div className='form-group row mb-3' >
+        <label htmlFor='Name' className='control-label col-sm-4 '>
         Contact Person Name:
         <span className='text-danger'>*</span>
         </label>
@@ -146,7 +146,7 @@ const handleEditContact = () => {
         {designationValid && (
                     <div className="invalid-feedback">Designation is required.</div>
                   )}
-        <div className='form-group row' style={{padding: "10px"}}>
+        <div className='form-group row mb-3' >
         <label htmlFor='Designation' className='control-label col-sm-4'>
         Designation:
         <span className='text-danger'>*</span>
@@ -163,7 +163,7 @@ const handleEditContact = () => {
           />
         </div>
         </div>
-        <div className='form-group row' style={{ padding: '10px' }}>
+        <div className='form-group row mb-3' >
         <label htmlFor='Email' className='control-label col-sm-4'>
         Email:
         <span className='text-danger'>*</span>
@@ -187,7 +187,7 @@ const handleEditContact = () => {
   </div>
 )}
         </div>
-        <div className='form-group row' style={{padding: "10px"}}>
+        <div className='form-group row mb-3' >
         <label htmlFor='Mobile' className='control-label col-sm-4'>
           Mobile:
           <span className='text-danger'>*</span>
@@ -211,7 +211,7 @@ const handleEditContact = () => {
                 
         </div>
         
-        <div className='form-group row' style={{padding: "10px"}}>
+        <div className='form-group row mb-3' >
         <label htmlFor='Landline' className='control-label col-sm-4'>
           Landline:
         </label>
@@ -227,7 +227,7 @@ const handleEditContact = () => {
           />
         </div>
         </div>
-        <div className='form-group row' style={{padding: "10px"}}>
+        <div className='form-group row mb-3' >
         <label htmlFor='Fax' className='control-label col-sm-4'>
           Fax:
         </label>
@@ -243,25 +243,22 @@ const handleEditContact = () => {
           />
         </div>
         </div>
-        <div className='form-group row' style={{ padding: "10px" }}>
-        <div className='col-sm-offset-2 col-sm-12'>
+        <div className='d-flex justify-content-center' >
         <Button
         size='compact'
         type='button'
-        style={{backgroundColor:"darkred"}}
-        onClick={handleCancel}
-        >
-        Cancel
-        </Button>
-        <Button
-        size='compact'
-        type='button'
-        style={{ marginLeft:"10px", backgroundColor:"darkslategray"}}
         onClick={handleEditContact}
         >
         Save
         </Button>
-        </div>
+        <Button
+        size='compact'
+        type='button'
+        style={{marginLeft:"1rem"}}
+        onClick={handleCancel}
+        >
+        Cancel
+        </Button>
         </div>
         </form>
         </div>

@@ -145,7 +145,7 @@ const Users = () => {
         <h2>Users</h2>
       </div>
       <div className="d-flex justify-content-end mb-4">
-        <Button size="compact" style={{backgroundColor:"darkcyan"}} onClick={handleAddClick}>Add User</Button>
+        <Button size="compact" onClick={handleAddClick}>Add User</Button>
       </div>
       </div>
       {RoleChanged && (
@@ -162,6 +162,7 @@ const Users = () => {
       <table className="table table-bordered table-striped table-lg">
         <thead>
           <tr>
+            <th>S.No.</th>
             <th>Name</th>
             <th>User Name</th>
             <th>Role Name</th>
@@ -169,8 +170,9 @@ const Users = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map(user => (
+          {users.map((user,index) => (
             <tr key={user.user_id}>
+              <td>{index+1}.</td>
               <td>{user.name}</td>
               <td>{user.user_name}</td>
               <td >

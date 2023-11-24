@@ -82,19 +82,23 @@ const handleCancelClick=async(e)=>{
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center">
-      <div className="card col-sm-4" style={{padding:"1rem"}}>
-        <h2>Register</h2>
+    <div className="d-flex justify-content-center align-items-center userform">
+      <div className="card form1" >
+        <div className="d-flex justify-content-center mb-3">
+          <h2>Add User</h2>
+        </div>
+        
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
         {registrationSuccess ? (
           <p className="success-message">Registration successful!</p>
         ) : (
+          <div className="d-flex justify-content-center " style={{textAlign:"start"}}>
           <form className="form-horizontal" onSubmit={handleSubmit}>
-            <div className="form-group row mb-3" style={{ padding: "10px" }}>
+            <div className="form-group row mb-3" >
               <label htmlFor="role" className="control-label col-sm-4">
                 <h6>Role:</h6>
               </label>
-              <div className="col-sm-6">
+              <div className="col-sm-8 mb-3">
               <select
                 value={userRole}
                 name="role"
@@ -115,11 +119,11 @@ const handleCancelClick=async(e)=>{
               </div>
         
             </div>
-            <div className="form-group row mb-3"  style={{ padding: "10px" }}>
+            <div className="form-group row mb-3"  >
               <label htmlFor="name" className="control-label col-sm-4">
                 <h6>Full Name:</h6>
               </label>
-              <div className="col-sm-6">
+              <div className="col-sm-8 mb-3">
               <input
                 value={name}
                 name="name"
@@ -132,11 +136,11 @@ const handleCancelClick=async(e)=>{
               </div>
             </div>
 
-            <div className=" form-group row mb-3" style={{ padding: "10px" }}>
+            <div className=" form-group row mb-3" >
               <label htmlFor="username" className="control-label col-sm-4">
                 <h6>User Name:</h6>
               </label>
-              <div className="col-sm-6">
+              <div className="col-sm-8 mb-3">
               <input
                 value={username}
                 name="username"
@@ -149,11 +153,11 @@ const handleCancelClick=async(e)=>{
               </div>
             </div>
 
-            <div className=" form-group row mb-3" style={{ padding: "10px" }}>
+            <div className=" form-group row mb-3" >
               <label htmlFor="password" className="control-label col-sm-4">
                 <h6>Password:</h6>
               </label>
-              <div  className="col-sm-6">
+              <div  className="col-sm-8 mb-3">
               <input
                 value={pass}
                 onChange={(e) => setPass(e.target.value)}
@@ -167,11 +171,11 @@ const handleCancelClick=async(e)=>{
               </div>
             </div>
 
-            <div className="form-group row mb-3" style={{ padding: "10px" }}>
+            <div className="form-group row mb-3" >
               <label htmlFor="confirmPassword" className="control-label col-sm-4">
                 <h6>Confirm Password:</h6>
               </label>
-              <div  className="col-sm-6">
+              <div  className="col-sm-8 mb-3">
               <input
                 value={confirmPass}
                 onChange={handleConfirmPasswordChange}
@@ -187,16 +191,18 @@ const handleCancelClick=async(e)=>{
             </div>
 
             <p
+
               className="error-message"
-              style={{ color: passwordsMatch ? "green" : "red" }}
+              style={{ color: passwordsMatch ? "green" : "red" , textAlign:"center"}}
             >
               {passwordMatchState}
             </p>
             <div className="d-flex justify-content-center" style={{marginLeft:"3rem"}}>
-              <Button size="sm" type="submit" >Submit</Button>
-              <Button size="sm" type="button" onClick={handleCancelClick} style={{marginLeft: "1rem"}} >Cancel</Button>
+              <Button className="btn btn-primary" size="sm" type="submit" >Submit</Button>
+              <Button className="btn btn-danger" size="sm" type="button" onClick={handleCancelClick} style={{marginLeft: "1rem"}} >Cancel</Button>
             </div>
           </form>
+          </div>
         )}
       </div>
     </div>
