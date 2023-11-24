@@ -10,7 +10,7 @@ const Sidebar = ({ open, setOpen, activeMenuItem, setActiveMenuItem,setShowFabar
  setShowFabar(false);
   const menuItemStyles = (title) =>
     css({
-      padding: '10px 20px',
+      padding: '5px',
       display: 'block',
       cursor: 'pointer',
       backgroundColor: activeMenuItem === title ? '#444' : 'transparent',

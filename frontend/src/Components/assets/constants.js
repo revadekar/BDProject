@@ -1,27 +1,31 @@
-import { FaBook, FaChartPie, FaLightbulb, FaUsers } from 'react-icons/fa';
+import { FaBook, FaLightbulb, FaUser, FaUsers, FaPhone, FaAddressCard } from 'react-icons/fa';
+
 export const menuData = [
   {
     title: 'Home',
-    icon: <FaBook style={{ marginRight: '0.5rem'}} />,
-},
-    {
-        title: 'Customers',
-        icon: <FaChartPie style={{ marginRight: '0.5rem'}} />,
-    },
-    {
-        title: 'Users',
-        icon: <FaUsers style={{ marginRight: '0.5rem' }} />,
-        active: true
-    },
-    {
-        title: 'Contact Details',
-        icon: <FaLightbulb style={{ marginRight: '0.5rem' }} />,
-    },
-    {
-      title: 'Employee Details',
-      icon: <FaLightbulb style={{ marginRight: '0.5rem' }} />,
+    icon: <FaBook />,
   },
-]
+  {
+    title: 'Customers',
+    icon: <FaUser />,
+  },
+  {
+    title: 'Users',
+    icon: <FaUsers />
+  },
+  {
+    title: 'Contact Details',
+    icon: <FaPhone />, // Example icon for contact details
+  },
+  {
+    title: 'Employee Details',
+    icon: <FaAddressCard />,
+  },
+  {
+    title: 'Project Details',
+    icon: <FaLightbulb />,
+  },
+];
 export const tableTitles = ["Ticket details", "Customer name", "Date", "Priority"]
 export const data=[
     [

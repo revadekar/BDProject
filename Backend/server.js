@@ -3,8 +3,13 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const db = require('./config/database');
 const cors = require('cors');
-
 const app = express();
+const path = require('path');
+const fs=require('fs');
+
+// Serve static files
+app.use('/files', express.static('C:/Users/shilpa/Documents/project'));
+
 const port = process.env.PORT || 5000;
 
 app.use(bodyParser.json());
@@ -278,6 +283,40 @@ app.get('/getEmployees',(req,res)=>{
     }
   })
 })
+
+app.get('/getProjects',(req,res)=>{
+  const query='select * from projects';
+  db.query(query,(error,result)=>{
+    if(error){
+      console.error('Error',error);
+      res.status(500).json({error:'Error getting Employees'});
+    }else
+    {
+      console.log(result);
+      console.log('Project details fetched successfully');
+      res.status(201).json(result);
+    }
+  })
+})
+
+
+
+// Route to serve documents based on database path
+app.get('/getDocument/:filename', (req, res) => {
+  const filename = req.params.filename;
+
+  // Check if the file exists
+  const filePath = path.join('C:/Users/shilpa/Documents/project', filename);
+  if (fs.existsSync(filePath)) {
+    // Send the file if it exists
+    console.log('file received');
+    res.sendFile(filePath);
+  } else {
+    // Respond with a message if the file does not exist
+    res.status(404).send('File not found');
+    console.log('File not found');
+  }
+});
 
 
 app.listen(port, () => {

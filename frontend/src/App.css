@@ -1,11 +1,64 @@
 .App {
+  position: relative;
   text-align: center;
   display: flex;
   min-height: 100vh;
   align-items: center;
   justify-content: center;
-  background-image: url('./Components/assets/images/pexels-rdne-stock-project-7947835.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  /* overflow: hidden; */
 }
+/* CSS file */
+.responsive-font {
+  font-size: 1vw; /* Adjust the font size based on the viewport */
+}
+
+/* CSS file */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  
+}
+
+.table thead th{
+  position: sticky;
+  top: 0;
+  background-color:rgb(235, 149, 209);
+
+
+
+}
+.table tbody td {
+  /* background-color: #f0f0f0; light grey */
+  /* background-color: #f8f8f8; off white  */
+  /* background-color: #cfe2f3; muted blue  */
+  /* background-color: #d3f7be; light green */
+  background-color: ghostwhite;
+
+}
+
+/* Increase specificity */
+.table thead th,
+.table tbody td {
+  font-size: 1.0vw;
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+
+}
+
+
+/* Media query to adjust font size for smaller screens */
+@media screen and (max-width: 768px) {
+  .table th,
+  .table td {
+    font-size: 3vw; /* Change font size for smaller screens */
+  }
+}
+.table-responsive {
+  margin: 0.5rem;
+  max-height: 75vh;
+  overflow-y: auto;
+   
+}
+
+

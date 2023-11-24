@@ -38,12 +38,12 @@ const LoginPage = () => {
   };
 
   return (
-    <div id="body" className="container">
+    <div id="body" className="container-fluid">
       <div className="row justify-content-center align-items-center vh-100">
-        <div  id='login-form' className="col-sm-4">
+        <div  id='login-form' className="col-md-3">
           <form className="login-container" id="login-form" onSubmit={handleSubmit}>
             <h1 className="text-center mb-4">Login</h1>
-            <div className="mb-4">
+            <div className="mb-5">
               <div className="d-flex justify-content-start">
                 <label htmlFor="username" className="form-label">
                   Username:
@@ -63,12 +63,13 @@ const LoginPage = () => {
               
             </div>
 
-            <div className="mb-4">
+            <div className="mb-5">
               <div className="d-flex justify-content-start">
                 <label htmlFor="password" className="form-label">
                   Password:
                 </label>
               </div>
+              <div className='col-sm-12'>
               <input className="form-control" value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             type="password"
@@ -76,6 +77,7 @@ const LoginPage = () => {
                             id="password"
                             name="password"
                             required />
+                    </div>
             </div>
 
             <Button id="login-button" type="submit" className="w-100">
