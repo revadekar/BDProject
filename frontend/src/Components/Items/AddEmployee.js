@@ -112,7 +112,7 @@ const EmployeeForm=(onCloseForm,onAddEmployee)=>{
           className="d-flex justify-content-center align-items-center"
           style={{ minHeight: "50vh" }}
         >
-          <div className="card col-sm-6" style={{ paddingLeft: "1vw" }}>
+          <div className="card col-sm-12" style={{ paddingLeft: "1vw" }}>
             <form
               className="form-horizontal"
               style={{ padding: "10px", fontFamily: "serif", fontWeight: "bold" }}
