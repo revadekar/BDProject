@@ -269,6 +269,40 @@ app.post('/deleteUser',(req,res)=>{
     }
   })
 })
+
+app.get('/getGroups',(req,res)=>{
+  const query='select * from group_details';
+  db.query(query,(error,result)=>{
+    if(error){
+      console.error('Error',error);
+      res.status(500).json({error:'Error getting Groups'});
+    }else
+    {
+      console.log(result);
+      console.log('Group details fetched successfully');
+      res.status(201).json(result);
+    }
+  })
+})
+
+app.post('/addEmployee',(req,res)=>{
+  const { Group_id,Employee_Name,Designation,Email,Mobile,Office_landline,Location } = req.body;
+console.log(req.body);
+  const query = `INSERT INTO employee_details (Group_id,Employee_Name, Designation, Email,Office_landline, Mobile, Location)
+                 VALUES (?, ?, ?, ?, ?,?,?)`;
+
+                 db.query(query, [Group_id,Employee_Name, Designation, Email,Office_landline, Mobile, Location], (err, result) => {
+                  if (err) {
+                    console.error('Error:', err);
+                    res.status(500).json({ error: 'Unable to add Employee', details: err.message });
+                  } else {
+                    console.log('Employee Details inserted successfully');
+                    res.status(201).json({ message:  'Employee Details inserted successfully' });
+                  }
+                });
+              });
+
+
 app.get('/getEmployees',(req,res)=>{
   const query='select * from employees';
   db.query(query,(error,result)=>{

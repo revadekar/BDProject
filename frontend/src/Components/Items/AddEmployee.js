@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "baseui/button";
 
-const EmployeeForm=(onCloseForm,onAddEmployee)=>{
+const EmployeeForm=({onCloseForm,onAddEmployee})=>{
+    const[GroupData,setGroupData]=useState([]);
     const [showErrorMessage, setShowErrorMessage] = useState(false);
     const [showValidationMessage, setShowValidationMessage] = useState(false);
-    const [Group_Data, setGroup_Data] = useState([]);
     const [nameValid, setNameValid] = useState(true);
     const [designationValid, setDesignationValid] = useState(true);
     const [emailValid, setEmailValid] = useState(true);
@@ -19,6 +19,21 @@ const EmployeeForm=(onCloseForm,onAddEmployee)=>{
         Location: null,
         
     });
+    useEffect(() => {
+        fetch("http://localhost:5000/getGroups", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            setGroupData(data);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }, []);
 
 
     const handleCancel = () => {
@@ -28,7 +43,7 @@ const EmployeeForm=(onCloseForm,onAddEmployee)=>{
 
       const handleAddEmployee = () => {
         // Find the selected customer based on the name
-        const selectedGroup = Group_Data.find(
+        const selectedGroup = GroupData.find(
           (group) => group.Group_Name === newEmployee.Group_Name
         );
     
@@ -41,23 +56,23 @@ const EmployeeForm=(onCloseForm,onAddEmployee)=>{
           selectedGroup
         ) {
           // Create a new contact object
-          const contact = {
-             Group_id: selectedGroup.Group_id,
+          const employee = {
+        Group_id: selectedGroup.Group_id,
         Employee_Name: newEmployee.Employee_Name,
         Designation:newEmployee.Designation,
         Email: newEmployee.Email,
         Mobile: newEmployee.Mobile,
-        Office_Landline: newEmployee.Office_Landline,
+        Office_landline: newEmployee.Office_Landline,
         Location: newEmployee.Location,
           };
     
           // Send a request to your server to add the new contact
-          fetch("http://localhost:5000/addContact", {
+          fetch("http://localhost:5000/addEmployee", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(contact),
+            body: JSON.stringify(employee),
           })
             .then((response) => {
               if (response.ok) {
@@ -66,7 +81,7 @@ const EmployeeForm=(onCloseForm,onAddEmployee)=>{
                 setShowValidationMessage(false);
                 setShowErrorMessage(true);
                 throw new Error(
-                  `Unable to add contact details: ${response.statusText}`
+                  `Unable to add Employee details: ${response.statusText}`
                 );
               }
             })
@@ -140,7 +155,7 @@ const EmployeeForm=(onCloseForm,onAddEmployee)=>{
                         {" "}
                         Select Group
                       </option>
-                      {Group_Data.map((Group, index) => (
+                      {GroupData.map((Group, index) => (
                         <option
                           key={index}
                           value={Group.Group_Name}
