@@ -75,8 +75,12 @@
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   padding: 1.5rem;
   /* margin: 20px; */
-  background-color: rgb(222, 202, 233);
+  background-color: rgb(235, 235, 235);
   text-align: start;
+}
+.userform .form1 select,
+.userform .form1 input {
+  background-color: rgba(230, 171, 34, 0.3); /* Adjust the alpha value (0.5 for 50% opacity) */
 }
 
 
