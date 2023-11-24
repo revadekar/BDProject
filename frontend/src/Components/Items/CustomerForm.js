@@ -1,4 +1,4 @@
-import { Button } from 'baseui/button';
+import { Button } from 'react-bootstrap';
 import React, { useState } from 'react';
 //import {useNavigate } from 'react-router-dom';
 
@@ -62,8 +62,7 @@ const CustomerForm = ({ onCloseForm, onAddCustomer }) => {
     };
   
   return (
-    <div className='container-fluid' style={{color:"black", margin:"10px"}}>
-    <h2>Add Customer</h2>
+    <div className='container-fluid userform' style={{color:"black", margin:"10px"}}>
     {showErrorMesage && (
         <div className="d-flex justify-content-center align-items-center">
             <p style={{color:"red"}}>Please fill in all fields.</p>
@@ -72,7 +71,11 @@ const CustomerForm = ({ onCloseForm, onAddCustomer }) => {
 
       <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '50vh'}}>
         
-      <div  className='card col-sm-6' style={{paddingLeft:"1vw"}}>
+    <div  className='card col-sm-6 form1'>
+      <div className="d-flex justify-content-center align-items-center">
+      <h3>Add Customer</h3>
+      </div>
+
     <form className='form-horizontal' style={{padding: "10px", fontFamily:"serif", fontWeight:"bold"}}>
       <div className='form-group row' style={{padding: "10px"}}>
         <label htmlFor='custName' className='control-label col-sm-4'>
@@ -143,24 +146,26 @@ const CustomerForm = ({ onCloseForm, onAddCustomer }) => {
           />
         </div>
       </div>
-      <div className='form-group row' style={{ padding: "10px" }}>
-  <div className='col-sm-offset-2 col-sm-12'>
+      <div className='form-group row' style={{ padding: "10px",textAlign:"center" }}>
+
+  <div className='d-flex justify-content-center'>
+   
     <Button
-    size='compact'
+    size='sm'
       type='button'
-      className='btn btn-danger'
-      style={{ marginRight: '10px',backgroundColor:"darkred" }} 
+      className='btn btn-dark'
+      onClick={handleAddCustomer}
+      style={{ marginRight: '1rem'}} 
+    >
+      Save
+    </Button>
+    <Button
+    size='sm'
+      type='button'
+      className='btn btn-danger '
       onClick={handleCancel}
     >
       Cancel
-    </Button>
-    <Button
-    size='compact'
-      type='button'
-      style={{backgroundColor:"darkslategray"}}
-      onClick={handleAddCustomer}
-    >
-      Save
     </Button>
   </div>
 </div>

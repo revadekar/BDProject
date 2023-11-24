@@ -88,7 +88,7 @@ const ProjectDetails = () => {
         )}
       </div>
       <div className="table-responsive" >
-        <table className="table table-bordered table-striped ">
+        <table className="table table-bordered table-striped table-sm ">
           <thead className="thead-dark">
             <tr>
               <th className="responsive-font">
@@ -104,6 +104,7 @@ const ProjectDetails = () => {
                </label>
               </div>
               </th>
+              <th>S.No.</th>
               <th className="responsive-font">Project Name</th>
               <th className="responsive-font">Project Description</th>
               <th className="responsive-font">Product Description</th>
@@ -118,8 +119,8 @@ const ProjectDetails = () => {
              
             </tr>
           </thead>
-          <tbody>
-            {projectData.map((project) => (
+          <tbody style={{margin:"5rem"}}>
+            {projectData.map((project,index) => (
               <tr key={project.Project_id}>
                 <td className="responsive-font" >
                <div className="form-check">
@@ -132,7 +133,7 @@ const ProjectDetails = () => {
                />
               </div>
               </td>
-
+                <td>{index+1}.</td>
                 <td className="responsive-font" >{project.Project_Name}</td>
                 <td className="responsive-font">{project.Project_Description}</td>
                 <td className="responsive-font">{project.Product_Description}</td>

@@ -43,7 +43,7 @@ const CustomersComponent = () => {
   return (
     <CustomersComponentWrapper className='container-fluid'>
      <div className='d-flex justify-content-end my-2' style={{ marginRight: '2vw' }}>
-        <Button size='compact' style={{ backgroundColor: 'darkcyan' }} onClick={() => setShowForm(true)}>
+        <Button size='compact'  onClick={() => setShowForm(true)}>
           Add Customer
         </Button>
       </div>
@@ -63,10 +63,11 @@ const CustomersComponent = () => {
           Record inserted successfully!
         </div>
       )}
-      <div className='table-responsive' style={{padding:"20px", marginLeft:"2vw"}}>
+      <div className='table-responsive'>
       <table className="table table-bordered table-striped table-lg">
         <thead>
           <tr>
+            <th>S.No.</th>
             <th>Customer Name</th>
             <th>City</th>
             <th>State</th>
@@ -75,7 +76,8 @@ const CustomersComponent = () => {
         <tbody>
           {customerData.map((customer, index) => (
             <tr key={index}>
-              <td style={{textAlign:"left", width:"max-content", paddingLeft:"20px"}}>{customer.Cust_name}</td>
+              <td>{index+1}.</td>
+              <td>{customer.Cust_name}</td>
               <td>{customer.City}</td>
               <td>{customer.State}</td>
             </tr>

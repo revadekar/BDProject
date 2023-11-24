@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "baseui/button";
+import { Button } from "react-bootstrap";
 
 const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
   const [showErrorMessage, setShowErrorMessage] = useState(false);
@@ -113,8 +113,7 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
 
   return (
     <>
-      <div className="container-fluid" style={{ color: "black", margin: "10px" }}>
-        <h4>Add Contact</h4>
+      <div className="container-fluid userform"  style={{marginTop:"2rem"}}>
         {showValidationMessage && (
           <div className="d-flex justify-content-center align-items-center">
             <p style={{ color: "red" }}>
@@ -129,17 +128,16 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
             </p>
           </div>
         )}
-
-        <div
-          className="d-flex justify-content-center align-items-center"
-          style={{ minHeight: "50vh" }}
-        >
-          <div className="card col-sm-6" style={{ paddingLeft: "1vw" }}>
+        <div className="d-flex justify-content-center align-items-center">
+          <div className="card col-sm-12 form1" style={{maxWidth:"75vh"}} >
+            <div className="d-flex justify-content-center mb-3">
+              <h3>Add Contact</h3>
+            </div>
             <form
               className="form-horizontal"
-              style={{ padding: "10px", fontFamily: "serif", fontWeight: "bold" }}
+              style={{ fontFamily: "serif", fontWeight: "bold" }}
             >
-              <div className="form-group row" style={{ padding: "10px" }}>
+              <div className="form-group row" >
                 <label
                   htmlFor="Customer"
                   className="control-label col-sm-4"
@@ -147,11 +145,11 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
                   Customer Name:
                   <span className="text-danger">*</span>
                 </label>
-                <div className="col-sm-8">
+                <div className="col-sm-8 mb-3">
                   <div className="dropdown">
                     <select
                       id="Customer"
-                      className="form-control dropdown-toggle"
+                      className="form-select"
                       value={newContact.Customer}
                       onChange={(e) =>
                         setNewContact({ ...newContact, Customer: e.target.value })
@@ -177,12 +175,12 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
               {!nameValid && (
                     <div className="invalid-feedback">Name is required.</div>
                   )}
-              <div className="form-group row" style={{ padding: "10px" }}>
+              <div className="form-group row" >
                 <label htmlFor="Name" className="control-label col-sm-4">
                   Contact Person Name:
                   <span className="text-danger">*</span>
                 </label>
-                <div className="col-sm-8">
+                <div className="col-sm-8 mb-3">
                   <input
                     type="text"
                     id="Name"
@@ -200,12 +198,12 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
               {!designationValid && (
                     <div className="invalid-feedback">Designation is required.</div>
                   )}
-              <div className="form-group row" style={{ padding: "10px" }}>
+              <div className="form-group row" >
                 <label htmlFor="Designation" className="control-label col-sm-4">
                   Designation:
                   <span className="text-danger">*</span>
                 </label>
-                <div className="col-sm-8">
+                <div className="col-sm-8 mb-3">
                   <input
                     type="text"
                     id="Designation"
@@ -222,12 +220,12 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
                 </div>
               </div>
               
-              <div className="form-group row" style={{ padding: "10px" }}>
+              <div className="form-group row" >
                 <label htmlFor="Email" className="control-label col-sm-4">
                   Email:
                   <span className="text-danger">*</span>
                 </label>
-                <div className="col-sm-8">
+                <div className="col-sm-8 mb-3">
                   <div>
                     <input
                       type="email"
@@ -240,20 +238,20 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
                       required
                     />
                   </div>
-                </div>
-                {!emailValid && (
-  <div className="d-flex justify-content-center align-items-center">
+                  {!emailValid && (
+  <div className="d-flex justify-content-start align-items-center">
     <p style={{ color: "red", marginLeft:"10rem" }}>Email is required and must be valid</p>
   </div>
 )}
+                </div>
               </div>
             
-              <div className="form-group row" style={{ padding: "10px" }}>
+              <div className="form-group row" >
                 <label htmlFor="Mobile" className="control-label col-sm-4">
                   Mobile:
                   <span className="text-danger">*</span>
                 </label>
-                <div className="col-sm-8">
+                <div className="col-sm-8 mb-3">
                   <input
                     type="tel"
                     id="Mobile"
@@ -267,21 +265,21 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
                     }
                     required
                   />
-                </div>
-                {!mobileValid && <div className="d-flex justify-content-center align-items-center">
+                  {!mobileValid && <div className="d-flex justify-content-center align-items-center">
               <p style={{ color: "red" , marginLeft:"10rem" }}>
               Invalid mobile number. Please enter 10 digits.
             </p>
              </div>}
+                </div>
                 
               </div>
               
              
-              <div className="form-group row" style={{ padding: "10px" }}>
+              <div className="form-group row" >
                 <label htmlFor="Landline" className="control-label col-sm-4">
                   Landline:
                 </label>
-                <div className="col-sm-8">
+                <div className="col-sm-8 mb-3">
                   <input
                     type="tel"
                     id="Landline"
@@ -296,11 +294,11 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
                   />
                 </div>
               </div>
-              <div className="form-group row" style={{ padding: "10px" }}>
+              <div className="form-group row">
                 <label htmlFor="Fax" className="control-label col-sm-4">
                   Fax:
                 </label>
-                <div className="col-sm-8">
+                <div className="col-sm-8 mb-3">
                   <input
                     type="tel"
                     id="Fax"
@@ -315,26 +313,25 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
                   />
                 </div>
               </div>
-              <div className="form-group row" style={{ padding: "10px" }}>
-                <div className="col-sm-offset-2 col-sm-12">
+                <div className="d-flex justify-content-center">
+                 
                   <Button
-                    size="compact"
+                    size="sm"
                     type="button"
-                    style={{ backgroundColor: "darkred" }}
-                    onClick={handleCancel}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    size="compact"
-                    type="button"
-                    style={{ marginLeft: "10px", backgroundColor: "darkslategray" }}
                     onClick={handleAddContact}
                   >
                     Save
                   </Button>
+                  <Button
+                  className="btn btn-danger"
+                    size="sm"
+                    type="button"
+                    style={{marginLeft: "10px" }}
+                    onClick={handleCancel}
+                  >
+                    Cancel
+                  </Button>
                 </div>
-              </div>
             </form>
           </div>
         </div>
