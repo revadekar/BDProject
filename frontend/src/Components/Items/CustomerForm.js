@@ -34,7 +34,6 @@ const handleValidation=()=>{
    const handleCancel=()=>{
     onCloseForm();
    };
-<<<<<<< HEAD
    useEffect(()=>{
      console.log(states);
    },[states])
@@ -73,8 +72,6 @@ const handleValidation=()=>{
       console.error('Error:', error);
     })
    },[selectedCountry])
-
->>>>>>> 8b9e7566c48ca4c85e0a9b799c390c42f13d8c9a
     const handleAddCustomer = () => {
       handleValidation();
       // Check if all fields are filled
