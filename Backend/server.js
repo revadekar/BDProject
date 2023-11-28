@@ -323,7 +323,7 @@ app.get('/getProjects',(req,res)=>{
   db.query(query,(error,result)=>{
     if(error){
       console.error('Error',error);
-      res.status(500).json({error:'Error getting Employees'});
+      res.status(500).json({error:'Error getting Projects'});
     }else
     {
       console.log(result);

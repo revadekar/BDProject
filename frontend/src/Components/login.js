@@ -80,7 +80,7 @@ const LoginPage = () => {
                     </div>
             </div>
 
-            <Button id="login-button" type="submit" className="w-100">
+            <Button  id="login-button" type="submit" className="w-100">
               {loading ? <Spinner animation="border" size="sm" /> : 'Login'}
             </Button>
 

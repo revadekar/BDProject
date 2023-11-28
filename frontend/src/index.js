@@ -1,17 +1,20 @@
 import React from 'react';
 // import ReactDOM from 'react-dom';
 import './index.css';
- import App from './App';
+//  import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';  // Corrected import statement
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Navbar from './Components/Navbarr';
+import Dashboard from './Components/dashboard'
 
 const root = createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Router>
-      <App />
+      {/* <App /> */}
+      <Navbar></Navbar>    
     </Router>
   </React.StrictMode>,
 );

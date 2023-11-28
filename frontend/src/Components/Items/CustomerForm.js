@@ -19,6 +19,11 @@ const CustomerForm = ({ onCloseForm, onAddCustomer }) => {
    const handleCancel=()=>{
     onCloseForm();
    };
+   useEffect(()=>{
+     fecth('http://localhost:5000/getStates',{
+       
+     })
+   });
     const handleAddCustomer = () => {
       // Check if all fields are filled
       if (newCustomer.Cust_name && newCustomer.City && newCustomer.State) {

@@ -12,12 +12,14 @@ import Profile from './Items/Profile';
 import Users from './Items/Users';
 import EmployeeDetails from './Items/EmployeeDetails';
 import ProjectDetails from './Items/ProjectDetails';
+import {Client as Styletron} from 'styletron-engine-atomic'
+import {Provider as StyletronProvider} from 'styletron-react';
 
 const Dashboard = () => {
   const [open, setOpen] = React.useState(true);
   const [activeMenuItem, setActiveMenuItem] = useState(null);
   const[showFabar, setShowFabar]=useState(false);
-
+  const engine = new Styletron();
   const [css] = useStyletron();
 
   const renderContent = () => {
@@ -41,7 +43,8 @@ const Dashboard = () => {
   };
 
   return (
-    <DashboardWrapper className={ css({ paddingLeft: open ? '285px' : '0' })}>
+    <StyletronProvider value={engine}>
+      <DashboardWrapper className={ css({ paddingLeft: open ? '285px' : '0' })}>
       <Navbar setActiveMenuItem={setActiveMenuItem} />
       {open && <div ><Sidebar  open={open} setOpen={setOpen} setActiveMenuItem={setActiveMenuItem} setShowFabar={setShowFabar} /></div> }
       {showFabar &&<Button style={{position:"fixed"}} variant='outline-primary' onClick={() => setOpen(!open) }>
@@ -53,6 +56,8 @@ const Dashboard = () => {
       </div>
 
     </DashboardWrapper>
+    </StyletronProvider>
+    
   );
 };
 
