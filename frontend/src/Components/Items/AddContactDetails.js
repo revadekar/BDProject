@@ -41,17 +41,19 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
     setShowErrorMessage(false);
   };
 
-  useEffect(()=>{
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    // Validate each required field
-    setNameValid(!!newContact.Name);
-    setDesignationValid(!!newContact.Designation);
-    setEmailValid(emailRegex.test(newContact.Email));
-    setMobileValid(newContact.Mobile && /^\d{10}$/.test(newContact.Mobile));
-},[newContact])
+ const validateFields=(e)=>{
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const designationRegex= /^[a-zA-Z ]+$/;
+  // Validate each required field
+  setNameValid(!!newContact.Name);
+  setDesignationValid(designationRegex.test(newContact.Designation));
+  setEmailValid(emailRegex.test(newContact.Email));
+  setMobileValid(newContact.Mobile && /^\d{10}$/.test(newContact.Mobile));
+ }
 
   const handleAddContact = () => {
     // Find the selected customer based on the name
+    validateFields();
     const selectedCustomer = customerData.find(
       (customer) => customer.Cust_name === newContact.Customer
     );
@@ -195,7 +197,7 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
                 </div>
 
               </div>
-              {!designationValid && (
+              {!designationValid && !null && (
                     <div className="invalid-feedback">Designation is required.</div>
                   )}
               <div className="form-group row" >
@@ -232,17 +234,18 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
                       id="Email"
                       className="form-control"
                       value={newContact.Email}
-                      onChange={(e) =>
+                      onChange={(e) =>{
                         setNewContact({ ...newContact, Email: e.target.value })
-                      }
+                      }}
                       required
                     />
-                  </div>
-                  {!emailValid && (
+                    {!emailValid && (
   <div className="d-flex justify-content-start align-items-center">
-    <p style={{ color: "red", marginLeft:"10rem" }}>Email is required and must be valid</p>
+    <p style={{ color: "red", marginLeft:"3rem" , fontSize:"small"}}>Email is required and must be valid</p>
   </div>
 )}
+                  </div>
+                  
                 </div>
               </div>
             
@@ -257,16 +260,16 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
                     id="Mobile"
                     className="form-control"
                     value={newContact.Mobile}
-                    onChange={(e) =>
+                    onChange={(e) =>{
                       setNewContact({
                         ...newContact,
                         Mobile: e.target.value,
                       })
-                    }
+                    }}
                     required
                   />
-                  {!mobileValid && <div className="d-flex justify-content-center align-items-center">
-              <p style={{ color: "red" , marginLeft:"10rem" }}>
+                  {(!mobileValid)&& <div className="d-flex justify-content-center align-items-center">
+              <p style={{ color: "red",fontSize:"small"  }}>
               Invalid mobile number. Please enter 10 digits.
             </p>
              </div>}
