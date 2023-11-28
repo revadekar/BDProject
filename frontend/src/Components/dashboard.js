@@ -43,7 +43,7 @@ const Dashboard = () => {
   };
 
   return (
-    <StyletronProvider value={engine}>
+
       <DashboardWrapper className={ css({ paddingLeft: open ? '285px' : '0' })}>
       <Navbar setActiveMenuItem={setActiveMenuItem} />
       {open && <div ><Sidebar  open={open} setOpen={setOpen} setActiveMenuItem={setActiveMenuItem} setShowFabar={setShowFabar} /></div> }
@@ -56,7 +56,6 @@ const Dashboard = () => {
       </div>
 
     </DashboardWrapper>
-    </StyletronProvider>
     
   );
 };

@@ -80,9 +80,18 @@ export default function Navbar({setActiveMenuItem}) {
   }
 
   return (
-    <StyletronProvider value={engine}>
+    <>
       { (
-          <div style={{top:'20vh'}}>
+        <Layer >
+          <div
+            className={css({
+              boxSizing: 'border-box',
+              width: '100vw',
+              position: 'fixed',
+              top: '0',
+              left: '0',
+            })}
+          >
             <ThemeProvider theme={LightTheme}>
               <AppNavBar
               title={`Welcome ! ${activeUser}`}
@@ -96,8 +105,9 @@ export default function Navbar({setActiveMenuItem}) {
             /></ThemeProvider>
             
           </div>
+          </Layer>
       )}
-    </StyletronProvider>
+    </>
   );
 }
 
