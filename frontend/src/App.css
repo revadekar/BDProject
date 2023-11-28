@@ -80,7 +80,11 @@
 }
 .userform .form1 select,
 .userform .form1 input {
-  background-color: rgba(230, 171, 34, 0.3); /* Adjust the alpha value (0.5 for 50% opacity) */
+  background-color: rgba(150, 207, 230, 0.3); /* Adjust the alpha value (0.5 for 50% opacity) */
+  border: 1px ridge black;
+}
+.error-message{
+  color: red;
 }
 
 
