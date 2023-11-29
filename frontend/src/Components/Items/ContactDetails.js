@@ -204,6 +204,7 @@ const ContactDetails = () => {
           <table className='table table-bordered table-striped table-sm'>
             <thead>
               <tr>
+                <th>S.No.</th>
                 <th>Customer Name</th>
                 <th>Contact Person</th>
                 <th>Designation</th>
@@ -217,6 +218,7 @@ const ContactDetails = () => {
             <tbody>
               {contactDetails.map((contact, index) => (
                 <tr key={index}>
+                  <td>{index+1}.</td>
                   <td>{contact.Cust_name}</td>
                   <td>{contact.contact_person }</td>
                   <td>{contact.Designation}</td>
