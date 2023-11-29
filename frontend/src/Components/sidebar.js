@@ -61,8 +61,8 @@ const Sidebar = ({ open, setOpen, activeMenuItem, setActiveMenuItem,setShowFabar
        
         <img
           className={css({
-            width: '4.5rem',
-            height: '3.5rem',
+            width: '5rem',
+            height: '4rem',
             marginRight: '0.5rem',
           })}
           src={logo}
@@ -114,11 +114,12 @@ const Sidebar = ({ open, setOpen, activeMenuItem, setActiveMenuItem,setShowFabar
 export default Sidebar;
 
 const SidebarWrapper = styled('section', {
+  paddingTop:'2rem',
   position: 'fixed',
-  top: '11.1vh',
+  top: '9vh',
   left: '0',
   width: '100%',
-  maxWidth: '40vh',
+  maxWidth: '32vh',
   height: '100%',
   maxHeight:'91vh',
   background: '#363740',
@@ -130,7 +131,7 @@ const SidebarWrapper = styled('section', {
 });
 
 const Logo = styled('div', {
-  padding: '1rem',
+  margin:'1rem',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
