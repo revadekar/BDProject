@@ -98,6 +98,36 @@ console.log('username: ', username,'password:',password);
   });
 });
 
+app.post('/getStates',(req,res)=>{
+  const {country_name}=req.body;
+  console.log('country_name',country_name);
+  const query='select*from states where country_name=? order by name '
+  db.query(query,[country_name],(err,result)=>{
+    if(err){
+      console.error('error getting states',err.message);
+      res.status(500).json({error:'unable to get states'})
+    }else{
+      console.log('States received successfully');
+      res.json(result);
+    }
+  })
+})
+
+app.post('/getCities',(req,res)=>{
+  const {state_name}=req.body;
+  console.log('state_name',state_name);
+  const query='select*from cities where state_name=?'
+  db.query(query,[state_name],(err,result)=>{
+    if(err){
+      console.error('error getting states',err.message);
+      res.status(500).json({error:'unable to get cities'})
+    }else{
+      console.log('Cities received successfully');
+      res.json(result);
+    }
+  })
+})
+
 // Create an API endpoint to get customer data
 app.get('/getCustomers', (req, res) => {
   const query = 'SELECT * FROM customer_detail order by Cust_name';
@@ -323,7 +353,7 @@ app.get('/getProjects',(req,res)=>{
   db.query(query,(error,result)=>{
     if(error){
       console.error('Error',error);
-      res.status(500).json({error:'Error getting Employees'});
+      res.status(500).json({error:'Error getting Projects'});
     }else
     {
       console.log(result);

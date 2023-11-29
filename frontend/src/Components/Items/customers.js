@@ -7,6 +7,7 @@ const CustomersComponent = () => {
   const [customerData, setCustomerData] = useState([]);
   const [showForm, setShowForm] = useState(false); // State to control the visibility of the form
   const [datainserted, setDataInserted]=useState(false);
+  const [showCustomers, setShowCustomers]=useState(true);
 
   useEffect(() => {
     async function fetchCustomerData() {
@@ -42,14 +43,10 @@ const CustomersComponent = () => {
   
   return (
     <CustomersComponentWrapper className='container-fluid'>
-     <div className='d-flex justify-content-end my-2' style={{ marginRight: '2vw' }}>
-        <Button size='compact'  onClick={() => setShowForm(true)}>
-          Add Customer
-        </Button>
-      </div>
       {showForm && <CustomerForm
         onCloseForm={() => {
           setShowForm(false);
+          setShowCustomers(true);
           //setDataInserted(false); // Reset datainserted when closing the form
         }}
         onAddCustomer={() => {
@@ -63,6 +60,13 @@ const CustomersComponent = () => {
           Record inserted successfully!
         </div>
       )}
+      {showCustomers &&
+      <>
+      <div className='d-flex justify-content-end my-2' style={{ marginRight: '2vw' }}>
+      <Button size='compact'  onClick={() => {setShowForm(true); setShowCustomers(false)}}>
+        Add Customer
+      </Button>
+    </div>
       <div className='table-responsive'>
       <table className="table table-bordered table-striped table-lg">
         <thead>
@@ -84,7 +88,7 @@ const CustomersComponent = () => {
           ))}
         </tbody>
       </table>
-      </div>
+      </div></>}
     </CustomersComponentWrapper>
   );
 };

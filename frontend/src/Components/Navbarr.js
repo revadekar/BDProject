@@ -5,26 +5,23 @@ import { Layer } from 'baseui/layer';
 import { ChevronDown, Delete, Upload } from 'baseui/icon';
 import { AppNavBar, setItemActive } from 'baseui/app-nav-bar';
 import { useNavigate } from 'react-router-dom';
-import { FaUser } from 'react-icons/fa';
+import { FaUser, FaPowerOff } from 'react-icons/fa';
 import {ThemeProvider} from 'baseui';
+import { styled } from 'styletron-react';
+import {Client as Styletron} from 'styletron-engine-atomic'
+import {Provider as StyletronProvider} from 'styletron-react';
 
 export default function Navbar({setActiveMenuItem}) {
   const [css] = useStyletron();
   const [activeUser, setActiveUser] = useState('');
   const Navigate = useNavigate();
+  const engine=new Styletron();
 
   useEffect(() => {
     // Fetch the active user from localStorage when the component mounts
     setActiveUser(localStorage.getItem('ActiveUser'));
   }, []); // Empty dependency array ensures this effect runs only once
 
-  const LogoutIcon = () => (
-    <img
-      src={require('./assets/images/logout1.png')}
-      alt="Logout"
-      style={{ width: '2vw', height: '2vw' }} // Adjust the size as needed
-    />
-  );
   const [mainItems, setMainItems] = React.useState([
     { icon: Upload, label: 'Primary A' },
     { icon: Upload, label: 'Primary B' },
@@ -65,7 +62,7 @@ export default function Navbar({setActiveMenuItem}) {
       }
     },
     {
-      icon: LogoutIcon,
+      icon: FaPowerOff,
       label: 'Log Out',
       onClick: () => {
         // Add the logic to clear user session or perform any other necessary actions
@@ -85,7 +82,7 @@ export default function Navbar({setActiveMenuItem}) {
   return (
     <>
       { (
-        <Layer>
+        <Layer >
           <div
             className={css({
               boxSizing: 'border-box',
@@ -108,8 +105,10 @@ export default function Navbar({setActiveMenuItem}) {
             /></ThemeProvider>
             
           </div>
-        </Layer>
+          </Layer>
       )}
     </>
   );
 }
+
+

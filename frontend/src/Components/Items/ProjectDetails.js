@@ -6,6 +6,8 @@ const ProjectDetails = () => {
     const [selectAllChecked, setSelectAllChecked] = useState(false);
     const [checkboxStates, setCheckboxStates] = useState({});
     const [selectedProjects, setSelectedProjects] = useState([]);
+    const [dataReceived,setDataReceived]=useState(false);
+    const [error, setError] = useState(null);
 
   useEffect(() => {
     fetch('http://localhost:5000/getProjects', {
@@ -16,10 +18,23 @@ const ProjectDetails = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setProjectData(data);
+        if (Array.isArray(data)) {
+          setProjectData(data);
+          setDataReceived(true);
+        } else {
+          console.log(data);
+          console.error('Invalid data format. Expected an array.');
+          setError('An error occurred while fetching data. Please try again later.');
+        }
       })
       .catch((error) => {
         console.error('Error:', error);
+        setError('An error occurred while fetching data. Please try again later.');
+      })
+      
+      .catch((error) => {
+        console.error('Error:', error);
+        setError('An error occurred while fetching data. Please try again later.');
       });
   }, []);
 
@@ -87,6 +102,7 @@ const ProjectDetails = () => {
           <button onClick={handleDelete}>Delete</button>
         )}
       </div>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       <div className="table-responsive" >
         <table className="table table-bordered table-striped table-sm ">
           <thead className="thead-dark">
@@ -120,7 +136,7 @@ const ProjectDetails = () => {
             </tr>
           </thead>
           <tbody style={{margin:"5rem"}}>
-            {projectData.map((project,index) => (
+            {dataReceived && projectData.map((project,index) => (
               <tr key={project.Project_id}>
                 <td className="responsive-font" >
                <div className="form-check">

@@ -131,11 +131,11 @@ const handleEditContact = () => {
         Contact Person Name:
         <span className='text-danger'>*</span>
         </label>
-        <div className='col-sm-8'>
+        <div className='col-sm-8 input'>
           <input
             type='text'
             id='Name'
-            className='form-control'
+            className='form-control '
             value={newContact.contact_person}
             onChange={(e) =>
                 setNewContact({ ...newContact, contact_person: e.target.value })
@@ -203,11 +203,11 @@ const handleEditContact = () => {
             }
           />
         </div>
-        {!mobileValid && <div className="d-flex justify-content-center align-items-center">
-              <p style={{ color: "red" , marginLeft:"10rem" }}>
+        {!mobileValid && 
+              <p style={{ color: "red" , marginLeft:"13rem" }}>
               Invalid mobile number. Please enter 10 digits.
             </p>
-             </div>}
+             }
                 
         </div>
         

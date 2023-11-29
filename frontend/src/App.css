@@ -75,14 +75,27 @@
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   padding: 1.5rem;
   /* margin: 20px; */
-  background-color: rgb(222, 202, 233);
+  background-color: rgb(235, 235, 235);
   text-align: start;
 }
+<<<<<<< HEAD
 .card {
   width: 80%;
   margin-left: auto;
   margin-right: auto;
   padding: 20px;
+=======
+.userform .form1 select,
+.userform .form1 input {
+  background-color: rgba(150, 207, 230, 0.3); /* Adjust the alpha value (0.5 for 50% opacity) */
+  border: 1px ridge black;
+}
+.error-message{
+  color: red;
+>>>>>>> 3bfbac243132332ec655bde9da6987445014f2bc
 }
 
 
+.error-message{
+  color: red;
+}
