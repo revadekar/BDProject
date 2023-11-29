@@ -3,7 +3,7 @@ import React from "react";
 const HomePage=()=>{
     return(
     <div className="container-fluid">
-       <h2>HomePage</h2> 
+       <h2></h2> 
     </div>
     );
 }

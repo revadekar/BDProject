@@ -11,7 +11,7 @@ import { FaBars } from 'react-icons/fa';
 import Profile from './Items/Profile';
 import Users from './Items/Users';
 import EmployeeDetails from './Items/EmployeeDetails';
-import ProjectDetails from './Items/ProjectDetails';
+import ProjectDetails from './Items/Project/ProjectDetails';
 import {Client as Styletron} from 'styletron-engine-atomic'
 import {Provider as StyletronProvider} from 'styletron-react';
 

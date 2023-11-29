@@ -72,7 +72,7 @@ const CustomersComponent = () => {
         <thead>
           <tr>
             <th>S.No.</th>
-            <th>Customer Name</th>
+            <th>Company Name</th>
             <th>City</th>
             <th>State</th>
           </tr>

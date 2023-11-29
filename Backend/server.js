@@ -363,8 +363,6 @@ app.get('/getProjects',(req,res)=>{
   })
 })
 
-
-
 // Route to serve documents based on database path
 app.get('/getDocument/:filename', (req, res) => {
   const filename = req.params.filename;
@@ -380,6 +378,39 @@ app.get('/getDocument/:filename', (req, res) => {
     res.status(404).send('File not found');
     console.log('File not found');
   }
+});
+
+app.get('/getStatus',(req,res)=>{
+  const query ='select*from status';
+  db.query(query,(err,result)=>{
+    if(err){
+      console.error('Error', err);
+      res.status(500).json({error:'Error getting Status'});
+    }else{
+      console.log(result);
+      console.log('Status details fetched successfully');
+      res.status(201).json(result);
+    }
+  })
+})
+
+
+app.post('/editProject', (req, res) => {
+  const {status_id,Project_id} = req.body;
+ console.log('updatedProjectData',status_id);
+  // Validate the data here if needed
+
+  const query = `update project_detail set status_id=? where Project_id=?`;
+
+  db.query(query, [status_id, Project_id], (err, result) => {
+    if (err) {
+      console.error('Error:', err);
+      res.status(500).json({ error: 'Error updating data' });
+    } else {
+      console.log('Project Details updated successfully');
+      res.status(201).json({ message: 'Project Details updated successfully' });
+    }
+  });
 });
 
 

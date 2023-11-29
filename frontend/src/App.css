@@ -8,6 +8,9 @@
   /* overflow: hidden; */
 }
 /* CSS file */
+#profile{
+  text-align: start;
+}
 .responsive-font {
   font-size: 1vw; /* Adjust the font size based on the viewport */
 }
@@ -43,7 +46,6 @@
 .table thead th,
 .table tbody td {
   font-size: 1.0vw;
-  padding: 8px;
   text-align: left;
   border-bottom: 1px solid #ddd;
 
@@ -58,7 +60,7 @@
   }
 }
 .table-responsive {
-  margin: 0.5rem;
+  /* margin: 0.5rem; */
   max-height: 75vh;
   overflow-y: auto;
    
@@ -77,12 +79,8 @@
   /* margin: 20px; */
   background-color: rgb(235, 235, 235);
   text-align: start;
-}
-.card {
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 20px;
+  padding: 2rem;
+  max-width: 80vh;
 }
 .userform .form1 select,
 .userform .form1 input {

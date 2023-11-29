@@ -44,7 +44,7 @@ const EmployeeDetails = () => {
       </div>
       {showEmployeeForm && <EmployeeForm onAddEmployee={()=>{setShowEmployees(true); setShowEmployeeForm(false); setEmployeeAdded(true)}} onCloseForm={() => {setShowEmployees(true); setShowEmployeeForm(false)}}  />}
       {showEmployees && (
-        <div style={{ color: 'black' }}>
+        <div className='table-responsive'>
           <table className='table table-bordered table-striped'>
             <thead>
               <tr>

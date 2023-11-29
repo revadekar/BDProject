@@ -1,5 +1,6 @@
 import React, { useState,useEffect } from "react";
-import { Button } from "baseui/button";
+import { Button } from "react-bootstrap";
+import '../assets/popCss.css'
 
 const EditContactDetails = ({onCloseForm, onEditContact, editingContact}) => {
   const[showErrorMessage,setShowErrorMessage]=useState(false);
@@ -9,6 +10,8 @@ const EditContactDetails = ({onCloseForm, onEditContact, editingContact}) => {
   const [designationValid, setDesignationValid] = useState(false);
   const [emailValid, setEmailValid] = useState(false);
   const [mobileValid, setMobileValid] = useState(false);
+
+  
 useEffect(()=>{
 fetch('http://localhost:5000/getCustomers', {
         method: 'GET',
@@ -32,12 +35,15 @@ const handleCancel=()=>{
 
 
 useEffect(()=>{
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    // Validate each required field
-    setNameValid(!!newContact.contact_person);
-    setDesignationValid(!!newContact.Designation);
-    setEmailValid(emailRegex.test(newContact.Email_id));
-    setMobileValid(newContact.Mobile && /^\d{10}$/.test(newContact.Mobile));
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const designationRegex= /^[a-zA-Z ]+$/;
+  const nameRegex=/^[a-zA-Z ]+$/;
+  const mobileRegex=/^\d{10}$/;
+  // Validate each required field
+  setNameValid(nameRegex.test(newContact.contact_person));
+  setDesignationValid(designationRegex.test(newContact.Designation));
+  setEmailValid(emailRegex.test(newContact.Email_id));
+  setMobileValid(newContact.Mobile && mobileRegex.test(newContact.Mobile));
 },[newContact])
 
 const handleEditContact = () => {
@@ -90,16 +96,19 @@ const handleEditContact = () => {
   return (
     <>
      <div className='container-fluid userform' style={{color:"black", margin:"10px"}}>
-        <h4>Edit Contact</h4>
         {showErrorMessage && (
         <div className="d-flex justify-content-center align-items-center">
             <p style={{color:"red"}}>Name,Email, Designation and Mobile No is required</p>
         </div>
         )}
         
-        <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '50vh'}}>
+        <div className="d-flex justify-content-center align-items-center" >
         
-        <div  className='card col-sm-6 form1' >
+        <div  className='card col-sm-5 form1' >
+          <div className="d-flex justify-content-center mb-3">
+          <h4>Edit Contact</h4>
+          </div>
+
         <form className='form-horizontal' style={{fontFamily:"serif", fontWeight:"bold"}}>
         <div className='form-group row mb-3' >
         <label htmlFor='Customer' className='control-label col-sm-4 '>
@@ -123,9 +132,6 @@ const handleEditContact = () => {
         </div>
         </div>
         </div>
-        {!nameValid && (
-                    <div className="invalid-feedback">Name is required.</div>
-                  )}
         <div className='form-group row mb-3' >
         <label htmlFor='Name' className='control-label col-sm-4 '>
         Contact Person Name:
@@ -140,12 +146,13 @@ const handleEditContact = () => {
             onChange={(e) =>
                 setNewContact({ ...newContact, contact_person: e.target.value })
             }
-          />
+          /> {!nameValid && (
+            <div className="d-flex justify-content-center align-items-center">
+             <p className="error-message" style={{marginLeft:"0rem"}}>Name is required and must be valid</p>
+            </div>
+          )}
         </div>
         </div>
-        {designationValid && (
-                    <div className="invalid-feedback">Designation is required.</div>
-                  )}
         <div className='form-group row mb-3' >
         <label htmlFor='Designation' className='control-label col-sm-4'>
         Designation:
@@ -160,7 +167,11 @@ const handleEditContact = () => {
             onChange={(e) =>
                 setNewContact({ ...newContact, Designation: e.target.value })
             }
-          />
+          /> {!designationValid && (
+            <div className="d-flex justify-content-center align-items-center">
+             <p className="error-message" style={{marginLeft:"0rem"}}>Designation is required and must be valid</p>
+            </div>
+          )}
         </div>
         </div>
         <div className='form-group row mb-3' >
@@ -179,13 +190,14 @@ const handleEditContact = () => {
           setNewContact({ ...newContact, Email_id: e.target.value })
         }
         />
-        </div>
-        </div>
         {!emailValid && (
   <div className="d-flex justify-content-center align-items-center">
-    <p style={{ color: "red", marginLeft:"10rem" }}>Email is required and must be valid</p>
+   <p className="error-message" style={{marginLeft:"0rem"}}>Email is required and must be valid</p>
   </div>
 )}
+        </div>
+        </div>
+        
         </div>
         <div className='form-group row mb-3' >
         <label htmlFor='Mobile' className='control-label col-sm-4'>
@@ -202,12 +214,13 @@ const handleEditContact = () => {
                 setNewContact({ ...newContact, Mobile: e.target.value })
             }
           />
-        </div>
-        {!mobileValid && 
-              <p style={{ color: "red" , marginLeft:"13rem" }}>
+          {!mobileValid && 
+              <p className="error-message" style={{marginLeft:"1rem"}}>
               Invalid mobile number. Please enter 10 digits.
             </p>
              }
+        </div>
+        
                 
         </div>
         
@@ -245,14 +258,15 @@ const handleEditContact = () => {
         </div>
         <div className='d-flex justify-content-center' >
         <Button
-        size='compact'
+        size='sm'
         type='button'
         onClick={handleEditContact}
         >
         Save
         </Button>
         <Button
-        size='compact'
+        className="btn btn-danger"
+        size='sm'
         type='button'
         style={{marginLeft:"1rem"}}
         onClick={handleCancel}

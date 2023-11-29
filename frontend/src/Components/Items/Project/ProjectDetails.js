@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaFilePdf } from "react-icons/fa";
+import EditProjectForm from "./EditProjectForm";
+import { Button } from "baseui/button";
 
 const ProjectDetails = () => {
     const [projectData, setProjectData] = useState([]);
@@ -8,6 +10,9 @@ const ProjectDetails = () => {
     const [selectedProjects, setSelectedProjects] = useState([]);
     const [dataReceived,setDataReceived]=useState(false);
     const [error, setError] = useState(null);
+    const[showEditProjectForm,setShowEditProjectForm]=useState(false);
+    const [editingProject,setEditingProject]=useState(null);
+    const[projectUpdated,setProjectUpdated]=useState(false);
 
   useEffect(() => {
     fetch('http://localhost:5000/getProjects', {
@@ -47,9 +52,23 @@ const ProjectDetails = () => {
     setCheckboxStates(newCheckboxStates);
   }, [selectAllChecked, projectData]);
 
+  useEffect(()=>{
+    console.log('editingProject',editingProject);
+  },[editingProject])
+
   const handleEdit = (projectId) => {
-    // Logic to handle the edit action for the project with the given ID (projectId)
-  };
+  // Logic to handle the edit action for the project with the given ID (projectId)
+  projectId = Number(projectId); // Convert projectId to a number explicitly
+  console.log('projectId:', projectId);
+
+  console.log('projectData:', projectData);
+
+  const foundProject = projectData.find((project) => project.Project_id === projectId);
+  console.log('foundProject:', foundProject);
+
+  setEditingProject(foundProject);
+  setShowEditProjectForm(true);
+};
   
   const handleDelete = () => {
     // Logic to handle the delete action for the selected projects
@@ -89,19 +108,39 @@ const ProjectDetails = () => {
 
   return (
     <div className="container-fluid" >
-      <div className="d-flex justify-content-start mb-3">
+      <div className="d-flex justify-content-between mb-3">
+        <div className="d-flex justify-content-start">
         <h2>Project Details</h2>
-      </div>
-      <div>
+        </div>
+        <div className="d-flex justify-content-end">
         {showEditDeleteOptions && (
-          <button onClick={() => handleEdit(selectedProjects[0])}>
+          <Button size="compact" onClick={() => handleEdit(selectedProjects[0])}>
             Edit
-          </button>
+          </Button>
         )}
         {showDeleteOption && (
-          <button onClick={handleDelete}>Delete</button>
+          <Button size="compact" style={{marginLeft:"1rem"}} onClick={handleDelete}>Delete</Button>
         )}
+        </div>
       </div>
+      {showEditProjectForm && ( 
+      <div className="popup">
+        <EditProjectForm 
+          editingProject={editingProject}
+          onCloseForm={() => {
+            setShowEditProjectForm(false);
+            setEditingProject(null); // Reset editingContact when closing the form
+          }}
+          onEditProject={()=>{
+            setShowEditProjectForm(false);
+            setEditingProject(null); // Reset editingContact when closing the form
+            setProjectUpdated(true); // Set datainserted to true when data is successfully inserted
+          }}
+          />
+
+      </div>
+      )}
+     
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <div className="table-responsive" >
         <table className="table table-bordered table-striped table-sm ">
@@ -135,7 +174,7 @@ const ProjectDetails = () => {
              
             </tr>
           </thead>
-          <tbody style={{margin:"5rem"}}>
+          <tbody >
             {dataReceived && projectData.map((project,index) => (
               <tr key={project.Project_id}>
                 <td className="responsive-font" >
