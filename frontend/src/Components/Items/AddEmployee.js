@@ -106,8 +106,7 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
 
 
     return(
-        <div className="container-fluid" style={{ color: "black", margin: "10px" }}>
-        <h4>Add Employee</h4>
+        <div className="container-fluid userform">
         {showValidationMessage && (
           <div className="d-flex justify-content-center align-items-center">
             <p style={{ color: "red" }}>
@@ -127,12 +126,15 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
           className="d-flex justify-content-center align-items-center"
           style={{ minHeight: "50vh" }}
         >
-          <div className="card col-sm-12" style={{ paddingLeft: "1vw" }}>
+          <div className="card  form1">
+            <div className="d-flex justify-content-center mb-3">
+            <h4>Add Employee</h4>
+            </div>
             <form
               className="form-horizontal"
-              style={{ padding: "10px", fontFamily: "serif", fontWeight: "bold" }}
+              style={{ fontFamily: "serif", fontWeight: "bold" }}
             >
-              <div className="form-group row" style={{ padding: "10px" }}>
+              <div className="form-group row mb-3" >
                 <label
                   htmlFor="Group_Name"
                   className="control-label col-sm-4"
@@ -144,7 +146,7 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
                   <div className="dropdown">
                     <select
                       id="Group_Name"
-                      className="form-control dropdown-toggle"
+                      className="form-select"
                       value={newEmployee.Group_Name}
                       onChange={(e) =>
                         setNewEmployee({ ...newEmployee, Group_Name: e.target.value })
@@ -170,7 +172,7 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
               {!nameValid && (
                     <div className="invalid-feedback">Name is required.</div>
                   )}
-              <div className="form-group row" style={{ padding: "10px" }}>
+              <div className="form-group row mb-3">
                 <label htmlFor="Name" className="control-label col-sm-4">
                   Employee Name:
                   <span className="text-danger">*</span>
@@ -193,7 +195,7 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
               {!designationValid && (
                     <div className="invalid-feedback">Designation is required.</div>
                   )}
-              <div className="form-group row" style={{ padding: "10px" }}>
+              <div className="form-group row mb-3" >
                 <label htmlFor="Designation" className="control-label col-sm-4">
                   Designation:
                   <span className="text-danger">*</span>
@@ -215,7 +217,7 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
                 </div>
               </div>
               
-              <div className="form-group row" style={{ padding: "10px" }}>
+              <div className="form-group row mb-3">
                 <label htmlFor="Email" className="control-label col-sm-4">
                   Email:
                   <span className="text-danger">*</span>
@@ -241,7 +243,7 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
 )}
               </div>
             
-              <div className="form-group row" style={{ padding: "10px" }}>
+              <div className="form-group row mb-3">
                 <label htmlFor="Mobile" className="control-label col-sm-4">
                   Mobile:
                   <span className="text-danger">*</span>
@@ -270,7 +272,7 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
               </div>
               
              
-              <div className="form-group row" style={{ padding: "10px" }}>
+              <div className="form-group row mb-3">
                 <label htmlFor="Landline" className="control-label col-sm-4">
                   Office-Landline:
                 </label>
@@ -289,7 +291,7 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
                   />
                 </div>
               </div>
-              <div className="form-group row" style={{ padding: "10px" }}>
+              <div className="form-group row mb-3" >
                 <label htmlFor="Fax" className="control-label col-sm-4">
                   Location:
                 </label>
@@ -308,8 +310,7 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
                   />
                 </div>
               </div>
-              <div className="form-group row" style={{ padding: "10px" }}>
-                <div className="col-sm-offset-2 col-sm-12">
+                <div className="d-flex justify-content-center">
                   <Button
                     size="compact"
                     type="button"
@@ -327,7 +328,6 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
                     Save
                   </Button>
                 </div>
-              </div>
             </form>
           </div>
         </div>

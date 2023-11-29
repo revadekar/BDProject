@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import EmployeeForm from './AddEmployee';
+import { Button } from 'baseui/button';
 
 const EmployeeDetails = () => {
   const [employees, setEmployees] = useState(null);
@@ -29,7 +30,8 @@ const EmployeeDetails = () => {
 
   return (
     <div>
-      <button
+       <div className='my-2' style={{ marginRight: "0.5vw" }}>
+      <Button
         size='compact'
         style={{ backgroundColor: 'darkcyan' }}
         onClick={() => {
@@ -38,7 +40,8 @@ const EmployeeDetails = () => {
         }}
       >
         Add Employee
-      </button>
+      </Button>
+      </div>
       {showEmployeeForm && <EmployeeForm onAddEmployee={()=>{setShowEmployees(true); setShowEmployeeForm(false); setEmployeeAdded(true)}} onCloseForm={() => {setShowEmployees(true); setShowEmployeeForm(false)}}  />}
       {showEmployees && (
         <div style={{ color: 'black' }}>
@@ -60,7 +63,7 @@ const EmployeeDetails = () => {
                 employees.map((emp, index) => {
                   return (
                     <tr key={emp.Emp_id}>
-                      <td>{index + 1}</td>
+                      <td>{index + 1}.</td>
                       <td>{emp.Emp_id}</td>
                       <td>{emp.Employee_Name}</td>
                       <td>{emp.Designation}</td>
