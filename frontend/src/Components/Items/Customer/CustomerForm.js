@@ -145,7 +145,7 @@ const handleValidation=()=>{
     <form className='form-horizontal' style={{ fontFamily:"serif", fontWeight:"bold"}}>
       <div className='form-group row col-sm-12 mb-3' >
         <label htmlFor='custName' className='control-label col-sm-4 '>
-          Customer Name:
+          Company Name:
           <span className='text-danger'>*</span>
         </label>
         

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { styled } from 'baseui';
 import CustomerForm from './CustomerForm';
 import { Button } from 'baseui/button';
+import { FaPlus } from 'react-icons/fa';
 
 const CustomersComponent = () => {
   const [customerData, setCustomerData] = useState([]);
@@ -62,9 +63,10 @@ const CustomersComponent = () => {
       )}
       {showCustomers &&
       <>
-      <div className='d-flex justify-content-end my-2' style={{ marginRight: '2vw' }}>
-      <Button size='compact'  onClick={() => {setShowForm(true); setShowCustomers(false)}}>
-        Add Customer
+      <div className='d-flex justify-content-end my-2 form1' style={{ marginRight: '2vw' }}>
+      <Button  className='button'  onClick={() => {setShowForm(true); setShowCustomers(false)}}>
+        <FaPlus></FaPlus>
+        <span>&nbsp;</span> Add Customer
       </Button>
     </div>
       <div className='table-responsive'>
@@ -72,7 +74,7 @@ const CustomersComponent = () => {
         <thead>
           <tr>
             <th>S.No.</th>
-            <th>Customer Name</th>
+            <th>Company Name</th>
             <th>City</th>
             <th>State</th>
           </tr>

@@ -44,11 +44,13 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
  const validateFields=(e)=>{
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const designationRegex= /^[a-zA-Z ]+$/;
+  const nameRegex=/^[a-zA-Z ]+$/;
+  const mobileRegex=/^\d{10}$/;
   // Validate each required field
-  setNameValid(!!newContact.Name);
+  setNameValid(nameRegex.test(newContact.Name));
   setDesignationValid(designationRegex.test(newContact.Designation));
   setEmailValid(emailRegex.test(newContact.Email));
-  setMobileValid(newContact.Mobile && /^\d{10}$/.test(newContact.Mobile));
+  setMobileValid(newContact.Mobile && mobileRegex.test(newContact.Mobile));
  }
 
   const handleAddContact = () => {
@@ -115,14 +117,8 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
 
   return (
     <>
-      <div className="container-fluid userform"  style={{marginTop:"2rem"}}>
-        {showValidationMessage && (
-          <div className="d-flex justify-content-center align-items-center">
-            <p style={{ color: "red" }}>
-              Name, Email, Designation, and Mobile No are required
-            </p>
-          </div>
-        )}
+      <div className="container-fluid userform"  >
+        
         {showErrorMessage && (
           <div className="d-flex justify-content-center align-items-center">
             <p style={{ color: "red" }}>
@@ -131,10 +127,17 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
           </div>
         )}
         <div className="d-flex justify-content-center align-items-center">
-          <div className="card col-sm-12 form1" style={{maxWidth:"75vh"}} >
+          <div className="card form1">
             <div className="d-flex justify-content-center mb-3">
               <h3>Add Contact</h3>
             </div>
+            {showValidationMessage && (
+          <div className="d-flex justify-content-center align-items-center">
+            <p className="error-message">
+              Name, Email, Designation, and Mobile No are required
+            </p>
+          </div>
+        )}
             <form
               className="form-horizontal"
               style={{ fontFamily: "serif", fontWeight: "bold" }}
@@ -144,7 +147,7 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
                   htmlFor="Customer"
                   className="control-label col-sm-4"
                 >
-                  Customer Name:
+                  Company Name:
                   <span className="text-danger">*</span>
                 </label>
                 <div className="col-sm-8 mb-3">
@@ -160,7 +163,7 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
                     >
                       <option value="" disabled selected>
                         {" "}
-                        Select Customer
+                        Select Company
                       </option>
                       {customerData.map((customer, index) => (
                         <option
@@ -173,16 +176,15 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
                     </select>
                   </div>
                 </div>
+                
               </div>
-              {!nameValid && (
-                    <div className="invalid-feedback">Name is required.</div>
-                  )}
+              
               <div className="form-group row" >
                 <label htmlFor="Name" className="control-label col-sm-4">
                   Contact Person Name:
                   <span className="text-danger">*</span>
                 </label>
-                <div className="col-sm-8 mb-3">
+                <div className="col-sm-8 mb-4">
                   <input
                     type="text"
                     id="Name"
@@ -193,13 +195,14 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
                     }
                     required
                   />
-                 
+                 {!nameValid && (
+  <div className="d-flex justify-content-start align-items-center">
+    <p style={{ color: "red",marginLeft:"3rem",fontSize:"small"}}>Name is required and must be valid</p>
+  </div>
+)}
                 </div>
-
+                
               </div>
-              {!designationValid && !null && (
-                    <div className="invalid-feedback">Designation is required.</div>
-                  )}
               <div className="form-group row" >
                 <label htmlFor="Designation" className="control-label col-sm-4">
                   Designation:
@@ -219,6 +222,11 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
                     }
                     required
                   />
+                   {!designationValid && (
+  <div className="d-flex justify-content-start align-items-center">
+    <p style={{ color: "red",marginLeft:"3rem",fontSize:"small"}}>Designation is required and must be valid</p>
+  </div>
+)}
                 </div>
               </div>
               

@@ -130,7 +130,17 @@ const ContactDetails = () => {
     };
   return (
 <div className='container-fluid' style={{color:"black"}}> 
-  <div className='d-flex justify-content-between'>
+{showAddContactForm && (<ContactDetailsForm 
+     onCloseForm={() => {
+      setShowAddContactForm(false);
+      //setDataInserted(false); // Reset datainserted when closing the form
+    }}
+    onAddContact={() => {
+      setDataInserted(true); // Set datainserted to true when data is successfully inserted
+    }}
+    />
+    )}
+{!showAddContactForm && (<div><div className='d-flex justify-content-between'>
     <div className=' col-sm-6'>
       <form className='form-horizontal' style={{ padding: '10px' }}>
         <div className='form-group row'>
@@ -152,8 +162,9 @@ const ContactDetails = () => {
               </select>
             </div>
           </div>
-          <div className='col-sm-4'>
+          <div className='col-sm-4 form1'>
             <Button
+            className='button'
               size='compact'
               type='button'
               onClick={fetchContactDetails }
@@ -185,18 +196,6 @@ const ContactDetails = () => {
             <p style={{color:"red"}}>Sorry! There is a server error occurred</p>
         </div>
         )}
-
-      
-    {showAddContactForm && (<ContactDetailsForm 
-     onCloseForm={() => {
-      setShowAddContactForm(false);
-      //setDataInserted(false); // Reset datainserted when closing the form
-    }}
-    onAddContact={() => {
-      setDataInserted(true); // Set datainserted to true when data is successfully inserted
-    }}
-    />
-    )}
   
       
     {buttonClicked && (
@@ -204,10 +203,9 @@ const ContactDetails = () => {
           <table className='table table-bordered table-striped table-sm'>
             <thead>
               <tr>
-                <th>S.No.</th>
-                <th>Customer Name</th>
                 <th>Contact Person</th>
                 <th>Designation</th>
+                <th>Company Name</th>
                 <th>Email</th>
                 <th>Mobile</th>
                 <th>Landline</th>
@@ -218,10 +216,9 @@ const ContactDetails = () => {
             <tbody>
               {contactDetails.map((contact, index) => (
                 <tr key={index}>
-                  <td>{index+1}.</td>
-                  <td>{contact.Cust_name}</td>
                   <td>{contact.contact_person }</td>
                   <td>{contact.Designation}</td>
+                  <td>{contact.Cust_name}</td>
                   <td>{contact.Email_id}</td>
                   <td>{contact.Mobile }</td>
                   <td>{contact.Landline}</td>
@@ -237,9 +234,14 @@ const ContactDetails = () => {
           </table>
         </div>
       )}
+      
       {showEditContactForm && (
-        <EditContactDetails
-          // ... (other props)
+        <div className="popup">
+
+          <span className="close" onClick={() => setShowEditContactForm(false)}>
+            &times;
+          </span>
+          <EditContactDetails
           editingContact={editingContact}
           onCloseForm={() => {
             setShowEditContactForm(false);
@@ -252,7 +254,11 @@ const ContactDetails = () => {
 
           }}
         />
-      )}
+
+      </div>
+    )}
+       
+      
       {showErrorMessage && (
         <div className="d-flex justify-content-center align-items-center">
             <p style={{color:"red"}}>Unable to get contact details</p>
@@ -284,8 +290,9 @@ const ContactDetails = () => {
     </div>
   </div>
 )}
-
 </div>
+)}
+  </div>
   );
 };
 

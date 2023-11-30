@@ -68,10 +68,10 @@ const Sidebar = ({ open, setOpen, activeMenuItem, setActiveMenuItem,setShowFabar
           src={logo}
           alt="logo"
         />
-        Dashboard
+       P & SO Dashboard
       </Logo>
       <nav>
-        <ul className={css({ listStyle: 'none', padding: 0 })}>
+        <ul className={css({ listStyle: 'none', padding: 0,})}>
           {menuData.map(({ icon, title }, index) => (
             <li key={index}>
               <SideNavListItem >
@@ -119,7 +119,7 @@ const SidebarWrapper = styled('section', {
   top: '9vh',
   left: '0',
   width: '100%',
-  maxWidth: '32vh',
+  maxWidth: '15%',
   height: '100%',
   maxHeight:'91vh',
   background: '#363740',
@@ -131,7 +131,7 @@ const SidebarWrapper = styled('section', {
 });
 
 const Logo = styled('div', {
-  margin:'1rem',
+  margin:'2rem',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
