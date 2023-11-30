@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from "react";
 import { Button } from "react-bootstrap";
-import '../assets/popCss.css'
+import 'D:/BDProject/frontend/src/Components/assets/popup.css'
 
 const EditContactDetails = ({onCloseForm, onEditContact, editingContact}) => {
   const[showErrorMessage,setShowErrorMessage]=useState(false);
@@ -28,6 +28,7 @@ fetch('http://localhost:5000/getCustomers', {
           console.error('Error:', error);
         });
 },[])
+
 const handleCancel=()=>{
   onCloseForm();
   setShowErrorMessage(false);
@@ -112,7 +113,7 @@ const handleEditContact = () => {
         <form className='form-horizontal' style={{fontFamily:"serif", fontWeight:"bold"}}>
         <div className='form-group row mb-3' >
         <label htmlFor='Customer' className='control-label col-sm-4 '>
-        Customer Name:
+        Company Name:
         <span className='text-danger'>*</span>
         </label>
         <div className='col-sm-8'>

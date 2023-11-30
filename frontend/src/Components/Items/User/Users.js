@@ -1,6 +1,6 @@
 import { Button } from "baseui/button";
 import React, { useEffect, useState } from "react";
-import { FaPencilAlt, FaTrash } from "react-icons/fa";
+import { FaPencilAlt, FaPlus, FaTrash } from "react-icons/fa";
 import { UserForm } from "./UserForm";
 
 const Users = () => {
@@ -140,12 +140,12 @@ const Users = () => {
     <div id="user" className="container-fluid mt-4">
       {showUsers &&
       <div>
-      <div className="d-flex justify-content-between">
+      <div className="d-flex justify-content-between form1">
       <div className="d-flex justify-content-start mb-4">
         <h2>Users</h2>
       </div>
       <div className="d-flex justify-content-end mb-4">
-        <Button size="compact" onClick={handleAddClick}>Add User</Button>
+        <Button  className="button" onClick={handleAddClick}> <FaPlus></FaPlus> <span>&nbsp;</span>Add User</Button>
       </div>
       </div>
       {RoleChanged && (

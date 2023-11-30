@@ -68,7 +68,7 @@ const Sidebar = ({ open, setOpen, activeMenuItem, setActiveMenuItem,setShowFabar
           src={logo}
           alt="logo"
         />
-        Dashboard
+       P & SO Dashboard
       </Logo>
       <nav>
         <ul className={css({ listStyle: 'none', padding: 0,})}>

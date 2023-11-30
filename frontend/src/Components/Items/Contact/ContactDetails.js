@@ -162,8 +162,9 @@ const ContactDetails = () => {
               </select>
             </div>
           </div>
-          <div className='col-sm-4'>
+          <div className='col-sm-4 form1'>
             <Button
+            className='button'
               size='compact'
               type='button'
               onClick={fetchContactDetails }

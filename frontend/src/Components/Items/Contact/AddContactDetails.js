@@ -147,7 +147,7 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
                   htmlFor="Customer"
                   className="control-label col-sm-4"
                 >
-                  Customer Name:
+                  Company Name:
                   <span className="text-danger">*</span>
                 </label>
                 <div className="col-sm-8 mb-3">
@@ -163,7 +163,7 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
                     >
                       <option value="" disabled selected>
                         {" "}
-                        Select Customer
+                        Select Company
                       </option>
                       {customerData.map((customer, index) => (
                         <option

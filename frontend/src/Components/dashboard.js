@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { styled, useStyletron } from 'baseui';
 import Sidebar from './sidebar';
 import DashboardHeader from './dashboardHeader';
-import CustomersComponent from './Items/customers';
+import CustomersComponent from './Items/Customer/customers';
 import HomePage from './Items/HomePage';
-import ContactDetails from './Items/ContactDetails';
+import ContactDetails from './Items/Contact/ContactDetails';
 import Navbar from './Navbarr';
 import { Button } from 'baseui/button';
 import { FaBars } from 'react-icons/fa';
-import Profile from './Items/Profile';
-import Users from './Items/Users';
-import EmployeeDetails from './Items/EmployeeDetails';
+import Profile from './Items/User/Profile';
+import Users from './Items/User/Users';
+import EmployeeDetails from './Items/Employee/EmployeeDetails';
 import ProjectDetails from './Items/Project/ProjectDetails';
 import {Client as Styletron} from 'styletron-engine-atomic'
 import {Provider as StyletronProvider} from 'styletron-react';
@@ -44,7 +44,7 @@ const Dashboard = () => {
 
   return (
 
-      <DashboardWrapper className={ css({ paddingLeft: open ? '285px' : '0' })}>
+     <DashboardWrapper className={`Dashboard ${css({ paddingLeft: open ? '285px' : '0' })}`}>
       <Navbar setActiveMenuItem={setActiveMenuItem} />
       {open && <div ><Sidebar  open={open} setOpen={setOpen} setActiveMenuItem={setActiveMenuItem} setShowFabar={setShowFabar} /></div> }
       {showFabar &&<Button style={{position:"fixed"}} variant='outline-primary' onClick={() => setOpen(!open) }>
@@ -64,6 +64,7 @@ export default Dashboard;
 
 const DashboardWrapper = styled('section', {
   display: 'flex',
+  background: 'rgb(14, 151, 105)', // Set your desired background color here
   flexDirection: 'column',
   alignItems: 'flex-start',
   backgroundColor: 'white',

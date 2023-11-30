@@ -5,6 +5,7 @@
   min-height: 100vh;
   align-items: center;
   justify-content: center;
+  background-color:rgba(255, 255, 255, 0.123)
   /* overflow: hidden; */
 }
 /* CSS file */
@@ -28,7 +29,8 @@
 .table thead th{
   position: sticky;
   top: 0;
-  background-color:rgb(235, 149, 209);
+  background-color: rgb(168, 166, 166);
+  color: rgba(0, 0, 0, 0.822);
 
 
 
@@ -73,21 +75,42 @@
 
 .userform .form1 {
   /* Add your styles here for the card class */
-  border-radius: 1rem;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 0.5rem;
+  /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1); */
   padding: 1.5rem;
   /* margin: 20px; */
-  background-color: rgb(235, 235, 235);
+  background-color: rgba(255, 255, 255, 0.904);
   text-align: start;
   padding: 2rem;
   max-width: 80vh;
 }
 .userform .form1 select,
 .userform .form1 input {
-  background-color: rgba(150, 207, 230, 0.3); /* Adjust the alpha value (0.5 for 50% opacity) */
-  border: 1px ridge black;
+  background-color: rgba(217, 231, 236, 0.192); /* Adjust the alpha value (0.5 for 50% opacity) */
+  /* border: 1px ridge rgb(226, 221, 221); */
 }
 .error-message{
-  color: red;
-
+  color: red;  
 }
+/* Style for the button inside .form1 */
+.form1 .button {
+  background-color: rgba(0, 0, 0, 0.13);
+  border: none;
+  color: rgba(0, 0, 0, 0.678);
+  padding: 0.6rem;
+}
+
+/* Style for the button inside .form1 when hovering */
+.form1 .button:hover {
+  background-color: rgba(85, 83, 83, 0.438);
+  /* color: white; */
+}
+.Dashboard {
+  background: rgb(14, 151, 106);
+}
+
+
+/* Style for the button inside .form1 when clicked (active)
+.form1 .button:active {
+  background-color: rgba(112, 73, 73, 0.863);
+} */
