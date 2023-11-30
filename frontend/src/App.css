@@ -78,6 +78,7 @@
   background-color: rgb(235, 235, 235);
   text-align: start;
 }
+
 .card {
   width: 80%;
   margin-left: auto;
@@ -92,4 +93,9 @@
 .error-message{
   color: red;
 
+}
+
+
+.error-message{
+  color: red;
 }

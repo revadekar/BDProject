@@ -56,6 +56,7 @@ const EmployeeDetails = () => {
                 <th>Office Landline</th>
                 <th>Location</th>
                 <th>Group Name</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
