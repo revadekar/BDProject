@@ -3,15 +3,19 @@ import { styled } from 'baseui';
 import CustomerForm from './CustomerForm';
 import { Button } from 'baseui/button';
 import { FaPlus } from 'react-icons/fa';
+import { ChevronDown } from 'baseui/icon';
 
 const CustomersComponent = () => {
   const [customerData, setCustomerData] = useState([]);
   const [showForm, setShowForm] = useState(false); // State to control the visibility of the form
   const [datainserted, setDataInserted]=useState(false);
   const [showCustomers, setShowCustomers]=useState(true);
+  // State to keep track of selected customers
+  const [selectedCustomers, setSelectedCustomers] = useState([]);
+  const [dataDeleted,setDataDeleted]=useState(false);
 
   useEffect(() => {
-    async function fetchCustomerData() {
+    const fetchCustomerData = async () => {
       try {
         const response = await fetch('http://localhost:5000/getCustomers', {
           method: 'GET',
@@ -28,9 +32,47 @@ const CustomersComponent = () => {
       } catch (error) {
         console.error('Error:', error);
       }
-    }
+    };
+  
     fetchCustomerData();
-  }, [showForm, datainserted]);
+  }, [showForm, datainserted, dataDeleted]); // Trigger fetch on dataDeleted change
+
+
+   // Function to handle selection or deselection of customers
+   const handleSelectCustomer = (index) => {
+    const isSelected = selectedCustomers.includes(index);
+    setSelectedCustomers((prevSelected) =>
+      isSelected
+        ? prevSelected.filter((item) => item !== index)
+        : [...prevSelected, index]
+    );
+  };
+   // Function to delete selected customers
+   const deleteSelectedCustomers = async () => {
+    try {
+      const selectedCustomerIds = selectedCustomers.map(
+        (index) => customerData[index].Cust_id
+      );
+  
+      const response = await fetch('http://localhost:5000/deleteCustomers', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ids: selectedCustomerIds }),
+      });
+  
+      if (response.ok) {
+        setSelectedCustomers([]); // Clear selected customers after deletion
+        setDataDeleted(true);
+      } else {
+        console.error('Error:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+  
 
   useEffect(() => {
     // Use setTimeout to reset datainserted after a delay
@@ -63,33 +105,64 @@ const CustomersComponent = () => {
       )}
       {showCustomers &&
       <>
-      <div className='d-flex justify-content-end my-2 form1' style={{ marginRight: '2vw' }}>
-      <Button  className='button'  onClick={() => {setShowForm(true); setShowCustomers(false)}}>
-        <FaPlus></FaPlus>
-        <span>&nbsp;</span> Add Customer
+  <div className='d-flex justify-content-between'>
+  {/* Button to delete selected customers */}
+  {selectedCustomers.length > 0 && (
+    <div className='d-flex justify-content-start my-2 form1'>
+      <Button className='button' onClick={deleteSelectedCustomers}>
+        Delete Selected Customers
       </Button>
     </div>
+  )}
+
+  {/* Spacer to push buttons apart */}
+  <div style={{ flex: 1 }}></div>
+
+  {/* Button to add a new customer */}
+  <div className='d-flex justify-content-end my-2 form1' style={{ marginRight: '1vw' }}>
+    <Button  className='button'  onClick={() => {setShowForm(true); setShowCustomers(false)}}>
+      <FaPlus></FaPlus>
+      <span>&nbsp;</span> Add Customer
+    </Button>
+  </div>
+</div>
+
       <div className='table-responsive'>
       <table className="table table-bordered table-striped table-lg">
-        <thead>
-          <tr>
-            <th>S.No.</th>
-            <th>Company Name</th>
-            <th>City</th>
-            <th>State</th>
-          </tr>
-        </thead>
-        <tbody>
-          {customerData.map((customer, index) => (
-            <tr key={index}>
-              <td>{index+1}.</td>
-              <td>{customer.Cust_name}</td>
-              <td>{customer.City}</td>
-              <td>{customer.State}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+  <thead>
+    <tr>
+      <th> 
+        <div className='d-flex align-items-center'>
+          <div className='form-check'>
+            <input id='selectAll' className='form-check-input' type='checkbox' />
+            <label htmlFor='selectAll'><ChevronDown size={'20px'}/></label>
+            </div>
+        </div>
+      </th>
+      <th>S.No.</th>
+      <th>Company Name</th>
+      <th>City</th>
+      <th>State</th>
+      <th>Country</th>
+      <th>Website</th>
+    </tr>
+  </thead>
+  <tbody>
+    {customerData.map((customer, index) => (
+      <tr key={index}>
+        <td><input className='form-check-input' type='checkbox' onClick={() => handleSelectCustomer(index)} checked={selectedCustomers.includes(index)}/>
+        </td>
+        <td>{index + 1}.</td>
+        <td>{customer.Cust_name}</td>
+        <td>{customer.City}</td>
+        <td>{customer.State}</td>
+        <td>{customer.country}</td>
+        <td><a href={customer.Website} target='_blank' rel='noopener noreferrer'>{customer.Website}</a></td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
       </div></>}
     </CustomersComponentWrapper>
   );

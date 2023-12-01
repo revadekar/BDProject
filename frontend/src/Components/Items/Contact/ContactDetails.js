@@ -2,7 +2,7 @@ import { Button } from 'baseui/button';
 import React, { useCallback, useEffect, useState } from 'react';
 import ContactDetailsForm from './AddContactDetails';
 import EditContactDetails from './EditContactDetails';
-import { FaPencilAlt, FaTrash } from 'react-icons/fa';
+import { FaPencilAlt, FaPlus, FaTrash } from 'react-icons/fa';
 //import {useNavigate } from 'react-router-dom';
 
 const ContactDetails = () => {
@@ -140,9 +140,11 @@ const ContactDetails = () => {
     }}
     />
     )}
-{!showAddContactForm && (<div><div className='d-flex justify-content-between'>
-    <div className=' col-sm-6'>
-      <form className='form-horizontal' style={{ padding: '10px' }}>
+{!showAddContactForm && (
+<div>
+  <div className='d-flex justify-content-between'>
+    <div className='d-flex justify-content-start'>
+      <form className='form-horizontal'>
         <div className='form-group row'>
           <div className='col-sm-8'>
             <div className='dropdown'>
@@ -165,7 +167,6 @@ const ContactDetails = () => {
           <div className='col-sm-4 form1'>
             <Button
             className='button'
-              size='compact'
               type='button'
               onClick={fetchContactDetails }
             >
@@ -176,17 +177,17 @@ const ContactDetails = () => {
       </form>
     </div>
 
-    <div className='my-2' style={{ marginRight: "0.5vw" }}>
+    <div className='d-flex justify-content-end form1' >
   <Button
-    size='compact'
     className='button'
+    type='button'
     onClick={() => {
       setShowEditContactForm(false);
       setShowAddContactForm(true);
       setButtonClicked(false);
     }}
   >
-    Add Contact Details
+    <FaPlus></FaPlus>&nbsp; Add Contact Details
   </Button>
 </div>
 
@@ -199,7 +200,7 @@ const ContactDetails = () => {
   
       
     {buttonClicked && (
-        <div className='table-responsive' style={{marginRight:"0.5vw" ,marginTop:"1vw"}}>
+        <div className='table-responsive' style={{marginTop:"2vh"}}>
           <table className='table table-bordered table-striped table-sm'>
             <thead>
               <tr>

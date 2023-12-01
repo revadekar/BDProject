@@ -145,14 +145,14 @@ app.get('/getCustomers', (req, res) => {
   });
 });
 app.post('/addCustomer', (req, res) => {
-  const { Cust_name, Address, City, State, Country } = req.body;
+  const { Cust_name, Address, City, State, Country,Website } = req.body;
 
   // Validate the data here if needed
 
-  const query = `INSERT INTO customer_detail (Cust_name, Address, City, State, Country)
-                 VALUES (?, ?, ?, ?, ?)`;
+  const query = `INSERT INTO customer_detail (Cust_name, Address, City, State, Country,Website)
+                 VALUES (?, ?, ?, ?, ?,?)`;
 
-  db.query(query, [Cust_name, Address, City, State, Country], (err, result) => {
+  db.query(query, [Cust_name, Address, City, State, Country,Website], (err, result) => {
     if (err) {
       console.error('Error:', err);
       res.status(500).json({ error: 'Error inserting data' });
@@ -162,6 +162,24 @@ app.post('/addCustomer', (req, res) => {
     }
   });
 });
+
+// Endpoint to delete customers by IDs
+app.delete('/deleteCustomers', (req, res) => {
+  const { ids } = req.body;
+  const query = 'DELETE FROM customer_detail WHERE Cust_id IN (?)'; // Use a single placeholder for the array
+
+  db.query(query, [ids], (err, result) => { // Wrap 'ids' in an array to pass it as a single value
+    if (err) {
+      console.error('Error:', err);
+      res.status(500).json({ error: 'Error deleting customers', message: err.message });
+    } else {
+      console.log({'Customer Details deleted successfully':result,DeletedCustomers:ids});
+      res.status(201).json({ message: 'Customers Details deleted successfully' });
+    }
+  });
+});
+
+
 app.post('/addContact', (req, res) => {
   const { contact_person, Designation, Email_id, Mobile, Landline,Fax, Cust_id } = req.body;
 
@@ -180,6 +198,46 @@ app.post('/addContact', (req, res) => {
     }
   });
 });
+
+
+
+app.post('/editContact', (req, res) => {
+  const { contact_person, Designation, Email_id, Mobile, Landline,Fax, contact_id } = req.body;
+
+  // Validate the data here if needed
+
+  const query = `update contact_details
+  set contact_person=?,designation=?,Email_id=?,mobile=?, landline=?,fax=? where contact_id=?`;
+
+  db.query(query, [contact_person, Designation, Email_id, Mobile, Landline,Fax, contact_id], (err, result) => {
+    if (err) {
+      console.error('Error:', err);
+      res.status(500).json({ error: 'Error updating data' });
+    } else {
+      console.log('Contact Details updated successfully');
+      res.status(201).json({ message: 'Contact Details updated successfully' });
+    }
+  });
+});
+
+
+app.delete('/deleteContact', (req, res) => {
+  const { contact_id } = req.body;
+  console.log(contact_id);
+  const query = 'DELETE FROM contact_details WHERE contact_id = ?';
+
+  db.query(query, contact_id, (err, result) => {
+    if (err) {
+      console.error('Error:', err);
+      res.status(500).json({ error: 'Error deleting data', message: err.message });
+    } else {
+      console.log('Contact Details deleted successfully');
+      res.status(201).json({ message: 'Contact Details deleted successfully' });
+    }
+  });
+});
+
+
 app.post('/getContactDetails',(req,res)=>{
   const{selectedCustomer}=req.body;
   console.log('selected customer',selectedCustomer);
@@ -232,40 +290,6 @@ app.get('/getUsers',(req,res)=>{
   });
 })
 
-app.post('/editContact', (req, res) => {
-  const { contact_person, Designation, Email_id, Mobile, Landline,Fax, contact_id } = req.body;
-
-  // Validate the data here if needed
-
-  const query = `update contact_details
-  set contact_person=?,designation=?,Email_id=?,mobile=?, landline=?,fax=? where contact_id=?`;
-
-  db.query(query, [contact_person, Designation, Email_id, Mobile, Landline,Fax, contact_id], (err, result) => {
-    if (err) {
-      console.error('Error:', err);
-      res.status(500).json({ error: 'Error updating data' });
-    } else {
-      console.log('Contact Details updated successfully');
-      res.status(201).json({ message: 'Contact Details updated successfully' });
-    }
-  });
-});
-
-app.delete('/deleteContact', (req, res) => {
-  const { contact_id } = req.body;
-  console.log(contact_id);
-  const query = 'DELETE FROM contact_details WHERE contact_id = ?';
-
-  db.query(query, contact_id, (err, result) => {
-    if (err) {
-      console.error('Error:', err);
-      res.status(500).json({ error: 'Error deleting data', message: err.message });
-    } else {
-      console.log('Contact Details deleted successfully');
-      res.status(201).json({ message: 'Contact Details deleted successfully' });
-    }
-  });
-});
 
 
 app.post('/editUser', (req, res) => {

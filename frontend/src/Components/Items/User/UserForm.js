@@ -160,7 +160,7 @@ const handleCancelClick=async(e)=>{
           <form className="form-horizontal" onSubmit={handleSubmit}>
             <div className="form-group row mb-4" >
               <label htmlFor="role" className="control-label col-sm-4">
-                <h6>Role:</h6>
+                Role:
               </label>
               <div className="col-sm-8 ">
               <select
@@ -185,7 +185,7 @@ const handleCancelClick=async(e)=>{
             </div>
             <div className="form-group row mb-4"  >
               <label htmlFor="name" className="control-label col-sm-4">
-                <h6>Full Name:</h6>
+                Full Name:
               </label>
               <div className="col-sm-8 ">
               <input
@@ -202,7 +202,7 @@ const handleCancelClick=async(e)=>{
 
             <div className=" form-group row mb-4" >
               <label htmlFor="username" className="control-label col-sm-4">
-                <h6>User Name:</h6>
+                User Name:
               </label>
               <div className="col-sm-8 ">
               <input
@@ -219,7 +219,7 @@ const handleCancelClick=async(e)=>{
 
             <div className=" form-group row mb-4" >
               <label htmlFor="password" className="control-label col-sm-4">
-                <h6>Password:</h6>
+                Password:
               </label>
               <div  className="col-sm-8 ">
               <input
@@ -235,9 +235,9 @@ const handleCancelClick=async(e)=>{
               </div>
             </div>
 
-            <div className="form-group row mb-4" >
+            <div className="form-group row " >
               <label htmlFor="confirmPassword" className="control-label col-sm-4">
-                <h6>Confirm Password:</h6>
+                Confirm Password:
               </label>
               <div  className="col-sm-8 ">
               <input
@@ -259,11 +259,9 @@ const handleCancelClick=async(e)=>{
             </p>
               </div>
             </div>
-
-            
-            <div className="d-flex justify-content-center" >
-              <Button className="btn btn-primary" size="sm" type="submit" >Submit</Button>
-              <Button className="btn btn-danger" size="sm" type="button" onClick={handleCancelClick} style={{marginLeft: "1rem"}} >Cancel</Button>
+            <div className="d-flex justify-content-center form1" >
+              <Button className="btn btn-primary flat-button  "  type="submit" >Submit</Button>
+              <Button className="btn btn-danger flat-button"  type="button" onClick={handleCancelClick} style={{marginLeft: "1rem"}} >Cancel</Button>
             </div>
           </form>
           </div>

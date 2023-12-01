@@ -110,7 +110,7 @@ const handleEditContact = () => {
           <h4>Edit Contact</h4>
           </div>
 
-        <form className='form-horizontal' style={{fontFamily:"serif", fontWeight:"bold"}}>
+        <form className='form-horizontal'>
         <div className='form-group row mb-3' >
         <label htmlFor='Customer' className='control-label col-sm-4 '>
         Company Name:
@@ -241,7 +241,7 @@ const handleEditContact = () => {
           />
         </div>
         </div>
-        <div className='form-group row mb-3' >
+        <div className='form-group row mb-4' >
         <label htmlFor='Fax' className='control-label col-sm-4'>
           Fax:
         </label>
@@ -259,14 +259,14 @@ const handleEditContact = () => {
         </div>
         <div className='d-flex justify-content-center' >
         <Button
-        size='sm'
+        className="flat-button"
         type='button'
         onClick={handleEditContact}
         >
         Save
         </Button>
         <Button
-        className="btn btn-danger"
+        className="flat-button btn btn-danger"
         size='sm'
         type='button'
         style={{marginLeft:"1rem"}}

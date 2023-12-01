@@ -140,7 +140,6 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
         )}
             <form
               className="form-horizontal"
-              style={{ fontFamily: "serif", fontWeight: "bold" }}
             >
               <div className="form-group row" >
                 <label
@@ -309,7 +308,7 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
                 <label htmlFor="Fax" className="control-label col-sm-4">
                   Fax:
                 </label>
-                <div className="col-sm-8 mb-3">
+                <div className="col-sm-8 mb-4">
                   <input
                     type="tel"
                     id="Fax"
@@ -327,17 +326,17 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
                 <div className="d-flex justify-content-center">
                  
                   <Button
-                    size="sm"
+                    className="flat-button"
                     type="button"
                     onClick={handleAddContact}
                   >
-                    Save
+                    Submit
                   </Button>
                   <Button
-                  className="btn btn-danger"
+                  className="flat-button btn btn-danger"
                     size="sm"
                     type="button"
-                    style={{marginLeft: "10px" }}
+                    style={{marginLeft: "1rem" }}
                     onClick={handleCancel}
                   >
                     Cancel
