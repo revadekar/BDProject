@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import EmployeeForm from './AddEmployee';
 import { Button } from 'baseui/button';
-
+import { FaPencilAlt, FaTrash } from 'react-icons/fa';
 const EmployeeDetails = () => {
   const [employees, setEmployees] = useState(null);
   const [showEmployeeForm, setShowEmployeeForm] = useState(false);
@@ -72,6 +72,7 @@ const EmployeeDetails = () => {
                       <td>{emp.Office_landline}</td>
                       <td>{emp.Location}</td>
                       <td>{emp.Group_Name}</td>
+                      <td><FaPencilAlt style={{cursor: 'pointer'}} /><span>&nbsp;&nbsp;&nbsp;</span><FaTrash style={{cursor: 'pointer'}}/></td>
                     </tr>
                   );
                 })}
