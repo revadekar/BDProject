@@ -315,6 +315,22 @@ app.get('/getGroups',(req,res)=>{
   })
 })
 
+app.get('/getDesignation',(req,res)=>{
+  const query='select * from designation';
+  db.query(query,(error,result)=>{
+    if(error){
+      console.error('Error',error);
+      res.status(500).json({error:'Error getting designations'});
+    }else
+    {
+      console.log(result);
+      console.log('designation details fetched successfully');
+      res.status(201).json(result);
+    }
+  })
+})
+
+
 app.post('/addEmployee',(req,res)=>{
   const { Group_id,Employee_Name,Designation,Email,Mobile,Office_landline,Location } = req.body;
 console.log(req.body);
