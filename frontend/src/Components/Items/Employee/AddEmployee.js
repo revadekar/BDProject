@@ -124,9 +124,9 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
 
         <div
           className="d-flex justify-content-center align-items-center"
-          style={{ minHeight: "50vh" }}
+          
         >
-          <div className="card  form1">
+          <div className="card col-sm-5 form1">
             <div className="d-flex justify-content-center mb-3">
             <h4>Add Employee</h4>
             </div>
