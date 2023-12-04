@@ -1,6 +1,5 @@
 import React, { useState,useEffect } from "react";
-import { Button, ButtonGroup } from "react-bootstrap";
-import '/Users/Admin/Desktop/BDProject/frontend/src/Components/assets/popup.css'
+import { Button } from "react-bootstrap";
 
 const EditEmployee=({onCloseForm,onEditEmployee,EditingEmployee})=>{
     const [newEmployee,setNewEmployee]=useState(EditingEmployee);

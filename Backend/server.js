@@ -163,6 +163,25 @@ app.post('/addCustomer', (req, res) => {
   });
 });
 
+app.post('/editCustomer', (req, res) => {
+  const { updatedCustomerData } = req.body;
+  const { Cust_id, ...customerDetails } = updatedCustomerData;
+
+  const query = `UPDATE customer_detail SET ? WHERE Cust_id = ?`;
+
+  db.query(query, [customerDetails, Cust_id], (err, result) => {
+    if (err) {
+      console.error('Error:', err);
+      res.status(500).json({ error: 'Error editing customer', message: err.message });
+    } else {
+      console.log('Customer Details updated successfully', result);
+      res.status(201).json({ message: 'Customer Details updated successfully' });
+    }
+  });
+});
+
+
+
 // Endpoint to delete customers by IDs
 app.delete('/deleteCustomers', (req, res) => {
   const { ids } = req.body;
