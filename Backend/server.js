@@ -377,7 +377,7 @@ app.get('/getDesignation',(req,res)=>{
 app.post('/addEmployee',(req,res)=>{
   const { Group_id,Employee_Name,Designation,Email,Mobile,Office_landline,Location } = req.body;
 console.log(req.body);
-  const query = `INSERT INTO employee_details (Group_id,Employee_Name, Designation, Email,Office_landline, Mobile, Location)
+  const query = `INSERT INTO employee_details (Group_id,Employee_Name, Desig_Code, Email,Office_landline, Mobile, Location)
                  VALUES (?, ?, ?, ?, ?,?,?)`;
 
                  db.query(query, [Group_id,Employee_Name, Designation, Email,Office_landline, Mobile, Location], (err, result) => {
@@ -406,6 +406,25 @@ app.get('/getEmployees',(req,res)=>{
     }
   })
 })
+
+app.post('/editEmployee', (req, res) => {
+  const { Emp_id,desig_name, Email, Mobile,Office_landline,Location} = req.body;
+
+  // Validate the data here if needed
+
+  const query = `update employee_details
+  set desig_name=?,Email=?,mobile=?, Office_landline=?,fax=? where Emp_id=?`;
+
+  db.query(query, [Emp_id, desig_name, Email, Mobile, Office_landline,Location], (err, result) => {
+    if (err) {
+      console.error('Error:', err);
+      res.status(500).json({ error: 'Error updating data' });
+    } else {
+      console.log('Contact Details updated successfully');
+      res.status(201).json({ message: 'employee Details updated successfully' });
+    }
+  });
+});
 
 app.get('/getProjects',(req,res)=>{
   const query='select * from projects';
