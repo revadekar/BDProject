@@ -82,7 +82,7 @@ const EmployeeDetails = () => {
                       <td>{index + 1}.</td>
                       <td>{emp.Emp_id}</td>
                       <td>{emp.Employee_Name}</td>
-                      <td>{emp.desig_name}</td>
+                      <td>{emp.Designation}</td>
                       <td>{emp.Email}</td>
                       <td>{emp.Office_landline}</td>
                       <td>{emp.Location}</td>

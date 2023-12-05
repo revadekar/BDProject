@@ -1,6 +1,5 @@
 import React, { useState,useEffect } from "react";
 import { Button } from "react-bootstrap";
-import '/Users/Admin/Desktop/BDProject/frontend/src/Components/assets/popup.css'
 
 const EditContactDetails = ({onCloseForm, onEditContact, editingContact}) => {
   const[showErrorMessage,setShowErrorMessage]=useState(false);
