@@ -41,7 +41,7 @@ const ProjectDetails = () => {
         console.error('Error:', error);
         setError('An error occurred while fetching data. Please try again later.');
       });
-  }, []);
+  }, [projectUpdated]);
 
   useEffect(() => {
     // When projectData changes, update checkbox states

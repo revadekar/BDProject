@@ -11,25 +11,52 @@ const CustomerForm = ({ onCloseForm, onAddCustomer }) => {
    const[selectedState,setSelectedState]=useState('');
    const[states,setStates]=useState([]);
    const[cities,setCities]=useState([]);
-   const[isNameValid,setIsNameValid]=useState(null);
-   const[isAddressValid, setIsAddressValid]=useState(null);
+   const[isNameValid,setIsNameValid]=useState(false);
+   const[isAddressValid, setIsAddressValid]=useState(false);
+   const [isWebsiteValid, setIsWebsiteValid] = useState(false);
+
    const [newCustomer, setNewCustomer] = useState({
       Cust_name: '',
       Address: '',
       City: '',
       State: '',
       Country: '',
+      Website: 'https://',
     });
     //const [showSuccessMessage, setShowSuccessMessage] = useState(false); // State to control the success message
    
-const handleValidation=()=>{
-  setShowErrorMessage(false);
-  const nameRegex=/^[a-zA-Z ]+$/;
-  const addressRegex = /^(?:[a-zA-Z][^a-zA-Z]*){5,}$/;
-  setIsNameValid(nameRegex.test(newCustomer.Cust_name)) ;
-  setIsAddressValid(addressRegex.test(newCustomer.Address));
+    const handleValidation = () => {
+      setShowErrorMessage(false);
+    
+      const nameRegex = /^[a-zA-Z ]+$/;
+      const addressRegex = /^(?:[a-zA-Z][^a-zA-Z]*){5,}$/;
+      const websiteRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,})([/\w .-]*)*\/?$/;
 
-}
+    
+      const isNameValid = nameRegex.test(newCustomer.Cust_name);
+      const isAddressValid = addressRegex.test(newCustomer.Address);
+      const isWebsiteValid = websiteRegex.test(newCustomer.Website);
+    
+      setIsNameValid(isNameValid);
+      setIsAddressValid(isAddressValid);
+      setIsWebsiteValid(isWebsiteValid);
+    
+      if (!isNameValid) {
+        setErrorMessage('*Name is not valid');
+        return false;
+      }
+      if (!isAddressValid) {
+        setErrorMessage('*Address is not valid');
+        return false;
+      }
+      if (!isWebsiteValid) {
+        setErrorMessage('*Website is not valid');
+        return false;
+      }
+    
+      return true; // All validations passed
+    };
+    
     //const [dataInserted, setDataInserted]=useState(datainserted);
    const handleCancel=()=>{
     onCloseForm();
@@ -72,19 +99,16 @@ const handleValidation=()=>{
       console.error('Error:', error);
     })
    },[selectedCountry])
+
+
     const handleAddCustomer = () => {
-      handleValidation();
-      // Check if all fields are filled
-      if(!isNameValid){
-        setErrorMessage('Name is not valid');
-        return;
-      }
-      if(!isAddressValid){
-        setErrorMessage('Address is not valid');
-        return;
+      if(!handleValidation()){
+        return
       }
 
-      if (isNameValid && isAddressValid && newCustomer.City && newCustomer.State) {
+      if (isNameValid && isAddressValid && isWebsiteValid && newCustomer.City && newCustomer.State ) {
+        setErrorMessage('');
+        setShowErrorMessage(false);
         // Create a new customer object
         const customer = {
           Cust_name: newCustomer.Cust_name,
@@ -92,33 +116,36 @@ const handleValidation=()=>{
           City: newCustomer.City,
           State: newCustomer.State,
           Country: newCustomer.Country,
+          Website: newCustomer.Website,
         };
   
         // Send a request to your server to add the new customer
         fetch('http://localhost:5000/addCustomer', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(customer),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            // Handle the response from your server, you can update your state or perform any necessary actions
-            // For example, you can call `onAddCustomer` to add the new customer to your state
-            setErrorMessage('');
-           onAddCustomer();
-           //setDataInserted(true);
+           'Content-Type': 'application/json',
+               },
+              body: JSON.stringify(customer),
+                })
+          .then((response) => {
+           if (response.ok) {
+           return response.json(); // Parse response body as JSON
+             } else {
+            throw new Error('Failed to add customer'); // Throw an error for failed request
+           }
+             })
+            .then((data) => {
+             // Handle the response data here
+          setErrorMessage('');
+            onAddCustomer();
            onCloseForm();
-            // setShowSuccessMessage(true); // Show the success message
-            // setTimeout(() => {
-            //   setShowSuccessMessage(false); // Hide the success message after 5 seconds
-            // }, 5000);
-          })
-          .catch((error) => {
-            console.error('Error:', error);
-          });
-      } else {
+                // Perform further actions if needed
+               })
+           .catch((error) => {
+           console.error('Error:', error);
+           // Handle error: Show error message, perform rollback actions, etc.
+            });
+           } else {
         // Handle validation or show an error message
         setErrorMessage('');
         setShowErrorMessage(true);
@@ -127,26 +154,26 @@ const handleValidation=()=>{
     };
   
   return (
-    <div className='container-fluid userform' style={{color:"black", padding:"10px"}}>
-      {(!isNameValid || !isAddressValid) &&(<p className='error-message'>{errorMessage}</p>)}
-    {showErrorMesage && (
-        <div className="d-flex justify-content-center align-items-center">
-            <p style={{color:"red"}}>Please fill in all fields.</p>
+    <div className='container-fluid userform' >
+
+      <div className="d-flex justify-content-center align-items-center" >
+        
+    <div  className='card col-sm-6 form1 ' >
+      <div className="d-flex justify-content-center align-items-center mb-3 ">
+      <h3 className=''>Add Customer</h3>
+      </div>
+      {showErrorMesage && (
+        <div className="error-message " >
+            <p style={{color:"red"}}>*Please fill in all fields.</p>
         </div>
       )}
-
-      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '50vh'}}>
-        
-    <div  className='card col-sm-6 form1 ' style={{padding:"2rem"}}>
-      <div className="d-flex justify-content-center align-items-center mb-3">
-      <h3>Add Customer</h3>
-      </div>
-
-    <form className='form-horizontal' style={{ fontFamily:"serif", fontWeight:"bold"}}>
+      {errorMessage &&(<p className='error-message'>{errorMessage}</p>)}
+     
+    <form className='form-horizontal' >
       <div className='form-group row col-sm-12 mb-3' >
         <label htmlFor='custName' className='control-label col-sm-4 '>
+        <span className='text-danger'>*</span>
           Company Name:
-          <span className='text-danger'>*</span>
         </label>
         
         <div className='col-sm-8'>
@@ -155,16 +182,17 @@ const handleValidation=()=>{
             id='custName'
             className='form-control'
             value={newCustomer.Cust_name}
-            onChange={(e) =>
+            onChange={(e) =>{
+              handleValidation();
               setNewCustomer({ ...newCustomer, Cust_name: e.target.value })
-            }
+            }}
           />
         </div>
       </div>
       <div className='form-group row col-sm-12 mb-3' >
         <label htmlFor='Address' className='control-label col-sm-4'>
-          Address:
-          <span className='text-danger'>*</span>
+        <span className='text-danger '>*</span>
+         Company Address:
         </label>
         <div className='col-sm-8'>
           <input
@@ -172,16 +200,38 @@ const handleValidation=()=>{
             id='Address'
             className='form-control'
             value={newCustomer.Address}
-            onChange={(e) =>
+            onChange={(e) =>{
+              handleValidation();
               setNewCustomer({ ...newCustomer, Address: e.target.value })
+            }
+             
+            }
+          />
+        </div>
+      </div>
+      <div className='form-group row col-sm-12 mb-3' >
+        <label htmlFor='Website' className='control-label col-sm-4'>
+        <span className='text-danger'>*</span>
+         Company Website:
+        </label>
+        <div className='col-sm-8'>
+          <input
+            type='text'
+            id='Website'
+            className='form-control'
+            value={ `${newCustomer.Website}`}
+            onChange={(e) =>{
+              setNewCustomer({ ...newCustomer, Website: e.target.value })
+            }
+              
             }
           />
         </div>
       </div>
       <div className='form-group row col-sm-12 mb-3'>
         <label htmlFor='country' className='control-label col-sm-4'>
+        <span className='text-danger'>*</span>
           Country:
-          <span className='text-danger'>*</span>
         </label>
         <div className='col-sm-8'>
         <select
@@ -201,8 +251,8 @@ const handleValidation=()=>{
       </div>
       <div className='form-group row col-sm-12 mb-3' >
         <label htmlFor='state' className='control-label col-sm-4'>
+        <span className='text-danger'>*</span>
           State:
-          <span className='text-danger'>*</span>
         </label>
         <div className='col-sm-8'>
         <select
@@ -211,7 +261,7 @@ const handleValidation=()=>{
   value={newCustomer.State}
   onChange={(e) =>{
     setSelectedState(e.target.value);
-    setNewCustomer({ ...newCustomer, State: e.target.value })
+    setNewCustomer({ ...newCustomer, State: e.target.value ,City: ''})
   }}
 >
   <option disabled value=''>Select State</option>
@@ -227,8 +277,8 @@ const handleValidation=()=>{
       </div>
       <div className='form-group row col-sm-12 mb-4'>
       <label htmlFor='city' className='control-label col-sm-4'>
+      <span className='text-danger'>*</span>
         City:
-        <span className='text-danger'>*</span>
       </label>
       <div className='col-sm-8'>
         <select
@@ -239,7 +289,7 @@ const handleValidation=()=>{
             setNewCustomer({ ...newCustomer, City: e.target.value })
           }
         >
-          <option disabled value=''>
+          <option disabled value='' >
             Select City
           </option>
           {cities.map((city) => (
@@ -252,21 +302,19 @@ const handleValidation=()=>{
     </div>
    
 
-  <div className='d-flex justify-content-center mb-3'>
+  <div className='d-flex justify-content-center mb-3 form1'>
    
     <Button
-    size='sm'
       type='button'
-      className='btn btn-dark'
+      className='btn btn-primary flat-button'
       onClick={handleAddCustomer}
       style={{ marginRight: '1rem'}} 
     >
-      Save
+      Submit
     </Button>
     <Button
-    size='sm'
       type='button'
-      className='btn btn-danger '
+      className='btn btn-danger flat-button'
       onClick={handleCancel}
     >
       Cancel
