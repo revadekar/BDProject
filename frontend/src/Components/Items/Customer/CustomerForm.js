@@ -113,7 +113,7 @@ const CustomerForm = ({ onCloseForm, onAddCustomer }) => {
         const customer = {
           Cust_name: newCustomer.Cust_name,
           Address: newCustomer.Address,
-          City: newCustomer.City,
+          City_name: newCustomer.City,
           State: newCustomer.State,
           Country: newCustomer.Country,
           Website: newCustomer.Website,
@@ -261,7 +261,7 @@ const CustomerForm = ({ onCloseForm, onAddCustomer }) => {
   value={newCustomer.State}
   onChange={(e) =>{
     setSelectedState(e.target.value);
-    setNewCustomer({ ...newCustomer, State: e.target.value ,City: ''})
+    setNewCustomer({ ...newCustomer, State: e.target.value , City: ''})
   }}
 >
   <option disabled value=''>Select State</option>
@@ -293,8 +293,8 @@ const CustomerForm = ({ onCloseForm, onAddCustomer }) => {
             Select City
           </option>
           {cities.map((city) => (
-            <option key={city.id} value={city.name}>
-              {city.name}
+            <option key={city.id} value={city.City_name}>
+              {city.City_name}
             </option>
           ))}
         </select>

@@ -3,7 +3,7 @@ import { styled } from 'baseui';
 import CustomerForm from './CustomerForm';
 import { Button } from 'baseui/button';
 import { FaPencilAlt, FaPlus, FaTrash } from 'react-icons/fa';
-import { ChevronDown } from 'baseui/icon';
+import { ChevronDown, DeleteAlt } from 'baseui/icon';
 import EditCustomerForm from './EditCustomer';
 
 const CustomersComponent = () => {
@@ -108,7 +108,7 @@ const handleClearCustomers=()=>{
         (index) => customerData[index].Cust_id
       );
   
-      const response = await fetch('http://localhost:5000/deleteCustomers', {
+      const response = await fetch('http://localhost:5000/deleteProject', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -167,7 +167,7 @@ const handleClearCustomers=()=>{
       <div className='popup'>
         <EditCustomerForm 
         editingCustomer={editingCustomer}
-        onCloseForm={()=>{setShowEditCustomerForm(false); setEditingCustomer(null);}}
+        onCloseForm={()=>{ setShowEditCustomerForm(false); setEditingCustomer(null); setSelectedCustomers([]) }}
         onEditCustomer={()=>{ setDataUpdated(true);}}
         />
       </div>
@@ -205,13 +205,16 @@ const handleClearCustomers=()=>{
         Delete
       </Button>
       <Button className='button' onClick={handleClearCustomers} style={{marginLeft:"1rem"}}>
-        <faclear></faclear>
-        Clear
+          <DeleteAlt size={'20px'}></DeleteAlt>
+          <span>&nbsp;</span>
+          Clear
       </Button>
       </>
       )}
     </div>
-
+    <div className="d-flex justify-content-center"  style={{position:"absolute", marginLeft:"34vw"}}>
+        <h3>Customer Details</h3>
+        </div>
 
   {/* Button to add a new customer */}
   <div className='d-flex justify-content-end my-2 form1' style={{ marginRight: '1vw' }}>
@@ -223,7 +226,7 @@ const handleClearCustomers=()=>{
 </div>
 
       <div className='table-responsive'>
-      <table className="table table-bordered table-striped table-lg">
+      <table className="table table-bordered table-striped ">
   <thead>
     <tr>
       <th> 
@@ -242,6 +245,7 @@ const handleClearCustomers=()=>{
       </th>
       <th>S.No.</th>
       <th>Company Name</th>
+      <th>Address</th>
       <th>City</th>
       <th>State</th>
       <th>Country</th>
@@ -252,11 +256,18 @@ const handleClearCustomers=()=>{
     
     {customerData.map((customer, index) => (
       <tr key={index}>
-        <td><input className='form-check-input' type='checkbox' onChange={() => handleSelectCustomer(index)} checked={selectedCustomers.includes(index)}/>
+        <td>
+          <input 
+          className='form-check-input' 
+          type='checkbox' 
+          onChange={() => handleSelectCustomer(index)} 
+          checked={selectedCustomers.includes(index)}
+          />
         </td>
         <td>{index + 1}.</td>
         <td>{customer.Cust_name}</td>
-        <td>{customer.City}</td>
+        <td>{customer.Address}</td>
+        <td>{customer.City_name}</td>
         <td>{customer.State}</td>
         <td>{customer.country}</td>
         <td><a href={customer.Website} target='_blank' rel='noopener noreferrer'>{customer.Website}</a></td>

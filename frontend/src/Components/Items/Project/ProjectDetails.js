@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { FaFilePdf } from "react-icons/fa";
+import { FaFilePdf, FaPencilAlt, FaPlus, FaTrash } from "react-icons/fa";
 import EditProjectForm from "./EditProjectForm";
 import { Button } from "baseui/button";
+import { DeleteAlt } from "baseui/icon";
+import AddProjectForm from "./AddProjectForm";
 
 const ProjectDetails = () => {
     const [projectData, setProjectData] = useState([]);
+    const [datainserted, setDataInserted]=useState(false);
+    const [dataDeleted, setDataDeleted]=useState(false);
     const [selectAllChecked, setSelectAllChecked] = useState(false);
-    const [checkboxStates, setCheckboxStates] = useState({});
     const [selectedProjects, setSelectedProjects] = useState([]);
     const [dataReceived,setDataReceived]=useState(false);
     const [error, setError] = useState(null);
-    const[showEditProjectForm,setShowEditProjectForm]=useState(false);
+    const [showEditProjectForm,setShowEditProjectForm]=useState(false);
     const [editingProject,setEditingProject]=useState(null);
-    const[projectUpdated,setProjectUpdated]=useState(false);
+    const [projectUpdated,setProjectUpdated]=useState(false);
+    const [ showProjects,setShowProjects]=useState(true);
+    const [showAddProjectForm, setShowAddProjectForm]=useState(false);
+    const [ErrorMessage,setErrorMessage]=useState(false);
 
   useEffect(() => {
     fetch('http://localhost:5000/getProjects', {
@@ -41,88 +47,178 @@ const ProjectDetails = () => {
         console.error('Error:', error);
         setError('An error occurred while fetching data. Please try again later.');
       });
-  }, [projectUpdated]);
+  }, [datainserted, projectUpdated, dataDeleted]);
+
+
 
   useEffect(() => {
-    // When projectData changes, update checkbox states
-    const newCheckboxStates = {};
-    projectData.forEach((project) => {
-      newCheckboxStates[project.Project_id] = selectAllChecked;
-    });
-    setCheckboxStates(newCheckboxStates);
-  }, [selectAllChecked, projectData]);
+    // Use setTimeout to reset dataInserted after a delay
+    if (datainserted|| projectUpdated ||dataDeleted) {
+      const timeout = setTimeout(() => {
+        setDataInserted(false);
+        setProjectUpdated(false);
+        setDataDeleted(false);
+      }, 2000); // Adjust the delay (in milliseconds) as needed
+      return () => clearTimeout(timeout); // Cleanup the timeout on unmount
+    }
+  }, [projectUpdated, dataDeleted,datainserted]);
 
-  useEffect(()=>{
-    console.log('editingProject',editingProject);
-  },[editingProject])
+  const handleEditProject=()=>{
+    setProjectUpdated(false);
 
-  const handleEdit = (projectId) => {
-  // Logic to handle the edit action for the project with the given ID (projectId)
-  projectId = Number(projectId); // Convert projectId to a number explicitly
-  console.log('projectId:', projectId);
+    const selectedProject = projectData[selectedProjects]; // Accessing value at the given index
+    console.log('selectedProject:', selectedProject);
+    
+    setEditingProject(selectedProject);
+    setShowEditProjectForm(true);
+    
+  }
 
-  console.log('projectData:', projectData);
+  const handleClearProjects=()=>{
+    setSelectedProjects([]);
+    setSelectAllChecked(false);
+  }
 
-  const foundProject = projectData.find((project) => project.Project_id === projectId);
-  console.log('foundProject:', foundProject);
-
-  setEditingProject(foundProject);
-  setShowEditProjectForm(true);
-};
+  const handleDeleteProject=()=>{
+    const confirmDelete=window.confirm("Are you sure to delete this customer ?");
+    if(confirmDelete){
+      deleteSelectedProjects();
+    }else{
+      setSelectedProjects([]); 
+    }
+  }
   
-  const handleDelete = () => {
-    // Logic to handle the delete action for the selected projects
-    // You can use the selectedProjects state to identify the projects to delete
-    // Make sure to handle the deletion according to your backend or data management system
-  };
+  const deleteSelectedProjects = async () => {
+    setDataDeleted(false);
+    try {
+      const selectedProjectIds = selectedProjects.map(
+        (index) => projectData[index].Cust_id
+      );
   
-
-  const handleCheckboxChange = (event) => {
-    const checked = event.target.checked;
-    const checkboxId = event.target.id;
-
-    if (checkboxId === "selectAll") {
-      setSelectAllChecked(checked);
-    } else {
-      setCheckboxStates({
-        ...checkboxStates,
-        [checkboxId]: checked,
+      const response = await fetch('http://localhost:5000/deleteProject', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ids: selectedProjectIds }),
       });
-
-      // Update the selected projects list
-      if (checked) {
-        setSelectedProjects((prevSelectedProjects) => [
-          ...prevSelectedProjects,
-          checkboxId,
-        ]);
+  
+      if (response.ok) {
+        setSelectedProjects([]); // Clear selected customers after deletion
+        setDataDeleted(true);
       } else {
-        setSelectedProjects((prevSelectedProjects) =>
-          prevSelectedProjects.filter((id) => id !== checkboxId)
-        );
+        setErrorMessage('Unable to delete project');
+        setTimeout(() => {
+        setErrorMessage('');
+      }, 2000);
+        console.error('Error:', response.statusText);
       }
+    } catch (error) {
+      setErrorMessage('Unable to delete project ');
+      console.error('Error:', error);
     }
   };
+  
 
-  const showEditDeleteOptions = selectedProjects.length === 1;
-  const showDeleteOption = selectedProjects.length > 0;
+ // Function to handle the "Select All" checkbox change
+ const handleSelectAllChange = (event) => {
+  setSelectAllChecked(event.target.checked);
+  // Update the selectedCustomers state based on the "Select All" checkbox
+  setSelectedProjects(
+    event.target.checked ? [...Array(projectData.length).keys()] : []
+  );
+  
+};
+
+   // Function to handle selection or deselection of customers
+   const handleSelectProject = (index) => {
+    const isSelected = selectedProjects.includes(index);
+    setSelectedProjects((prevSelected) =>
+      isSelected
+        ? prevSelected.filter((item) => item !== index)
+        : [...prevSelected, index]
+    );
+  };
+
 
   return (
     <div className="container-fluid" >
-      <div className="d-flex justify-content-between mb-3">
-        <div className="d-flex justify-content-start">
-        <h2>Project Details</h2>
+       {ErrorMessage && 
+          <div className='d-flex justify-content-center custom-alert'>
+        <p className='error-message'>{ErrorMessage}</p>
         </div>
-        <div className="d-flex justify-content-end">
-        {showEditDeleteOptions && (
-          <Button size="compact" onClick={() => handleEdit(selectedProjects[0])}>
-            Edit
-          </Button>
-        )}
-        {showDeleteOption && (
-          <Button size="compact" style={{marginLeft:"1rem"}} onClick={handleDelete}>Delete</Button>
-        )}
+        }
+       {projectUpdated && (
+        <div className="d-flex justify-content-center align-items-center">
+        <div className='custom-alert success' >
+          Project details updated successfully!
         </div>
-      </div>
+       </div>
+         )}
+     {dataDeleted && (
+       <div className="d-flex justify-content-center align-items-center">
+         <div className='custom-alert success' >
+           Project details deleted successfully!
+          </div>
+         </div>
+       )}
+  
+  {datainserted && (
+         <div className="d-flex justify-content-center align-items-center">
+         <div className='custom-alert success' >
+           Project details added successfully!
+         </div>
+       </div>
+      )}
+      {showAddProjectForm && <AddProjectForm
+        onCloseForm={() => {
+          setShowAddProjectForm(false);
+          setShowProjects(true);
+          //setDataInserted(false); // Reset datainserted when closing the form
+        }}
+        onAddCustomer={() => {
+          setDataInserted(true); // Set datainserted to true when data is successfully inserted
+        }}
+        
+      />} {/* Render the form when showForm is true */}
+     
+      {showProjects && (
+        <>
+      <div className="d-flex justify-content-between align-items-center">
+  <div className="d-flex justify-content-start my-2 form1">
+    {selectedProjects.length === 1 && (
+      <Button className='button' onClick={() => handleEditProject()}>
+        <FaPencilAlt />
+        <span>&nbsp;</span>
+        Edit
+      </Button>
+    )}
+    {selectedProjects.length > 0 && (
+      <>
+        <Button className='button' style={{ marginLeft: "1rem" }} onClick={handleDeleteProject}>
+          <FaTrash />
+          <span>&nbsp;</span> Delete
+        </Button>
+        <Button className='button' type="button" onClick={handleClearProjects} style={{ marginLeft: "1rem" }}>
+          <DeleteAlt size={'20px'} />
+          <span>&nbsp;</span>
+          Clear
+        </Button>
+      </>
+    )}
+  </div>
+  <div className='d-flex justify-content-center' style={{position:"absolute", marginLeft:"34vw"}}>
+  <h3>Project Details</h3>
+    {error && <p className="error-message">{error}</p>}
+  </div>
+  <div className='d-flex justify-content-end my-2 form1' style={{ marginRight: '1vw' }}>
+    <Button className='button' onClick={() => { setShowAddProjectForm(true); setShowProjects(false) }}>
+      <FaPlus />
+      <span>&nbsp;</span> Add Project
+    </Button>
+  </div>
+</div>
+
       {showEditProjectForm && ( 
       <div className="popup">
         <EditProjectForm 
@@ -134,83 +230,83 @@ const ProjectDetails = () => {
           onEditProject={()=>{
             setShowEditProjectForm(false);
             setEditingProject(null); // Reset editingContact when closing the form
+            setSelectedProjects([]);
             setProjectUpdated(true); // Set datainserted to true when data is successfully inserted
           }}
           />
 
       </div>
       )}
-     
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <div className="table-responsive" >
-        <table className="table table-bordered table-striped table-sm ">
-          <thead className="thead-dark">
-            <tr>
-              <th className="responsive-font">
-              <div className="form-check">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                id="selectAll"
-                checked={selectAllChecked}
-                onChange={handleCheckboxChange}
-              />
-               <label className="form-check-label" htmlFor="selectAll">
-               </label>
-              </div>
-              </th>
-              <th>S.No.</th>
-              <th className="responsive-font">Project Name</th>
-              <th className="responsive-font">Project Description</th>
-              <th className="responsive-font">Product Description</th>
-              <th className="responsive-font">Status</th>
-              <th className="responsive-font">Customer Name</th>
-              <th className="responsive-font">Employee Name</th>
-              <th className="responsive-font">Group Name</th>
-              <th className="responsive-font">Purchase Order</th>
-              <th className="responsive-font">Category</th>
-              <th className="responsive-font">Project Document</th>
-              <th className="responsive-font">Remarks</th>
-             
-            </tr>
-          </thead>
-          <tbody >
-            {dataReceived && projectData.map((project,index) => (
-              <tr key={project.Project_id}>
-                <td className="responsive-font" >
-               <div className="form-check">
-              <input
-               className="form-check-input"
-               type="checkbox"
-               id={`${project.Project_id}`} // Unique ID for each checkbox
-               checked={checkboxStates[project.Project_id]} // Ensure it's not undefined
-               onChange={handleCheckboxChange}
-               />
-              </div>
-              </td>
-                <td>{index+1}.</td>
-                <td className="responsive-font" >{project.Project_Name}</td>
-                <td className="responsive-font">{project.Project_Description}</td>
-                <td className="responsive-font">{project.Product_Description}</td>
-                <td className="responsive-font">{project.status_name}</td>
-                <td className="responsive-font">{project.Cust_name}</td>
-                <td className="responsive-font">{project.Employee_Name}</td>
-                <td className="responsive-font">{project.Group_Name}</td>
-                <td className="responsive-font">{project.Purchase_order}</td>
-                <td className="responsive-font">{project.Catgory_name}</td>
-                <td className="responsive-font" style={{textAlign:"center"}}>
-                  {/* Show a link to the project document */}
-                   <a href={`http://localhost:5000/getDocument/${project.project_document}`} target="_blank" rel="noopener noreferrer">
-                   <FaFilePdf size={'2rem'} style={{color:"rebeccapurple"}} />
-                   <span style={{ display: "block", marginTop: "0.3rem" }}>View PDF</span>
-                  </a>
-                </td>
-                <td className="responsive-font">{project.Remarks}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+           <div className="table-responsive" >
+           <table className="table table-bordered table-striped ">
+             <thead className="thead-dark">
+               <tr>
+                 <th className="responsive-font">
+                 <div className="form-check">
+                 <input
+                  id='selectAll'
+                  className='form-check-input'
+                  type='checkbox'
+                  checked={selectAllChecked}
+                  onChange={handleSelectAllChange}
+                  />
+                  <label className="form-check-label" htmlFor="selectAll">
+                  </label>
+                 </div>
+                 </th>
+                 <th>S.No.</th>
+                 <th className="responsive-font">Project Name</th>
+                 <th className="responsive-font">Project Description</th>
+                 <th className="responsive-font">Product Description</th>
+                 <th className="responsive-font">Status</th>
+                 <th className="responsive-font">Customer Name</th>
+                 <th className="responsive-font">Employee Name</th>
+                 <th className="responsive-font">Group Name</th>
+                 <th className="responsive-font">Purchase Order</th>
+                 <th className="responsive-font">Category</th>
+                 <th className="responsive-font">Project Document</th>
+                 <th className="responsive-font">Remarks</th>
+                
+               </tr>
+             </thead>
+             <tbody >
+               {dataReceived && projectData.map((project,index) => (
+                 <tr key={index}>
+                   <td className="responsive-font" >
+                  <div className="form-check">
+                  <input 
+                   className='form-check-input' 
+                   type='checkbox' 
+                   onChange={() => handleSelectProject(index)} 
+                   checked={selectedProjects.includes(index)}
+                  />
+                 </div>
+                 </td>
+                   <td>{index+1}.</td>
+                   <td className="responsive-font" >{project.Project_Name}</td>
+                   <td className="responsive-font">{project.Project_Description}</td>
+                   <td className="responsive-font">{project.Product_Description}</td>
+                   <td className="responsive-font">{project.status_name}</td>
+                   <td className="responsive-font">{project.Cust_name}</td>
+                   <td className="responsive-font">{project.Employee_Name}</td>
+                   <td className="responsive-font">{project.Group_Name}</td>
+                   <td className="responsive-font">{project.Purchase_order}</td>
+                   <td className="responsive-font">{project.Catgory_name}</td>
+                   <td className="responsive-font" style={{textAlign:"center"}}>
+                     {/* Show a link to the project document */}
+                      <a href={`http://localhost:5000/getDocument/${project.project_document}`} target="_blank" rel="noopener noreferrer">
+                      <FaFilePdf size={'2rem'} style={{color:"rebeccapurple"}} />
+                      <span style={{ display: "block", marginTop: "0.3rem" }}>View PDF</span>
+                     </a>
+                   </td>
+                   <td className="responsive-font">{project.Remarks}</td>
+                 </tr>
+               ))}
+             </tbody>
+           </table>
+         </div>
+         </>
+      )}
     </div>
   );
 }

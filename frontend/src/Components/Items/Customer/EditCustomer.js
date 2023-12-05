@@ -85,14 +85,17 @@ const EditCustomerForm=({onEditCustomer, onCloseForm, editingCustomer})=>{
 
     return(
         <div className="container-fluid userform">
-
-            <div className="d-flex justify-content-center align-items-center">
-            <div className="card col-sm-6 form1">
-            {ErrorMessage && 
+             {ErrorMessage && 
           <div className='d-flex justify-content-center'>
         <p className='error-message'>{ErrorMessage}</p>
         </div>
         }
+
+            <div className="d-flex justify-content-center align-items-center">
+            <div className=" card col-sm-6 form1">
+                <div className="d-flex justify-content-center mb-3">
+                <h4>Edit Customer</h4>
+                </div>
               <form className='form-horizontal'>
                 <div className="form-group col-sm-12 row mb-3">
                     <label  htmlFor='Cust_name' className='control-label col-sm-4 '><span className='text-danger'>*</span>Company Name:</label>
@@ -163,7 +166,7 @@ const EditCustomerForm=({onEditCustomer, onCloseForm, editingCustomer})=>{
   value={updatedCustomerData.State}
   onChange={(e) =>{
     setSelectedState(e.target.value);
-    setUpdatedCustomerData({ ...updatedCustomerData, State: e.target.value ,City: ''})
+    setUpdatedCustomerData({ ...updatedCustomerData, State: e.target.value ,City_name: ''})
   }}
 >
   <option disabled value=''>Select State</option>
@@ -186,27 +189,27 @@ const EditCustomerForm=({onEditCustomer, onCloseForm, editingCustomer})=>{
         <select
           id='city'
           className='form-select'
-          value={updatedCustomerData.City}
+          value={updatedCustomerData.City_name}
           onChange={(e) =>
-            setUpdatedCustomerData({ ...updatedCustomerData, City: e.target.value })
+            setUpdatedCustomerData({ ...updatedCustomerData, City_name: e.target.value })
           }
         >
           <option disabled value='' >
             Select City
           </option>
           {cities.map((city) => (
-            <option key={city.id} value={city.name}>
-              {city.name}
+            <option key={city.id} value={city.City_name}>
+              {city.City_name}
             </option>
           ))}
         </select>
       </div>
     </div>
                 <div className="d-flex justify-content-center">
-                    <Button type="button" size="sm" onClick={()=>handleEditCustomer()}>
+                    <Button className="flat-button" type="button"  onClick={()=>handleEditCustomer()}>
                         Save
                     </Button>
-                    <Button type="button" size="sm" style={{marginLeft:"1rem"}} onClick={()=>onCloseForm()}>
+                    <Button className="flat-button btn btn-danger" type="button"  style={{marginLeft:"1rem"}} onClick={()=>onCloseForm()}>
                         Cancel
                     </Button>
                 </div>

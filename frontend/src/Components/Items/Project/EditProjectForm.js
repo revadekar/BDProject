@@ -98,10 +98,10 @@ const EditProjectForm=({onEditProject, onCloseForm, editingProject})=>{
                     
                 </div>
                 <div className="d-flex justify-content-center">
-                    <Button type="button" size="sm" onClick={()=>handleEditProject()}>
+                    <Button type="button"  className=" flat-button" onClick={()=>handleEditProject()}>
                         Save
                     </Button>
-                    <Button type="button" size="sm" style={{marginLeft:"1rem"}} onClick={()=>onCloseForm()}>
+                    <Button type="button" className="flat-button btn btn-danger"  style={{marginLeft:"1rem"}} onClick={()=>onCloseForm()}>
                         Cancel
                     </Button>
                 </div>
