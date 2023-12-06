@@ -310,6 +310,25 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
                   />
                 </div>
               </div>
+              <div className="form-group row mb-3" >
+              <label htmlFor="Floor" className="control-label col-sm-4">
+                Floor:
+              </label>
+              <div className="col-sm-8">
+                <input
+                  type="text"
+                  id="Floor"
+                  className="form-control"
+                  value={newEmployee.Floor}
+                  onChange={(e) =>
+                    setNewEmployee({
+                      ...newEmployee,
+                      Floor: e.target.value,
+                    })
+                  }
+                />
+              </div>
+            </div>
                 <div className="d-flex justify-content-center">
                   <Button
                     size="compact"

@@ -408,23 +408,39 @@ app.get('/getEmployees',(req,res)=>{
 })
 
 app.post('/editEmployee', (req, res) => {
-  const { Emp_id,desig_name, Email, Mobile,Office_landline,Location} = req.body;
+  const { Emp_id,desig_code, Email, Mobile,Office_landline,Location} = req.body;
 
   // Validate the data here if needed
 
   const query = `update employee_details
-  set desig_name=?,Email=?,mobile=?, Office_landline=?,fax=? where Emp_id=?`;
+  set Desig_Code=?,Email=?,mobile=?, Office_landline=?,Location=? where Emp_id=?`;
 
-  db.query(query, [Emp_id, desig_name, Email, Mobile, Office_landline,Location], (err, result) => {
+  db.query(query, [ desig_code, Email, Mobile, Office_landline,Location, Emp_id], (err, result) => {
     if (err) {
       console.error('Error:', err);
       res.status(500).json({ error: 'Error updating data' });
     } else {
-      console.log('Contact Details updated successfully');
+      console.log('employee Details updated successfully');
       res.status(201).json({ message: 'employee Details updated successfully' });
     }
   });
 });
+
+app.post('/deleteEmployee',(req,res)=>{
+  const {Emp_id}=req.body;
+  console.log('deletingEmployeeId',Emp_id);
+  const query=`delete from employee_details where Emp_id=?`
+  db.query(query,[Emp_id],(err,result)=>{
+    if(err){
+      console.error('Error',err);
+      res.status(500).json({error:'Error deleting Employee'});
+    }else{
+      console.log(result);
+      console.log('Employee deleted successfully');
+      res.status(201).json({message:'Employee deleted successfully'})
+    }
+  })
+})
 
 app.get('/getProjects',(req,res)=>{
   const query='select * from projects';

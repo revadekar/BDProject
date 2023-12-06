@@ -63,15 +63,10 @@ const EditEmployee=({onCloseForm,onEditEmployee,EditingEmployee})=>{
 
     const handleEditEmployee=()=>{
          //Check if all fields are filled
+
+         newEmployee.desig_code=DesignationData.find((desig)=>desig.desig_name===newEmployee.Designation).desig_code;
+         console.log('newEmployee',newEmployee);
          if ( GroupValid && designationValid && emailValid && mobileValid ) {
-            const employee = {
-            Emp_id:newEmployee.Emp_id,
-            desig_name: newEmployee.desig_name,
-            Email: newEmployee.Email,
-            Mobile: newEmployee.Mobile,
-            Office_landline: newEmployee.Office_landline,
-            Location: newEmployee.Location
-          };
     
           // Send a request to your server to add the new customer
           fetch('http://localhost:5000/editEmployee', {
@@ -79,7 +74,7 @@ const EditEmployee=({onCloseForm,onEditEmployee,EditingEmployee})=>{
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify(employee),
+            body: JSON.stringify(newEmployee),
           })
             .then((response) => response.json())
             .then((data) => {
@@ -157,9 +152,8 @@ const EditEmployee=({onCloseForm,onEditEmployee,EditingEmployee})=>{
                     }
                     required
                   >
-                    <option value="" disabled selected>
-                      {" "}
-                      Select Group
+                    <option value="" disabled >
+                    Select Group
                     </option>
                     {GroupData.map((Group, index) => (
                       <option
@@ -220,7 +214,7 @@ const EditEmployee=({onCloseForm,onEditEmployee,EditingEmployee})=>{
                 >
                   <option value='' disabled> Select Designation</option>
                   {DesignationData.map((desig)=>(
-                    <option>{desig.desig_name}</option>
+                    <option  value={desig.desig_name}>{desig.desig_name}</option>
                   ))}
                   </select>
               </div>
@@ -319,19 +313,37 @@ const EditEmployee=({onCloseForm,onEditEmployee,EditingEmployee})=>{
                 />
               </div>
             </div>
+            <div className="form-group row mb-3" >
+              <label htmlFor="Floor" className="control-label col-sm-4">
+                Floor:
+              </label>
+              <div className="col-sm-8">
+                <input
+                  type="text"
+                  id="Floor"
+                  className="form-control"
+                  value={newEmployee.Floor}
+                  onChange={(e) =>
+                    setNewEmployee({
+                      ...newEmployee,
+                      Floor: e.target.value,
+                    })
+                  }
+                />
+              </div>
+            </div>
               <div className="d-flex justify-content-center form1">
                 <Button
                  className="flat-button"
                   type="button"
-                  style={{ marginLeft: "10px", backgroundColor: "darkslategray" }}
                   onClick={handleEditEmployee}
                 >
                   Save
                 </Button>
                 <Button
-                  className="flat-button"
+                  className="flat-button btn btn-danger"
                   type="button"
-                  style={{ backgroundColor: "darkred" }}
+                  style={{ marginLeft: "1rem" }}
                   onClick={handleCancel}
                 >
                   Cancel

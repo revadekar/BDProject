@@ -11,6 +11,7 @@ const EmployeeDetails = () => {
   const [showEmployees, setShowEmployees] = useState(true);
   const[employeeAdded,setEmployeeAdded]=useState(false);
   const [EditingEmployee, setEditingEmployee] = useState(null);
+  const[employeeDeleted,setEmployeeDeleted]=useState(false);
   const [employeeUpdated,setEmployeeUpdated]=useState(false);
 
   useEffect(() => {
@@ -31,11 +32,37 @@ const EmployeeDetails = () => {
       .catch((error) => {
         console.error('Error:', error);
       });
-  }, [employeeAdded]);
+  }, [employeeAdded, employeeUpdated]);
 
   const handleEditClick=(employee)=>{
     setEditingEmployee(employee);
     setShowEditEmployeeForm(!showEditEmployeeForm);
+  }
+
+  const handleDeleteClick=(emp)=>{
+    const shouldDeleteEmp = window.confirm('Are you sure to delete this Employee ?');
+    if (shouldDeleteEmp) {
+      fetch('http://localhost:5000/deleteEmployee', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ Emp_id: emp.Emp_id}),
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Handle the response if needed
+          setEmployeeDeleted(true);
+          // setShowPopup(true);
+
+          // // Hide the popup after 1 second
+          setTimeout(() => {
+            setEmployeeDeleted(false);
+          }, 2000);
+          
+        })
+        .catch(error => console.error('Fetch error:', error));
+    }
   }
 
 
@@ -56,7 +83,7 @@ const EmployeeDetails = () => {
       {showAddEmployeeForm && <EmployeeForm onAddEmployee={()=>{setShowEmployees(true); setShowAddEmployeeForm(false); setEmployeeAdded(true)}} onCloseForm={() => {setShowEmployees(true); setShowAddEmployeeForm(false)}}  />}
       {showEditEmployeeForm && 
       <div className='popup'>
-      <EditEmployee EditingEmployee={EditingEmployee} onEditEmployee={()=>{setShowEmployees(true); setShowEditEmployeeForm(false); setEmployeeUpdated(true)}} onCloseForm={() => {setShowEmployees(true); setShowEditEmployeeForm(false)}}  />
+      <EditEmployee EditingEmployee={EditingEmployee} onEditEmployee={()=>{ setShowEmployees(true); setShowEditEmployeeForm(false); setEmployeeUpdated(true)}} onCloseForm={() => {setShowEmployees(true); setShowEditEmployeeForm(false)}}  />
       </div>}
       {showEmployees && (
         <div className='table-responsive'>
@@ -87,7 +114,7 @@ const EmployeeDetails = () => {
                       <td>{emp.Office_landline}</td>
                       <td>{emp.Location}</td>
                       <td>{emp.Group_Name}</td>
-                      <td><FaPencilAlt style={{cursor: 'pointer'}} onClick={() => handleEditClick(emp)}/><span>&nbsp;&nbsp;&nbsp;</span><FaTrash style={{cursor: 'pointer'}}/></td>
+                      <td><FaPencilAlt style={{cursor: 'pointer'}} onClick={() => handleEditClick(emp)}/><span>&nbsp;&nbsp;&nbsp;</span><FaTrash style={{cursor: 'pointer'}}onClick={() => handleDeleteClick(emp)}/></td>
                     </tr>
                   );
                 })}
