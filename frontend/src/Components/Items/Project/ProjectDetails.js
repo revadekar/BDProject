@@ -143,6 +143,7 @@ const ProjectDetails = () => {
 
   return (
     <div className="container-fluid" >
+      {error && <p className="error-message">{error}</p>}
        {ErrorMessage && 
           <div className='d-flex justify-content-center custom-alert'>
         <p className='error-message'>{ErrorMessage}</p>
@@ -209,7 +210,6 @@ const ProjectDetails = () => {
   </div>
   <div className='d-flex justify-content-center' style={{position:"absolute", marginLeft:"34vw"}}>
   <h3>Project Details</h3>
-    {error && <p className="error-message">{error}</p>}
   </div>
   <div className='d-flex justify-content-end my-2 form1' style={{ marginRight: '1vw' }}>
     <Button className='button' onClick={() => { setShowAddProjectForm(true); setShowProjects(false) }}>

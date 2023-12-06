@@ -9,6 +9,10 @@
   /* overflow: hidden; */
 }
 /* CSS file */
+.showSidebar{
+  font-size: large;
+}
+
 #profile{
   text-align: start;
 }
@@ -63,7 +67,7 @@
 }
 .table-responsive {
   /* margin: 0.5rem; */
-  max-height: 70vh;
+  max-height: 75vh;
   overflow-y: auto;
    
 }
@@ -83,7 +87,7 @@
   text-align: start;
   padding: 2rem;
   max-width: 80vh;
-  font-weight: 500;
+  /* font-weight: 500; */
 }
 .userform .form1 select,
 .userform .form1 input {
@@ -195,4 +199,11 @@
   background-color: rgba(187, 231, 187, 0.664);
   padding: 1rem;
   color: black;
+}
+.container-fluid .userform .form-inline {
+  text-align: start;
+}
+.container-fluid .card {
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
 }

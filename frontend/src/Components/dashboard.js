@@ -14,6 +14,7 @@ import EmployeeDetails from './Items/Employee/EmployeeDetails';
 import ProjectDetails from './Items/Project/ProjectDetails';
 import {Client as Styletron} from 'styletron-engine-atomic'
 import {Provider as StyletronProvider} from 'styletron-react';
+import { ChevronRight } from 'baseui/icon';
 
 const Dashboard = () => {
   const [open, setOpen] = React.useState(true);
@@ -47,11 +48,13 @@ const Dashboard = () => {
      <DashboardWrapper className={`Dashboard ${css({ paddingLeft: open ? '285px' : '0' })}`}>
       <Navbar setActiveMenuItem={setActiveMenuItem} />
       {open && <div ><Sidebar  open={open} setOpen={setOpen} setActiveMenuItem={setActiveMenuItem} setShowFabar={setShowFabar} /></div> }
-      {showFabar &&<Button style={{position:"fixed"}} variant='outline-primary' onClick={() => setOpen(!open) }>
-        <FaBars />
-      </Button>}
+      {showFabar &&
+      <div className='showSidebar'>
+         <ChevronRight  style={{position:"fixed"}} size='1.5vw'  onClick={() => setOpen(!open) } cursor={'pointer'} />
+         </div>
+         }
       <DashboardHeader open={open} setOpen={setOpen} />
-      <div id='dashboard' className='container-fluid'>
+      <div className='container-fluid'>
       {renderContent()}
       </div>
 

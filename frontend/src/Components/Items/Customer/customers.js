@@ -108,7 +108,7 @@ const handleClearCustomers=()=>{
         (index) => customerData[index].Cust_id
       );
   
-      const response = await fetch('http://localhost:5000/deleteProject', {
+      const response = await fetch('http://localhost:5000/deleteCustomers', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
