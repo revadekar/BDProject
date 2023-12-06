@@ -116,10 +116,10 @@ export default Sidebar;
 const SidebarWrapper = styled('section', {
   paddingTop:'2rem',
   position: 'fixed',
-  top: '9vh',
+  top: '10vh',
   left: '0',
   width: '100%',
-  maxWidth: '15%',
+  maxWidth: '17vw',
   height: '100%',
   maxHeight:'91vh',
   background: '#363740',

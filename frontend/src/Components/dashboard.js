@@ -6,21 +6,16 @@ import CustomersComponent from './Items/Customer/customers';
 import HomePage from './Items/HomePage';
 import ContactDetails from './Items/Contact/ContactDetails';
 import Navbar from './Navbarr';
-import { Button } from 'baseui/button';
-import { FaBars } from 'react-icons/fa';
 import Profile from './Items/User/Profile';
 import Users from './Items/User/Users';
 import EmployeeDetails from './Items/Employee/EmployeeDetails';
 import ProjectDetails from './Items/Project/ProjectDetails';
-import {Client as Styletron} from 'styletron-engine-atomic'
-import {Provider as StyletronProvider} from 'styletron-react';
 import { ChevronRight } from 'baseui/icon';
 
 const Dashboard = () => {
   const [open, setOpen] = React.useState(true);
   const [activeMenuItem, setActiveMenuItem] = useState(null);
   const[showFabar, setShowFabar]=useState(false);
-  const engine = new Styletron();
   const [css] = useStyletron();
 
   const renderContent = () => {

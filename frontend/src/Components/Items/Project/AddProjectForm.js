@@ -1,3 +1,4 @@
+import { FileUploader } from 'baseui/file-uploader';
 import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 
@@ -20,6 +21,19 @@ const AddProjectForm = () => {
     Employee_Name: null,
     Catgory_name: null,
   });
+
+  
+  const handleFileUpload = (acceptedFiles) => {
+    // Assuming you want to store the first selected file in state
+    setNewProject({ ...newProject, project_document: acceptedFiles[0] });
+  };
+
+  const renderUploadedFile = () => {
+    if (newProject.project_document) {
+      return <p>File Uploaded: {newProject.project_document.name}</p>;
+    }
+    return null;
+  };
 
   return (
     <div className='container-fluid'>
@@ -104,7 +118,7 @@ const AddProjectForm = () => {
                       setNewProject({ ...newProject, Cust_id: e.target.value })
                     }
                     >
-                        <option>Select Company</option>
+                        <option value='' disabled>Select Company</option>
                     </select>
                   </div>
                   <div className='col-md-6'>
@@ -118,7 +132,7 @@ const AddProjectForm = () => {
                       setNewProject({ ...newProject, group_id: e.target.value })
                     }
                     >
-                        <option>Select Group</option>
+                        <option value='' disabled> Select Group</option>
                     </select>
                   </div>
                 </div>
@@ -134,7 +148,7 @@ const AddProjectForm = () => {
                       setNewProject({ ...newProject, Emp_id: e.target.value })
                     }
                     >
-                        <option>Select Employee</option>
+                       <option value='' disabled>Select Employee</option>
                     </select>
                   </div>
                   <div className='col-md-6'>
@@ -148,7 +162,7 @@ const AddProjectForm = () => {
                       setNewProject({ ...newProject, Cat_id: e.target.value })
                     }
                     >
-                        <option>Select Category</option>
+                      <option value='' disabled>Select Category</option>
                     </select>
                   </div>
                   </div>
@@ -182,11 +196,21 @@ const AddProjectForm = () => {
                   </div>
                 </div>
                 <div className="form-group row mb-3">
-                    <div>
-                        <input type='file'></input>
-                    </div>
-                </div>
-
+                 <label htmlFor='project_document'>Project Document:</label>
+                 {/* Message indicating accepted file types */}
+                 <p className='mb-2 text-muted'>Only PDF files are allowed.</p>
+                 <div style={{width:"25vw", maxWidth:"500px"}}>
+                 <FileUploader
+                      accept={['.pdf']} // Add accepted file types
+                      onDrop={(acceptedFiles, rejectedFiles) => {
+                        if (acceptedFiles.length) {
+                          handleFileUpload(acceptedFiles);
+                        }
+                      }}
+                    />
+                 </div>
+                    {renderUploadedFile()}
+                 </div>
               </form>
             </div>
           </div>
