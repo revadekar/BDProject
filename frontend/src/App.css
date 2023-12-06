@@ -63,7 +63,7 @@
 }
 .table-responsive {
   /* margin: 0.5rem; */
-  max-height: 75vh;
+  max-height: 70vh;
   overflow-y: auto;
    
 }
@@ -93,6 +93,7 @@
 .error-message{
   color: red;  
   max-height: 2rem;
+  text-align: center;
 }
 /* Style for the button inside .form1 */
 .form1 .button {
@@ -121,7 +122,7 @@
   border: none;
   background: #ccc6c683;
   color: #000; /* Set text color */
-  padding: 0.5rem 0.8rem; /* Adjust padding */
+  padding: 0.4rem 0.8rem; /* Adjust padding */
   cursor: pointer;
   transition: color 0.3s, background-color 0.3s; /* Add transition for color change */
 }
@@ -188,6 +189,7 @@
   transform: translate(-50%, -50%);
   width: 50%;
   max-width: max-content;
+  text-align: center;
 }
 .success{
   background-color: rgba(187, 231, 187, 0.664);

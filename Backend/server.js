@@ -145,14 +145,14 @@ app.get('/getCustomers', (req, res) => {
   });
 });
 app.post('/addCustomer', (req, res) => {
-  const { Cust_name, Address, City, State, Country,Website } = req.body;
+  const { Cust_name, Address, City_name, State, Country,Website } = req.body;
 
   // Validate the data here if needed
 
-  const query = `INSERT INTO customer_detail (Cust_name, Address, City, State, Country,Website)
+  const query = `INSERT INTO customer_detail (Cust_name, Address, City_name, State, Country,Website)
                  VALUES (?, ?, ?, ?, ?,?)`;
 
-  db.query(query, [Cust_name, Address, City, State, Country,Website], (err, result) => {
+  db.query(query, [Cust_name, Address, City_name, State, Country,Website], (err, result) => {
     if (err) {
       console.error('Error:', err);
       res.status(500).json({ error: 'Error inserting data' });
@@ -503,6 +503,22 @@ app.post('/editProject', (req, res) => {
     } else {
       console.log('Project Details updated successfully');
       res.status(201).json({ message: 'Project Details updated successfully' });
+    }
+  });
+});
+
+// Endpoint to delete projects by IDs
+app.delete('/deleteProject', (req, res) => {
+  const { ids } = req.body;
+  const query = 'DELETE FROM project_detail WHERE Project_id IN (?)'; // Use a single placeholder for the array
+
+  db.query(query, [ids], (err, result) => { // Wrap 'ids' in an array to pass it as a single value
+    if (err) {
+      console.error('Error:', err);
+      res.status(500).json({ error: 'Error deleting projects', message: err.message });
+    } else {
+      console.log({'Project details deleted successfully':result, DeletedProjects:ids});
+      res.status(201).json({ message: 'Project details deleted successfully' });
     }
   });
 });
