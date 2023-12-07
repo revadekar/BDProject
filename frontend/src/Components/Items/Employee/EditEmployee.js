@@ -1,18 +1,17 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 
-const EditEmployee=({onCloseForm,onEditEmployee,EditingEmployee})=>{
-    const [newEmployee,setNewEmployee]=useState(EditingEmployee);
-    const [showErrorMessage,setShowErrorMessage]=useState(false);
-    const [GroupData,setGroupData]=useState([]);
-    const[DesignationData,setDesignationData]=useState([]);
-    const [showValidationMessage, setShowValidationMessage] = useState(false);
+const EditEmployee = ({ onCloseForm, onEditEmployee, EditingEmployee }) => {
+  const [newEmployee, setNewEmployee] = useState(EditingEmployee);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [GroupData, setGroupData] = useState([]);
+  const [DesignationData, setDesignationData] = useState([]);
+  const [showValidationMessage, setShowValidationMessage] = useState(false);
   const [GroupValid, setGroupValid] = useState(false);
   const [designationValid, setDesignationValid] = useState(false);
   const [emailValid, setEmailValid] = useState(false);
   const [mobileValid, setMobileValid] = useState(false);
   const [nameValid, setNameValid] = useState(true);
-    
     useEffect(()=>{
         fetch('http://localhost:5000/getGroups', {
                 method: 'GET',
@@ -49,13 +48,11 @@ const EditEmployee=({onCloseForm,onEditEmployee,EditingEmployee})=>{
 
             useEffect(() => {
               const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-              const designationRegex = /^[a-zA-Z ]+$/;
-              const groupRegex = /^[a-zA-Z ]+$/;
+              // const designationRegex = /^[a-zA-Z ]+$/;
               const mobileRegex = /^\d{10}$/;
             
               // Validate each required field
-              setGroupValid(groupRegex.test(newEmployee.Group_Name));
-              setDesignationValid(designationRegex.test(newEmployee.Designation));
+              // setDesignationValid(designationRegex.test(newEmployee.Designation));
               setEmailValid(emailRegex.test(newEmployee.Email));
               setMobileValid(newEmployee.Mobile && mobileRegex.test(newEmployee.Mobile));
             }, [newEmployee]);
@@ -65,8 +62,9 @@ const EditEmployee=({onCloseForm,onEditEmployee,EditingEmployee})=>{
          //Check if all fields are filled
 
          newEmployee.desig_code=DesignationData.find((desig)=>desig.desig_name===newEmployee.Designation).desig_code;
+         newEmployee.Group_id=GroupData.find((group)=>group.Group_Name===newEmployee.Group_Name).Group_id;
          console.log('newEmployee',newEmployee);
-         if ( GroupValid && designationValid && emailValid && mobileValid ) {
+         if (emailValid && mobileValid ) {
     
           // Send a request to your server to add the new customer
           fetch('http://localhost:5000/editEmployee', {
@@ -96,13 +94,31 @@ const EditEmployee=({onCloseForm,onEditEmployee,EditingEmployee})=>{
           console.error('Invalid data. Please fill in all fields.');
         }
     }
-   
+    const handleSave = () => {
+      // Perform the save operation
+      // Assume updatedEmployee contains the edited data
+     
+  
+      // Call onEditEmployee with the updated data
+      // onEditEmployee(updatedEmployee);
+      const updatedEmployee = {
+        Emp_id: EditingEmployee.Emp_id,
+        Employee_Name:EditingEmployee.Employee_Name, 
+        Designation:EditingEmployee.Designation, 
+        Email:EditingEmployee.Email,
+        Office_landline:EditingEmployee.Office_Landline,
+        Location:EditingEmployee.Location,
+        Group_Name:EditingEmployee.Group_Name,
+      };
+  
+       // Call onEditEmployee with the updated data
+       onEditEmployee(updatedEmployee);
+    };
 
    const handleCancel=()=>{
     onCloseForm();
     setShowErrorMessage(false);
-   }
-    
+   };
 
     return(
       <div className="container-fluid userform">
@@ -353,8 +369,9 @@ const EditEmployee=({onCloseForm,onEditEmployee,EditingEmployee})=>{
         </div>
       </div>
     </div>
-    )
-  }
-
+    );
+                }
+  
+                
 
 export default EditEmployee;

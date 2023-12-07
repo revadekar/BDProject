@@ -19,6 +19,7 @@ const EmployeeDetails = () => {
   }, [employees]);
 
   useEffect(() => {
+    setEmployeeUpdated(false);
     fetch('http://localhost:5000/getEmployees', {
       method: 'GET',
       headers: {
@@ -38,6 +39,28 @@ const EmployeeDetails = () => {
     setEditingEmployee(employee);
     setShowEditEmployeeForm(!showEditEmployeeForm);
   }
+  const updateEmployeesAfterEdit = (updatedEmployee) => {
+    setEmployees(prevEmployees =>
+      prevEmployees.map(emp => (emp.Emp_id === updatedEmployee.Emp_id ? updatedEmployee : emp))
+    );
+  };
+  {showEditEmployeeForm && (
+    <div className='popup'>
+      <EditEmployee
+        EditingEmployee={EditingEmployee}
+        onEditEmployee={(updatedEmployee) => {
+          setShowEmployees(true);
+          setShowEditEmployeeForm(false);
+          setEmployeeUpdated(true);
+          updateEmployeesAfterEdit(updatedEmployee); // Update the employees state
+        }}
+        onCloseForm={() => {
+          setShowEmployees(true);
+          setShowEditEmployeeForm(false);
+        }}
+      />
+    </div>
+  )}
 
   const handleDeleteClick=(emp)=>{
     const shouldDeleteEmp = window.confirm('Are you sure to delete this Employee ?');
@@ -51,6 +74,7 @@ const EmployeeDetails = () => {
       })
         .then(response => response.json())
         .then(data => {
+          setEmployees(prevEmployees => prevEmployees.filter(e => e.Emp_id !== emp.Emp_id));
           // Handle the response if needed
           setEmployeeDeleted(true);
           // setShowPopup(true);
@@ -68,7 +92,7 @@ const EmployeeDetails = () => {
 
   return (
     <div>
-       <div className='my-2' style={{ marginRight: "0.5vw" }}>
+       <div className='my-2' style={{ marginRight: "0.5vw", justifyContent:'end' }}>
       <Button
         size='compact'
         style={{ backgroundColor: 'darkcyan' }}

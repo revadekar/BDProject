@@ -408,14 +408,14 @@ app.get('/getEmployees',(req,res)=>{
 })
 
 app.post('/editEmployee', (req, res) => {
-  const { Emp_id,desig_code, Email, Mobile,Office_landline,Location} = req.body;
+  const { Emp_id,desig_code, Email, Mobile,Office_landline,Location, Group_id} = req.body;
 
   // Validate the data here if needed
 
   const query = `update employee_details
-  set Desig_Code=?,Email=?,mobile=?, Office_landline=?,Location=? where Emp_id=?`;
+  set Desig_Code=?,Email=?,mobile=?, Office_landline=?,Location=?,Group_id=? where Emp_id=?`;
 
-  db.query(query, [ desig_code, Email, Mobile, Office_landline,Location, Emp_id], (err, result) => {
+  db.query(query, [ desig_code, Email, Mobile, Office_landline,Location,Group_id, Emp_id], (err, result) => {
     if (err) {
       console.error('Error:', err);
       res.status(500).json({ error: 'Error updating data' });
@@ -519,7 +519,7 @@ app.delete('/deleteProject', (req, res) => {
     } else {
       console.log({'Project details deleted successfully':result, DeletedProjects:ids});
       res.status(201).json({ message: 'Project details deleted successfully' });
-    }
+ol    }
   });
 });
 
