@@ -154,7 +154,6 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
                       required
                     >
                       <option value="" disabled selected>
-                        {" "}
                         Select Group
                       </option>
                       {GroupData.map((Group, index) => (

@@ -39,22 +39,21 @@ const Dashboard = () => {
   };
 
   return (
+    <DashboardWrapper className={`Dashboard ${css({ paddingLeft: open ? '285px' : '0' })}`}>
+              <Navbar setActiveMenuItem={setActiveMenuItem} />
+              {showFabar && (
+          <ChevronRight
+            style={{ position: 'fixed', top: '4rem' }}
+            size='1.5vw'
+            onClick={() => setOpen(!open)}
+            cursor={'pointer'}
+          />
+        )}
 
-     <DashboardWrapper className={`Dashboard ${css({ paddingLeft: open ? '285px' : '0' })}`}>
-      <Navbar setActiveMenuItem={setActiveMenuItem} />
-      {open && <div ><Sidebar  open={open} setOpen={setOpen} setActiveMenuItem={setActiveMenuItem} setShowFabar={setShowFabar} /></div> }
-      {showFabar &&
-      <div className='showSidebar'>
-         <ChevronRight  style={{position:"fixed"}} size='1.5vw'  onClick={() => setOpen(!open) } cursor={'pointer'} />
-         </div>
-         }
-      <DashboardHeader open={open} setOpen={setOpen} />
-      <div className='container-fluid'>
-      {renderContent()}
-      </div>
-
+            {open && <Sidebar open={open} setOpen={setOpen} setActiveMenuItem={setActiveMenuItem} setShowFabar={setShowFabar} />}
+            <DashboardHeader open={open} setOpen={setOpen} />
+            {renderContent()}
     </DashboardWrapper>
-    
   );
 };
 
@@ -74,6 +73,6 @@ const DashboardWrapper = styled('section', {
   '@media (max-width: 768px)': {
     paddingLeft: '0',
   },
-  paddingTop: '4rem',
+  paddingTop: '3rem',
   transition: 'padding-left 0.3s ease, margin-left 0.3s ease, width 0.3s ease', // Add transitions for other properties
 });

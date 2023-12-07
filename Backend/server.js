@@ -6,10 +6,23 @@ const cors = require('cors');
 const app = express();
 const path = require('path');
 const fs=require('fs');
+const multer = require('multer');
 
 // Serve static files
 app.use('/files', express.static('C:/Users/shilpa/Documents/project'));
+// Set up multer for file uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    // Specify the destination folder where files will be saved
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    // Maintain the original file name
+    cb(null, file.originalname);
+  }
+});
 
+const upload = multer({ storage: storage });
 const port = process.env.PORT || 5000;
 
 app.use(bodyParser.json());
@@ -488,6 +501,36 @@ app.get('/getStatus',(req,res)=>{
   })
 })
 
+app.post('/getEmployees',(req,res)=>{
+  const {group_id}=req.body;
+  const query ='select*from employee_details where Group_id=?';
+
+  db.query(query,[group_id],(err,result)=>{
+    if(err){
+      console.error('Error', err);
+      res.status(500).json({error:'Error getting employees'});
+    }else{
+      console.log(result);
+      console.log('Employees details fetched successfully');
+      res.status(201).json(result);
+    }
+  })
+})
+
+app.get('/getCategories',(req,res)=>{
+  const query ='select*from category_details';
+  db.query(query,(err,result)=>{
+    if(err){
+      console.error('Error', err);
+      res.status(500).json({error:'Error getting Categories'});
+    }else{
+      console.log(result);
+      console.log('Category details fetched successfully');
+      res.status(201).json(result);
+    }
+  })
+})
+
 
 app.post('/editProject', (req, res) => {
   const {status_id,Project_id} = req.body;
@@ -504,6 +547,67 @@ app.post('/editProject', (req, res) => {
       console.log('Project Details updated successfully');
       res.status(201).json({ message: 'Project Details updated successfully' });
     }
+  });
+});
+
+app.post('/addProject', (req, res) => {
+  const { newProject } = req.body;
+  console.log('newProject',newProject);
+
+  const query = `insert into project_detail set ?`;
+
+  if (!req.file) {
+    return res.status(400).json({ error: 'No file uploaded.' });
+  }
+
+  db.query(query, [newProject], (err, result) => {
+    if (err) {
+      console.error('Error:', err);
+      return res.status(500).json({ error: 'Error inserting data', details: err.message });
+    }
+
+    console.log('Project Details inserted successfully');
+    return res.status(201).json({ message: 'Project Details inserted successfully' });
+  });
+});
+
+
+// Define a POST endpoint for file upload
+app.post('/upload', upload.single('file'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).send('No file uploaded.');
+  }
+
+  // Get the file path where it's stored
+  const filePath = path.join(__dirname, req.file.path); // Get the file path
+  console.log('File uploaded successfully!', filePath);
+
+  // Send the file path as part of the response
+  res.status(200).send({ message: 'File uploaded successfully!', filePath });
+});
+
+app.post('/deleteTempFile', (req, res) => {
+  const { filePath } = req.body;
+console.log('filePath',filePath);
+  // Check if the file exists
+  fs.access(filePath, fs.constants.F_OK, (err) => {
+    if (err) {
+      // File doesn't exist or error accessing it
+      return res.status(404).json({ error: 'File not found or inaccessible' });
+    }
+
+    // File exists, so delete it
+    fs.unlink(filePath, (err) => {
+      if (err) {
+        // Error occurred while deleting the file
+        console.error('Error deleting file:', err);
+        return res.status(500).json({ error: 'Error deleting file' });
+      }
+
+      // File deleted successfully
+      console.log('File deleted successfully' );
+      return res.status(200).json({ message: 'File deleted successfully' });
+    });
   });
 });
 

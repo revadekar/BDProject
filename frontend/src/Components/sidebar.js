@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useState,useRef,useEffect } from 'react';
 import { styled, useStyletron } from 'baseui';
 import logo from './assets/images/cdac1.png';
 import SideNavListItem from './SideNavListItem';
 import { menuData } from './assets/constants';
-import { ChevronLeft } from 'baseui/icon';
+import { ChevronLeft, ChevronUp, ChevronDown } from 'baseui/icon';
 
 const Sidebar = ({ open, setOpen, activeMenuItem, setActiveMenuItem,setShowFabar }) => {
   const [css] = useStyletron();
- setShowFabar(false);
+   setShowFabar(false);
+   const [showScrollButtons, setShowScrollButtons] = useState(false);
+   const sidebarRef = useRef(null);
+
   const menuItemStyles = (title) =>
     css({
       padding: '5px',
@@ -19,7 +22,7 @@ const Sidebar = ({ open, setOpen, activeMenuItem, setActiveMenuItem,setShowFabar
       // },
     });
 
-    const handleChevronClick=(async)=>{
+    const handleChevronClick=async()=>{
       setOpen(false);
       setShowFabar(true);
     }
@@ -28,6 +31,26 @@ const Sidebar = ({ open, setOpen, activeMenuItem, setActiveMenuItem,setShowFabar
     setActiveMenuItem(title);
     //setOpen(false);
   };
+
+  const handleScrollUp = () => {
+    const sidebarElement = sidebarRef.current;
+    sidebarElement.scrollTop -= 50; // Adjust the scrolling distance as needed
+  };
+
+  const handleScrollDown = () => {
+    const sidebarElement = sidebarRef.current;
+    sidebarElement.scrollTop += 50; // Adjust the scrolling distance as needed
+  };
+
+  useEffect(() => {
+    // Check if sidebar content overflows
+    const sidebarElement = sidebarRef.current;
+    if (sidebarElement.scrollHeight > sidebarElement.clientHeight) {
+      setShowScrollButtons(true);
+    } else {
+      setShowScrollButtons(false);
+    }
+  }, []);
 
   return (
     <SidebarWrapper
@@ -70,7 +93,7 @@ const Sidebar = ({ open, setOpen, activeMenuItem, setActiveMenuItem,setShowFabar
         />
        P & SO Dashboard
       </Logo>
-      <nav>
+      <nav ref={sidebarRef}>
         <ul className={css({ listStyle: 'none', padding: 0,})}>
           {menuData.map(({ icon, title }, index) => (
             <li key={index}>
@@ -87,6 +110,12 @@ const Sidebar = ({ open, setOpen, activeMenuItem, setActiveMenuItem,setShowFabar
           ))}
         </ul>
       </nav>
+      {showScrollButtons && (
+        <div className={css({ position: 'absolute', top: '50%', right: '0', transform: 'translateY(-50%)' })}>
+          <ChevronUp size="1.5rem" onClick={handleScrollUp} />
+          <ChevronDown size="1.5rem" onClick={handleScrollDown} />
+        </div>
+      )}
       <div
         className={css({
           position: 'absolute', // Position the icon absolutely
@@ -113,25 +142,27 @@ const Sidebar = ({ open, setOpen, activeMenuItem, setActiveMenuItem,setShowFabar
 
 export default Sidebar;
 
+
 const SidebarWrapper = styled('section', {
-  paddingTop:'2rem',
+  paddingTop: '2rem',
   position: 'fixed',
   top: '10vh',
   left: '0',
-  width: '100%',
-  maxWidth: '17vw',
+  width: '17vw',
+  maxWidth: '250px',
+  minWidth: '220px',
   height: '100%',
-  maxHeight:'91vh',
+  maxHeight: '90vh',
   background: '#363740',
   zIndex: '1',
-  overflowX: 'auto',
+  overflowY: 'hidden', // Hide horizontal scrollbar
   padding: '0.6rem',
   color: 'grey',
-  transition: 'left 2s ease, width 1s ease'
+  transition: 'left 2s ease, width 1s ease',
 });
 
 const Logo = styled('div', {
-  margin:'2rem',
+  margin: '2rem',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',

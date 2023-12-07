@@ -161,7 +161,6 @@ const ContactDetailsForm = ({ onCloseForm, onAddContact }) => {
                       required
                     >
                       <option value="" disabled selected>
-                        {" "}
                         Select Company
                       </option>
                       {customerData.map((customer, index) => (
