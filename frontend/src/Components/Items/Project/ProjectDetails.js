@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { FaFilePdf, FaPencilAlt, FaPlus, FaTrash } from "react-icons/fa";
 import EditProjectForm from "./EditProjectForm";
 import { Button } from "baseui/button";
-import { DeleteAlt } from "baseui/icon";
+import { DeleteAlt, Upload } from "baseui/icon";
 import AddProjectForm from "./AddProjectForm";
+import FileUpload from "./FileUpload";
+import { styled } from "styletron-react";
 
 const ProjectDetails = () => {
     const [projectData, setProjectData] = useState([]);
@@ -19,6 +21,8 @@ const ProjectDetails = () => {
     const [ showProjects,setShowProjects]=useState(true);
     const [showAddProjectForm, setShowAddProjectForm]=useState(false);
     const [ErrorMessage,setErrorMessage]=useState(false);
+    const [message, setMessage]=useState('');
+    const [showFileUpload,setShowFileUpload]=useState(false);
 
   useEffect(() => {
     fetch('http://localhost:5000/getProjects', {
@@ -58,10 +62,20 @@ const ProjectDetails = () => {
         setDataInserted(false);
         setProjectUpdated(false);
         setDataDeleted(false);
-      }, 2000); // Adjust the delay (in milliseconds) as needed
+      }, 3000); // Adjust the delay (in milliseconds) as needed
       return () => clearTimeout(timeout); // Cleanup the timeout on unmount
     }
   }, [projectUpdated, dataDeleted,datainserted]);
+
+
+  const handleFileUpload=(projectId)=>{
+console.log('projectId',projectId);
+    const selectedProject=projectData.find((project)=>project.Project_id===projectId);
+    console.log('selectedProject',selectedProject);
+    setEditingProject(selectedProject);
+    setShowFileUpload(true);
+
+  }
 
   const handleEditProject=()=>{
     setProjectUpdated(false);
@@ -143,7 +157,6 @@ const ProjectDetails = () => {
 
   return (
     <div className="container-fluid" >
-      {error && <p className="error-message">{error}</p>}
        {ErrorMessage && 
           <div className='d-flex justify-content-center custom-alert'>
         <p className='error-message'>{ErrorMessage}</p>
@@ -167,24 +180,43 @@ const ProjectDetails = () => {
   {datainserted && (
          <div className="d-flex justify-content-center align-items-center">
          <div className='custom-alert success' >
-           Project details added successfully!
+           {message}
          </div>
        </div>
       )}
+
+
       {showAddProjectForm && <AddProjectForm
+        setMessage={setMessage}
         onCloseForm={() => {
           setShowAddProjectForm(false);
           setShowProjects(true);
           //setDataInserted(false); // Reset datainserted when closing the form
         }}
-        onAddCustomer={() => {
+        onAddProject={() => {
           setDataInserted(true); // Set datainserted to true when data is successfully inserted
         }}
         
       />} {/* Render the form when showForm is true */}
-     
+
+      {showFileUpload && 
+       <FileUpload 
+       editingProject={editingProject} 
+
+        onClose={()=>{ 
+        setShowFileUpload(false);
+        setEditingProject(null);    }} 
+
+        onUpload={()=>{ 
+          setSelectedProjects([]);
+          setProjectUpdated(true);
+        }}
+        />
+      }
+
       {showProjects && (
         <>
+        {error && <p className="error-message">{error}</p>}
       <div className="d-flex justify-content-between align-items-center">
   <div className="d-flex justify-content-start my-2 form1">
     {selectedProjects.length === 1 && (
@@ -293,11 +325,16 @@ const ProjectDetails = () => {
                    <td className="responsive-font">{project.Purchase_order}</td>
                    <td className="responsive-font">{project.Catgory_name}</td>
                    <td className="responsive-font" style={{textAlign:"center"}}>
-                     {/* Show a link to the project document */}
-                      <a href={`http://localhost:5000/getDocument/${project.project_document}`} target="_blank" rel="noopener noreferrer">
+                     {project.project_document ?
+                     <a href={`http://localhost:5000/getDocument/${project.project_document}`} target="_blank" rel="noopener noreferrer">
                       <FaFilePdf size={'2rem'} style={{color:"rebeccapurple"}} />
                       <span style={{ display: "block", marginTop: "0.3rem" }}>View PDF</span>
-                     </a>
+                     </a> :
+                     <button className="btn btn-link" onClick={() => handleFileUpload(project.Project_id) }> 
+                        <Upload size={'30px'}/><br/>
+                        Upload
+                    </button>
+                     }
                    </td>
                    <td className="responsive-font">{project.Remarks}</td>
                  </tr>

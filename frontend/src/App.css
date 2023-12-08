@@ -85,13 +85,12 @@
   /* margin: 20px; */
   background-color: white;
   text-align: start;
-  padding: 2rem;
   max-width: 80vh;
   /* font-weight: 500; */
 }
 .userform .form1 select,
 .userform .form1 input {
-  background-color: rgba(217, 231, 236, 0.192); /* Adjust the alpha value (0.5 for 50% opacity) */
+  /* background-color: rgba(217, 231, 236, 0.192); Adjust the alpha value (0.5 for 50% opacity) */
   /* border: 1px ridge rgb(226, 221, 221); */
 }
 .error-message{
@@ -196,11 +195,11 @@
   text-align: center;
 }
 .success{
-  background-color: rgba(187, 231, 187, 0.664);
+  /* background-color: rgba(187, 231, 187, 0.664); */
   padding: 1rem;
-  color: black;
+  color: green;
 }
-.container-fluid .userform .form-inline {
+.container-fluid .userform {
   text-align: start;
 }
 .container-fluid .card {
