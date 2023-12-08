@@ -400,7 +400,7 @@ app.get('/getEmployees',(req,res)=>{
       res.status(500).json({error:'Error getting Employees'});
     }else
     {
-      console.log(result);
+      //console.log(result);
       console.log('Employees details fetched successfully');
       res.status(201).json(result);
     }
@@ -408,14 +408,14 @@ app.get('/getEmployees',(req,res)=>{
 })
 
 app.post('/editEmployee', (req, res) => {
-  const { Emp_id,desig_code, Email, Mobile,Office_landline,Location, Group_id} = req.body;
+  const { Emp_id,Employee_Name,desig_code, Email, Mobile,Office_landline,Location, Group_id} = req.body;
 
   // Validate the data here if needed
 
   const query = `update employee_details
-  set Desig_Code=?,Email=?,mobile=?, Office_landline=?,Location=?,Group_id=? where Emp_id=?`;
+  set Employee_Name=?,Desig_Code=?,Email=?,mobile=?, Office_landline=?,Location=?,Group_id=? where Emp_id=?`;
 
-  db.query(query, [ desig_code, Email, Mobile, Office_landline,Location,Group_id, Emp_id], (err, result) => {
+  db.query(query, [ Employee_Name,desig_code, Email, Mobile, Office_landline,Location,Group_id, Emp_id], (err, result) => {
     if (err) {
       console.error('Error:', err);
       res.status(500).json({ error: 'Error updating data' });

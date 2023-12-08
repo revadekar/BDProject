@@ -9,7 +9,9 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
     const [designationValid, setDesignationValid] = useState(true);
     const [emailValid, setEmailValid] = useState(true);
     const [mobileValid, setMobileValid] = useState(true);
+    const [DesignationData, setDesignationData] = useState([]);
     const [newEmployee,setNewEmployee]=useState({
+      
         Group_Name: null,
         Employee_Name: null,
         Designation:null,
@@ -35,6 +37,24 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
           });
       }, []);
 
+      useEffect(()=>{
+        fetch('http://localhost:5000/getDesignation', {
+                method: 'GET',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(),
+              })
+                .then((response) => response.json())
+                .then((data) => { 
+                    setDesignationData(data);
+                })
+                .catch((error) => {
+                  console.error('Error:', error);
+                });
+        },[])
+
+
 
     const handleCancel = () => {
         onCloseForm();
@@ -46,6 +66,7 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
         const selectedGroup = GroupData.find(
           (group) => group.Group_Name === newEmployee.Group_Name
         );
+        newEmployee.desig_code=DesignationData.find((desig)=>desig.desig_name===newEmployee.Designation).desig_code;
     
         // Check if all required fields are filled
         if (
@@ -201,7 +222,25 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
                   <span className="text-danger">*</span>
                 </label>
                 <div className="col-sm-8">
-                  <input
+                <select
+                  type="text"
+                  id="Designation"
+                  className="form-select"
+                  value={newEmployee.Designation}
+                  onChange={(e) =>
+                    setNewEmployee({
+                      ...newEmployee,
+                      Designation: e.target.value,
+                    })
+                  }
+                  required
+                >
+                  <option value='' disabled selected> Select Designation</option>
+                  {DesignationData.map((desig)=>(
+                    <option  value={desig.desig_name}>{desig.desig_name}</option>
+                  ))}
+                  </select>
+                  {/* <input
                     type="text"
                     id="Designation"
                     className="form-control"
@@ -213,7 +252,8 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
                       })
                     }
                     required
-                  />
+                  /> */}
+
                 </div>
               </div>
               
@@ -331,17 +371,19 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
             </div>
                 <div className="d-flex justify-content-center">
                   <Button
-                    size="compact"
-                    type="button"
-                    style={{ backgroundColor: "darkred" }}
+                 className="flat-button btn btn-danger"
+                 size="compact"
+                
+          
                     onClick={handleCancel}
                   >
                     Cancel
                   </Button>
                   <Button
-                    size="compact"
-                    type="button"
-                    style={{ marginLeft: "10px", backgroundColor: "darkslategray" }}
+style={{ marginLeft: "0.3rem" }}
+              size="compact"
+                    
+                    className="btn btn-danger flat-button"
                     onClick={handleAddEmployee}
                   >
                     Save

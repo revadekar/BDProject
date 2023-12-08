@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 
 const EditEmployee = ({ onCloseForm, onEditEmployee, EditingEmployee }) => {
-  const [newEmployee, setNewEmployee] = useState(EditingEmployee);
+  const [newEmployee, setNewEmployee] = useState(EditingEmployee );
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [GroupData, setGroupData] = useState([]);
   const [DesignationData, setDesignationData] = useState([]);
@@ -209,32 +209,36 @@ const EditEmployee = ({ onCloseForm, onEditEmployee, EditingEmployee }) => {
             {!designationValid && (
                   <div className="invalid-feedback">Designation is required.</div>
                 )}
-            <div className="form-group row mb-3" >
-              <label htmlFor="Designation" className="control-label col-sm-4">
-                Designation:
-                <span className="text-danger">*</span>
-              </label>
-              <div className="col-sm-8">
-                <select
-                  type="text"
-                  id="Designation"
-                  className="form-select"
-                  value={newEmployee.Designation}
-                  onChange={(e) =>
-                    setNewEmployee({
-                      ...newEmployee,
-                      Designation: e.target.value,
-                    })
-                  }
-                  required
-                >
-                  <option value='' disabled> Select Designation</option>
-                  {DesignationData.map((desig)=>(
-                    <option  value={desig.desig_name}>{desig.desig_name}</option>
-                  ))}
-                  </select>
-              </div>
-            </div>
+            <div className="form-group row mb-3">
+  <label htmlFor="Designation" className="control-label col-sm-4">
+    Designation:
+    <span className="text-danger">*</span>
+  </label>
+  <div className="col-sm-8">
+    <div className="dropdown">
+      <select
+        type="text"
+        id="Designation"
+        className="form-select"
+        value={newEmployee.Designation}
+        onChange={(e) =>
+          setNewEmployee({
+            ...newEmployee,
+            Designation: e.target.value,
+          })
+        }
+        required
+      > 
+        <option value="" disabled>Select Designation</option>
+        {DesignationData.map((desig, index) => (
+          <option key={index} value={desig.desig_name}>{desig.desig_name}</option>
+        ))}
+      </select>
+    </div>
+  </div>
+</div>
+
+          
             
             <div className="form-group row mb-3">
               <label htmlFor="Email" className="control-label col-sm-4">

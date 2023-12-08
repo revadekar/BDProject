@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import EmployeeForm from './AddEmployee';
 import { Button } from 'baseui/button';
-import { FaPencilAlt, FaTrash } from 'react-icons/fa';
+import { FaPencilAlt, FaTrash,FaPlus } from 'react-icons/fa';
 import EditEmployee from './EditEmployee';
 
 const EmployeeDetails = () => {
@@ -91,18 +91,21 @@ const EmployeeDetails = () => {
 
 
   return (
+ 
     <div>
-       <div className='my-2' style={{ marginRight: "0.5vw", justifyContent:'end' }}>
-      <Button
-        size='compact'
-        style={{ backgroundColor: 'darkcyan' }}
+      <div style={{ marginRight: "10px" }}>
+       <div className='d-flex justify-content-end form1 mb-4'>
+        
+      <Button className="button"
+       
         onClick={() => {
           setShowAddEmployeeForm(true);
           setShowEmployees(false);
         }}
       >
-        Add Employee
+        <FaPlus></FaPlus>&nbsp;Add Employee
       </Button>
+      </div>
       </div>
       {showAddEmployeeForm && <EmployeeForm onAddEmployee={()=>{setShowEmployees(true); setShowAddEmployeeForm(false); setEmployeeAdded(true)}} onCloseForm={() => {setShowEmployees(true); setShowAddEmployeeForm(false)}}  />}
       {showEditEmployeeForm && 
