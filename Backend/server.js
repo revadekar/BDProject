@@ -9,7 +9,7 @@ const fs=require('fs');
 const multer = require('multer');
 
 // Serve static files
-app.use('/files', express.static('C:/Users/shilpa/Documents/project'));
+app.use('/files', express.static(process.env.uploads));
 // Set up multer for file uploads
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -111,6 +111,9 @@ console.log('username: ', username,'password:',password);
   });
 });
 
+
+
+
 app.post('/getStates',(req,res)=>{
   const {country_name}=req.body;
   console.log('country_name',country_name);
@@ -126,6 +129,9 @@ app.post('/getStates',(req,res)=>{
   })
 })
 
+
+
+
 app.post('/getCities',(req,res)=>{
   const {state_name}=req.body;
   console.log('state_name',state_name);
@@ -140,6 +146,9 @@ app.post('/getCities',(req,res)=>{
     }
   })
 })
+
+
+
 
 // Create an API endpoint to get customer data
 app.get('/getCustomers', (req, res) => {
@@ -157,6 +166,10 @@ app.get('/getCustomers', (req, res) => {
     }
   });
 });
+
+
+
+
 app.post('/addCustomer', (req, res) => {
   const { Cust_name, Address, City_name, State, Country,Website } = req.body;
 
@@ -175,6 +188,9 @@ app.post('/addCustomer', (req, res) => {
     }
   });
 });
+
+
+
 
 app.post('/editCustomer', (req, res) => {
   const { updatedCustomerData } = req.body;
@@ -195,6 +211,7 @@ app.post('/editCustomer', (req, res) => {
 
 
 
+
 // Endpoint to delete customers by IDs
 app.delete('/deleteCustomers', (req, res) => {
   const { ids } = req.body;
@@ -210,6 +227,9 @@ app.delete('/deleteCustomers', (req, res) => {
     }
   });
 });
+
+
+
 
 
 app.post('/addContact', (req, res) => {
@@ -233,6 +253,7 @@ app.post('/addContact', (req, res) => {
 
 
 
+
 app.post('/editContact', (req, res) => {
   const { contact_person, Designation, Email_id, Mobile, Landline,Fax, contact_id } = req.body;
 
@@ -253,6 +274,7 @@ app.post('/editContact', (req, res) => {
 });
 
 
+
 app.delete('/deleteContact', (req, res) => {
   const { contact_id } = req.body;
   console.log(contact_id);
@@ -270,6 +292,8 @@ app.delete('/deleteContact', (req, res) => {
 });
 
 
+
+
 app.post('/getContactDetails',(req,res)=>{
   const{selectedCustomer}=req.body;
   console.log('selected customer',selectedCustomer);
@@ -283,11 +307,14 @@ app.post('/getContactDetails',(req,res)=>{
       res.status(500).json({ error: 'Error receiving data' });
     } else {
       console.log('Contact Details received successfully');
-      console.log(result);
+      //console.log(result);
       res.status(201).json(result);
     }
   });
 })
+
+
+
 
 app.post('/getUserProfile',(req,res)=>{
   const {ActiveUser} =req.body;
@@ -300,12 +327,16 @@ app.post('/getUserProfile',(req,res)=>{
       res.status(500).json({ error: 'Error receiving data' });
     }else{
       console.log('User Details received successfully');
-      console.log(result);
+      //console.log(result);
       res.status(201).json(result);
     }
 
   });
 })
+
+
+
+
 
 app.get('/getUsers',(req,res)=>{
   const query=`SELECT * FROM profile`
@@ -315,7 +346,7 @@ app.get('/getUsers',(req,res)=>{
       res.status(500).json({ error: 'Error receiving data' });
     }else{
       console.log('Users received successfully');
-      console.log(result);
+      //console.log(result);
       res.status(201).json(result);
     }
 
@@ -340,6 +371,10 @@ app.post('/editUser', (req, res) => {
     }
   })
 });
+
+
+
+
 app.post('/deleteUser',(req,res)=>{
   const {user_id}=req.body;
   console.log('deletingUserId',user_id);
@@ -356,6 +391,9 @@ app.post('/deleteUser',(req,res)=>{
   })
 })
 
+
+
+
 app.get('/getGroups',(req,res)=>{
   const query='select * from group_details';
   db.query(query,(error,result)=>{
@@ -364,12 +402,15 @@ app.get('/getGroups',(req,res)=>{
       res.status(500).json({error:'Error getting Groups'});
     }else
     {
-      console.log(result);
+      //console.log(result);
       console.log('Group details fetched successfully');
       res.status(201).json(result);
     }
   })
 })
+
+
+
 
 app.get('/getDesignation',(req,res)=>{
   const query='select * from designation';
@@ -379,12 +420,14 @@ app.get('/getDesignation',(req,res)=>{
       res.status(500).json({error:'Error getting designations'});
     }else
     {
-      console.log(result);
+      //console.log(result);
       console.log('designation details fetched successfully');
       res.status(201).json(result);
     }
   })
 })
+
+
 
 
 app.post('/addEmployee',(req,res)=>{
@@ -405,6 +448,9 @@ console.log(req.body);
               });
 
 
+
+
+
 app.get('/getEmployees',(req,res)=>{
   const query='select * from employees';
   db.query(query,(error,result)=>{
@@ -413,12 +459,15 @@ app.get('/getEmployees',(req,res)=>{
       res.status(500).json({error:'Error getting Employees'});
     }else
     {
-      console.log(result);
+      //console.log(result);
       console.log('Employees details fetched successfully');
       res.status(201).json(result);
     }
   })
 })
+
+
+
 
 app.post('/editEmployee', (req, res) => {
   const { Emp_id,desig_code, Email, Mobile,Office_landline,Location, Group_id} = req.body;
@@ -439,6 +488,9 @@ app.post('/editEmployee', (req, res) => {
   });
 });
 
+
+
+
 app.post('/deleteEmployee',(req,res)=>{
   const {Emp_id}=req.body;
   console.log('deletingEmployeeId',Emp_id);
@@ -455,6 +507,9 @@ app.post('/deleteEmployee',(req,res)=>{
   })
 })
 
+
+
+
 app.get('/getProjects',(req,res)=>{
   const query='select * from projects';
   db.query(query,(error,result)=>{
@@ -463,12 +518,15 @@ app.get('/getProjects',(req,res)=>{
       res.status(500).json({error:'Error getting Projects'});
     }else
     {
-      console.log(result);
+     // console.log(result);
       console.log('Project details fetched successfully');
       res.status(201).json(result);
     }
   })
 })
+
+
+
 
 // Route to serve documents based on database path
 app.get('/getDocument/:filename', (req, res) => {
@@ -487,6 +545,8 @@ app.get('/getDocument/:filename', (req, res) => {
   }
 });
 
+
+
 app.get('/getStatus',(req,res)=>{
   const query ='select*from status';
   db.query(query,(err,result)=>{
@@ -494,14 +554,17 @@ app.get('/getStatus',(req,res)=>{
       console.error('Error', err);
       res.status(500).json({error:'Error getting Status'});
     }else{
-      console.log(result);
+      //console.log(result);
       console.log('Status details fetched successfully');
       res.status(201).json(result);
     }
   })
 })
 
-app.post('/getEmployees',(req,res)=>{
+
+
+
+app.post('/getEmployeesByGroupId',(req,res)=>{
   const {group_id}=req.body;
   const query ='select*from employee_details where Group_id=?';
 
@@ -510,12 +573,14 @@ app.post('/getEmployees',(req,res)=>{
       console.error('Error', err);
       res.status(500).json({error:'Error getting employees'});
     }else{
-      console.log(result);
+      //console.log(result);
       console.log('Employees details fetched successfully');
       res.status(201).json(result);
     }
   })
 })
+
+
 
 app.get('/getCategories',(req,res)=>{
   const query ='select*from category_details';
@@ -524,12 +589,13 @@ app.get('/getCategories',(req,res)=>{
       console.error('Error', err);
       res.status(500).json({error:'Error getting Categories'});
     }else{
-      console.log(result);
+      // console.log(result);
       console.log('Category details fetched successfully');
       res.status(201).json(result);
     }
   })
 })
+
 
 
 app.post('/editProject', (req, res) => {
@@ -550,15 +616,13 @@ app.post('/editProject', (req, res) => {
   });
 });
 
+
+
 app.post('/addProject', (req, res) => {
-  const { newProject } = req.body;
-  console.log('newProject',newProject);
+  const { newProject, filePath } = req.body;
+  console.log('newProject', newProject);
 
-  const query = `insert into project_detail set ?`;
-
-  if (!req.file) {
-    return res.status(400).json({ error: 'No file uploaded.' });
-  }
+  const query = `INSERT INTO project_detail SET ?`;
 
   db.query(query, [newProject], (err, result) => {
     if (err) {
@@ -567,9 +631,38 @@ app.post('/addProject', (req, res) => {
     }
 
     console.log('Project Details inserted successfully');
-    return res.status(201).json({ message: 'Project Details inserted successfully' });
+
+    if (filePath) {
+      const targetDir = process.env.uploads;
+      const fileName = path.basename(filePath);
+
+      const targetPath = path.join(targetDir, fileName);
+
+      // Copy the file to the target directory
+      fs.copyFile(filePath, targetPath, (err) => {
+        if (err) {
+          console.error('Error copying file:', err);
+          return res.status(201).json({ message: 'Project Details inserted successfully but file not uploaded' });
+        }
+
+        // Delete the original file after successful copy
+        fs.unlink(filePath, (err) => {
+          if (err) {
+            console.error('Error deleting original file:', err);
+            // You may choose to handle this error differently
+          }
+
+          console.log('File moved to permanent directory.');
+          res.status(201).json({ message: 'Project Details and file uploaded successfully!' });
+        });
+      });
+    } else {
+      res.status(201).json({ message: 'Project Details inserted successfully' });
+    }
   });
 });
+
+
 
 
 // Define a POST endpoint for file upload
@@ -611,6 +704,8 @@ console.log('filePath',filePath);
   });
 });
 
+
+
 // Endpoint to delete projects by IDs
 app.delete('/deleteProject', (req, res) => {
   const { ids } = req.body;
@@ -626,6 +721,8 @@ app.delete('/deleteProject', (req, res) => {
 ol    }
   });
 });
+
+
 
 
 app.listen(port, () => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 
-const AddProjectForm = ({onCloseForm, onAddProject}) => {
+const AddProjectForm = ({onCloseForm, onAddProject, setMessage}) => {
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [showValidationMessage, setShowValidationMessage] = useState(false);
   const [showFileAlert,setShowFileAlert]=useState(false);
@@ -11,6 +11,7 @@ const AddProjectForm = ({onCloseForm, onAddProject}) => {
   const [employeeData, setEmployeeData]=useState([]);
   const [categoryData,setCategoryData]=useState([]);
   const [filePath,setFilePath]=useState('');
+  const [errorMessage,setErrorMessage]= useState('');
 
   const [newProject, setNewProject] = useState({
     Project_Name: null,
@@ -72,6 +73,7 @@ const AddProjectForm = ({onCloseForm, onAddProject}) => {
           setFilePath(result.filePath); // Set the new file path
         })
         .catch((error) => {
+          setErrorMessage('server error please try again later !');
           console.error('Error:', error); // Handle errors here
         });
     }
@@ -99,11 +101,13 @@ const AddProjectForm = ({onCloseForm, onAddProject}) => {
       .then((result) => {
         console.log(result.message); // Log the server response message
         // Additional handling after successful deletion
+        onCloseForm();
       })
       .catch((error) => {
         console.error('Error:', error); // Handle errors here
         // Display an error message or perform error-related tasks
       });
+      onCloseForm();
   };
   
   
@@ -178,7 +182,7 @@ const AddProjectForm = ({onCloseForm, onAddProject}) => {
     // Fetch cities based on selected state
     if (newProject.group_id) {
       const group_id=newProject.group_id;
-      fetch('http://localhost:5000/getEmployees', {
+      fetch('http://localhost:5000/getEmployeesByGroupId', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -197,39 +201,35 @@ const AddProjectForm = ({onCloseForm, onAddProject}) => {
 
 
   const handleAddProject = () => {
-    console.log("newProject",newProject);
+    console.log("newProject", newProject);
     fetch('http://localhost:5000/addProject', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ newProject }),
+      body: JSON.stringify({ newProject, filePath }),
     })
       .then((response) => {
-        if (response.ok) {
+        if (response.ok || response.status === 201 || response.status === 200) {
           return response.json();
         } else if (response.status === 400) {
-          return response.json().then((data) => {
-            setShowValidationMessage(false);
-            setShowErrorMessage(true);
-            throw new Error(`Unable to add project details: ${data.error}`);
-          });
+          return response.json().then((data) => Promise.reject(data)); // Reject with specific data
         } else {
-          setShowValidationMessage(false);
-          setShowErrorMessage(true);
-          throw new Error(`Unable to add project details: ${response.statusText}`);
+          return response.json().then((data) => Promise.reject(`Unable to add project details: ${data.message}`));
         }
       })
       .then((data) => {
+        setMessage(data.message);
         setShowErrorMessage(false);
-        onCloseForm();
         onAddProject();
+        onCloseForm();
       })
       .catch((error) => {
         setShowErrorMessage(true);
         console.error('Error:', error);
       });
   };
+  
   
 
 
@@ -243,6 +243,7 @@ const AddProjectForm = ({onCloseForm, onAddProject}) => {
             </p>
           </div>
         )}
+        {errorMessage && (<div className='error-message'><p className='custom-alert'>{errorMessage}</p></div>)}
         <div className='d-flex justify-content-start mb-3 form1'>
           <div className='btn-group'>
           <Button type='button' className='flat-button' onClick={handleAddProject}>
@@ -317,7 +318,7 @@ const AddProjectForm = ({onCloseForm, onAddProject}) => {
                     >
                       <option value='' disabled>Select Status</option>
                       {statusData && statusData.map((status)=>(
-                            <option value={status.status_name}>{status.status_name}</option>
+                            <option value={status.status_id}>{status.status_name}</option>
                         ))}
                     </select>
                   </div>
@@ -338,7 +339,7 @@ const AddProjectForm = ({onCloseForm, onAddProject}) => {
                         {customerData.map((customer, index) => (
                         <option
                           key={index}
-                          value={customer.Cust_name}
+                          value={customer.Cust_id}
                         >
                           {customer.Cust_name}
                         </option>
@@ -384,7 +385,7 @@ const AddProjectForm = ({onCloseForm, onAddProject}) => {
                        {employeeData.map((emp, index) => (
                         <option
                           key={index}
-                          value={emp.Employee_Name}
+                          value={emp.Emp_id}
                         >
                           {emp.Employee_Name}
                         </option>
@@ -406,7 +407,7 @@ const AddProjectForm = ({onCloseForm, onAddProject}) => {
                       {categoryData.map((Cat, index) => (
                         <option
                           key={index}
-                          value={Cat.Catgory_name}
+                          value={Cat.Cat_id}
                         >
                           {Cat.Catgory_name}
                         </option>
