@@ -1,0 +1,208 @@
+.App {
+  position: relative;
+  text-align: center;
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background-color:rgba(255, 255, 255, 0.123)
+  /* overflow: hidden; */
+}
+/* CSS file */
+.showSidebar{
+  font-size: large;
+}
+
+#profile{
+  text-align: start;
+}
+.responsive-font {
+  font-size: 1vw; /* Adjust the font size based on the viewport */
+}
+
+/* CSS file */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  
+}
+.table tbody{
+ padding: 2rem;
+}
+
+.table thead th{
+  position: sticky;
+  top: 0;
+  background-color: rgb(168, 166, 166);
+  color: rgba(0, 0, 0, 0.822);
+
+
+
+}
+.table tbody td {
+  /* background-color: #f0f0f0; light grey */
+  /* background-color: #f8f8f8; off white  */
+  /* background-color: #cfe2f3; muted blue  */
+  /* background-color: #d3f7be; light green */
+  background-color: ghostwhite;
+
+}
+
+/* Increase specificity */
+.table thead th,
+.table tbody td {
+  font-size: 1.0vw;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+
+}
+
+
+/* Media query to adjust font size for smaller screens */
+@media screen and (max-width: 768px) {
+  .table th,
+  .table td {
+    font-size: 3vw; /* Change font size for smaller screens */
+  }
+}
+.table-responsive {
+  /* margin: 0.5rem; */
+  max-height: 75vh;
+  overflow-y: auto;
+   
+}
+/* form{
+  border-radius: 1rem;
+  padding: 1rem;
+  background-color: rgb(235, 224, 224);
+} */
+
+.userform .form1 {
+  /* Add your styles here for the card class */
+  border-radius: 0.5rem;
+  /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1); */
+  padding: 1.5rem;
+  /* margin: 20px; */
+  background-color: white;
+  text-align: start;
+  max-width: 80vh;
+  /* font-weight: 500; */
+}
+.userform .form1 select,
+.userform .form1 input {
+  /* background-color: rgba(217, 231, 236, 0.192); Adjust the alpha value (0.5 for 50% opacity) */
+  /* border: 1px ridge rgb(226, 221, 221); */
+}
+.error-message{
+  color: red;  
+  max-height: 2rem;
+  text-align: center;
+}
+/* Style for the button inside .form1 */
+.form1 .button {
+  /* background-color: rgba(163, 161, 161, 0.226); */
+  border: none;
+  background: #ddd;
+  color: #000; /* Set text color */
+  /* color: rgb(119, 118, 118); */
+  padding: 0.7rem 0.8rem;
+}
+
+/* Style for the button inside .form1 when hovering */
+.form1 .button:hover {
+  background-color: rgba(85, 83, 83, 0.438);
+  /* color: white; */
+}
+
+.form1 .button2 {
+  background-color: rgba(241, 236, 236, 0.068);
+  border: 1px solid rgba(196, 192, 192, 0.849);
+  color: rgb(49, 49, 49);
+}
+
+/* CSS for flat buttons */
+.form1 .flat-button {
+  border: none;
+  background: #ccc6c683;
+  color: #000; /* Set text color */
+  padding: 0.4rem 0.8rem; /* Adjust padding */
+  cursor: pointer;
+  transition: color 0.3s, background-color 0.3s; /* Add transition for color change */
+}
+
+
+.Dashboard {
+  background: rgb(14, 151, 106);
+}
+
+
+
+/* Style for the button inside .form1 when clicked (active)
+.form1 .button:active {
+  background-color: rgba(112, 73, 73, 0.863);
+} */
+
+/* Styling for the overlay */
+.popup {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+/* Styling for the popup inner content */
+.popup-inner {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  max-width: 80%; /* Adjust this as needed */
+  position: relative;
+}
+
+/* Styling for the close button */
+.close {
+  width: max-content;
+  position: absolute;
+  top: 10vh;
+  right:50vh;
+  cursor: pointer;
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+}
+
+/* Additional styles for your form elements can go here */
+
+/* Example: Style for buttons */
+.popup-inner button {
+  margin-top: 10px;
+}
+
+.custom-alert{ 
+  position: fixed;
+  top: 6rem;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  max-width: max-content;
+  text-align: center;
+}
+.success{
+  /* background-color: rgba(187, 231, 187, 0.664); */
+  padding: 1rem;
+  color: green;
+}
+.container-fluid .userform {
+  text-align: start;
+}
+.container-fluid .card {
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
