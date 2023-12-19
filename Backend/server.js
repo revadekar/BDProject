@@ -395,7 +395,7 @@ app.post('/deleteUser',(req,res)=>{
 
 
 app.get('/getGroups',(req,res)=>{
-  const query='select * from group_details';
+  const query='select * from group_details order by Group_Name';
   db.query(query,(error,result)=>{
     if(error){
       console.error('Error',error);
@@ -561,7 +561,7 @@ app.get('/getDocument/:filename', (req, res) => {
 
 
 app.get('/getStatus',(req,res)=>{
-  const query ='select*from status';
+  const query ='select * from status order by status_name';
   db.query(query,(err,result)=>{
     if(err){
       console.error('Error', err);
@@ -596,7 +596,7 @@ app.post('/getEmployeesByGroupId',(req,res)=>{
 
 
 app.get('/getCategories',(req,res)=>{
-  const query ='select*from category_details';
+  const query ='select*from category_details order by Catgory_name';
   db.query(query,(err,result)=>{
     if(err){
       console.error('Error', err);
@@ -629,7 +629,63 @@ app.post('/editProject', (req, res) => {
   });
 });
 
+app.post('/uploadDocument',(req, res)=>{
 
+  const {projectDocument, filePath, id} = req.body;
+  const query = `update project_detail SET project_document= ? where Project_id=?`;
+
+    if (filePath) {
+
+      db.query(query, [projectDocument, id], (err,result)=>{
+        if(err){
+          console.error('Error',err);
+          return res.status(500).json({error : 'Error inserting data', details: err.message })
+        }
+          console.log('Document added successfully in database');
+      })
+
+
+      const targetDir = process.env.uploads;
+      const fileName = path.basename(filePath);
+
+      const targetPath = path.join(targetDir, fileName);
+
+      // Copy the file to the target directory
+    // Inside your file upload endpoint
+// ... (other code remains the same)
+
+fs.copyFile(filePath, targetPath, (err) => {
+  if (err) {
+      console.error('Error copying file:', err);
+      console.log('Error uploading the file.');
+      return res.status(400).json({ message: 'File copy failed' }); // Use 400 for client-side issues
+  }
+
+  // Delete the original file after successful copy
+  fs.unlink(filePath, (err) => {
+      if (err) {
+          console.error('Error deleting original file:', err);
+          // You may choose to handle this error differently
+      }
+
+      console.log('File moved to permanent directory.');
+      // If everything succeeded
+      db.query(query, [projectDocument, id], (err, result) => {
+          if (err) {
+              console.error('Error', err);
+              return res.status(500).json({ error: 'Error inserting data', details: err.message });
+          }
+          console.log('File uploaded and database updated!');
+          res.status(200).json({ message: 'Document uploaded successfully' });
+      });
+  });
+});
+
+    } else {
+       return  res.status(500).json({ message: 'File not received on server' });
+    }
+
+})
 
 app.post('/addProject', (req, res) => {
   const { newProject, filePath } = req.body;
@@ -731,7 +787,7 @@ app.delete('/deleteProject', (req, res) => {
     } else {
       console.log({'Project details deleted successfully':result, DeletedProjects:ids});
       res.status(201).json({ message: 'Project details deleted successfully' });
-ol    }
+      }
   });
 });
 

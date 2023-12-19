@@ -48,7 +48,10 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
               })
                 .then((response) => response.json())
                 .then((data) => { 
+                  if( Array.isArray(data)){
                     setDesignationData(data);
+                  }
+                   
                 })
                 .catch((error) => {
                   console.error('Error:', error);
@@ -250,24 +253,15 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
                   required
                 >
                   <option value='' disabled selected> Select Designation</option>
+<<<<<<< HEAD
                   {DesignationData.map((desig)=>(
                     <option  value={desig.desig_code}>{desig.desig_name}</option>
+=======
+                  { DesignationData && DesignationData.map((desig)=>(
+                    <option  value={desig.desig_name}>{desig.desig_name}</option>
+>>>>>>> d3f47389ef07a4b37952e57be1a8025fc01bbe49
                   ))}
                   </select>
-                  {/* <input
-                    type="text"
-                    id="Designation"
-                    className="form-control"
-                    value={newEmployee.Designation}
-                    onChange={(e) =>
-                      setNewEmployee({
-                        ...newEmployee,
-                        Designation: e.target.value,
-                      })
-                    }
-                    required
-                  /> */}
-
                 </div>
               </div>
               
@@ -291,10 +285,10 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
                   </div>
                 </div>
                 {!emailValid && (
-  <div className="d-flex justify-content-center align-items-center">
-    <p style={{ color: "red", marginLeft:"10rem" }}>Email is required and must be valid</p>
-  </div>
-)}
+                 <div className="d-flex justify-content-center align-items-center">
+                 <p style={{ color: "red", marginLeft:"10rem" }}>Email is required and must be valid</p>
+                 </div>
+                    )}
               </div>
             
               <div className="form-group row mb-3">
@@ -413,7 +407,19 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
                   >
                     Cancel
                   </Button>
+<<<<<<< HEAD
 
+=======
+                  <Button
+                     style={{ marginLeft: "0.3rem" }}
+                     size="compact"
+                    
+                    className="btn btn-danger flat-button"
+                    onClick={handleAddEmployee}
+                  >
+                    Save
+                  </Button>
+>>>>>>> d3f47389ef07a4b37952e57be1a8025fc01bbe49
                 </div>
             </form>
           </div>

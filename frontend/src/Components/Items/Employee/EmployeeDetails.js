@@ -81,6 +81,7 @@ useEffect(() => {
 
   return (
  
+<<<<<<< HEAD
     <div>
       {employeeAdded && (
   <div className="d-flex justify-content-center align-items-center" style={{ position: "fixed", top: "5rem", left: "50%", transform: "translate(-50%, -50%)", width: "50%" }}>
@@ -108,6 +109,10 @@ useEffect(() => {
   </div>
 )}
       <div style={{ marginRight: "10px" }}>
+=======
+    <div className='container-fluid'>
+      <div >
+>>>>>>> d3f47389ef07a4b37952e57be1a8025fc01bbe49
        <div className='d-flex justify-content-end form1 mb-4'>
         
       <Button className="button"

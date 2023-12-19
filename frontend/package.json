@@ -24,8 +24,16 @@
     "baseui": "^13.0.0",
     "bootstrap": "^5.3.2",
     "fortawesome": "0.0.1-security",
+<<<<<<< HEAD
     "html2pdf": "^0.0.11",
     "html2pdf.js": "^0.10.1",
+=======
+    "html2canvas": "^1.4.1",
+    "html2pdf": "0.0.11",
+    "html2pdf.js": "^0.10.1",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.8.1",
+>>>>>>> d3f47389ef07a4b37952e57be1a8025fc01bbe49
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",
     "react-bootstrap": "^2.9.1",

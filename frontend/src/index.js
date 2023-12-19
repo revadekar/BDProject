@@ -6,15 +6,14 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';  // Corrected import statement
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from './Components/Navbarr';
-import Dashboard from './Components/dashboard'
+import EmployeeDetails from './Components/Items/Employee/EmployeeDetails';
 
 const root = createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Router>
       <App />
-      {/* <Navbar></Navbar>     */}
+
     </Router>
   </React.StrictMode>,
 );

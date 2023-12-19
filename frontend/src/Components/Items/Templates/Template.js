@@ -1,21 +1,28 @@
 import React, { useState } from "react";
-import InstallationTrainingReportForm from "./installationTemplate";
-import MaintenanceReportForm from "./Maintenance Report/MaintenanceReportTemplatePDF"
-import InstallationAndTrainingReportTemplate from "./Installation&TrainingReportTemplate";
 import { Button } from "react-bootstrap";
-import InstallationAndTrainingReportPDF from "./InstallationAndTrainingReportPDF";
+import InstallationAndTrainingReportPDF from "./Installation & Training Report/InstallationAndTrainingReportPDF";
+import InstallationTrainingReportForm from './Installation & Training Report/installationTemplate'
 import { PDFViewer } from '@react-pdf/renderer';
+import OrderReviewForm from "./OrderReview/OrderReviewForm";
 
 const Templates = () => {
     const [showInstallationForm, setShowInstallationForm] = useState(false);
+    const [showOrderReviewForm, setShowOrderReviewForm] = useState(false);
     const [showInstallationAndTrainingDesign, setShowInstallationAndTrainingDesign] = useState(false);
     const [showTemplates,setShowTemplates] = useState(true);
-    
 
+    // -------Forms-----------------------------------------------------------
     const handleInstallationClick = () => {
         setShowInstallationForm(true);
         setShowTemplates(false);
     };
+
+    const handleOrderReviewClick = () =>{
+        setShowOrderReviewForm(true);
+        setShowTemplates(false);
+    }
+
+    // -------Designs---------------------------------------------------------
 
     const handleInstallationDesignClick = () => {
         setShowInstallationAndTrainingDesign(true);
@@ -36,7 +43,7 @@ const Templates = () => {
                  <div className="d-flex justify-content-start"><h4>Forms :</h4></div>
                   <div className="d-flex justify-content-start">
 
-                    <ol>
+                    <ul style={{listStyle : 'inside'}}>
                         <div style={{ textAlign: "start" }}>
                             <li>
                                 <button className="btn btn-link" onClick={handleInstallationClick}>
@@ -44,13 +51,14 @@ const Templates = () => {
                                 </button>
                             </li>
                             <li ><button className="btn btn-link">Invoice</button></li>
+                            <li ><button className="btn btn-link" onClick={handleOrderReviewClick}>Order Review</button></li>
                         </div>
-                    </ol>
+                    </ul>
                 </div>
                 <div className="d-flex justify-content-start"><h4>Template Designs :</h4></div>
                   <div className="d-flex justify-content-start">
 
-                    <ol>
+                    <ul style={{listStyle : 'inside'}}>
                         <div style={{ textAlign: "start" }}>
                             <li>
                                 <button className="btn btn-link" onClick={handleInstallationDesignClick}>
@@ -59,12 +67,14 @@ const Templates = () => {
                             </li>
                             <li ><button className="btn btn-link">Invoice</button></li>
                         </div>
-                    </ol>
+                    </ul>
                 </div>
                 </>
                 }
 
                 {showInstallationForm && <InstallationTrainingReportForm  onCancel={()=>{ setShowInstallationForm(false); setShowTemplates(true);}}/>}
+
+                {showOrderReviewForm && <OrderReviewForm  onCancel={()=>{ setShowOrderReviewForm(false); setShowTemplates(true);}}/>}
 
                 {showInstallationAndTrainingDesign && 
                 <div>
