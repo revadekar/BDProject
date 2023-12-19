@@ -11,6 +11,7 @@ import Users from './Items/User/Users';
 import EmployeeDetails from './Items/Employee/EmployeeDetails';
 import ProjectDetails from './Items/Project/ProjectDetails';
 import { ChevronRight } from 'baseui/icon';
+import Templates from './Items/Templates/Template';
 
 const Dashboard = () => {
   const [open, setOpen] = React.useState(true);
@@ -33,13 +34,15 @@ const Dashboard = () => {
       return <EmployeeDetails />;
     }else if (activeMenuItem === 'Project Details') {
       return <ProjectDetails/>;
+    }else if (activeMenuItem === 'Templates') {
+      return <Templates/>;
     }else{
       return <HomePage></HomePage>
     }
   };
 
   return (
-    <DashboardWrapper className={`Dashboard ${css({ paddingLeft: open ? '285px' : '0' })}`}>
+    <DashboardWrapper className={`Dashboard ${css({  paddingLeft: open ? '285px' : '0' })}`}>
               <Navbar setActiveMenuItem={setActiveMenuItem} />
               {showFabar && (
           <ChevronRight
@@ -52,7 +55,10 @@ const Dashboard = () => {
 
             {open && <Sidebar open={open} setOpen={setOpen} setActiveMenuItem={setActiveMenuItem} setShowFabar={setShowFabar} />}
             <DashboardHeader open={open} setOpen={setOpen} />
-            {renderContent()}
+            <div className=' dashboardContent'>
+              {renderContent()}
+            </div>
+            
     </DashboardWrapper>
   );
 };
@@ -60,11 +66,10 @@ const Dashboard = () => {
 export default Dashboard;
 
 const DashboardWrapper = styled('section', {
-  display: 'flex',
-  background: 'rgb(14, 151, 105)', // Set your desired background color here
+  display: 'flex', 
   flexDirection: 'column',
   alignItems: 'flex-start',
-  backgroundColor: 'white',
+  backgroundColor: '',
   position: 'relative',
   width: '100%',
   minHeight: '100vh',
@@ -73,6 +78,6 @@ const DashboardWrapper = styled('section', {
   '@media (max-width: 768px)': {
     paddingLeft: '0',
   },
-  paddingTop: '3rem',
+  // paddingTop: '3rem',
   transition: 'padding-left 0.3s ease, margin-left 0.3s ease, width 0.3s ease', // Add transitions for other properties
 });
