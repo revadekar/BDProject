@@ -92,8 +92,8 @@ const EmployeeDetails = () => {
 
   return (
  
-    <div>
-      <div style={{ marginRight: "10px" }}>
+    <div className='container-fluid'>
+      <div >
        <div className='d-flex justify-content-end form1 mb-4'>
         
       <Button className="button"

@@ -5,7 +5,6 @@ import { Button } from "baseui/button";
 import { DeleteAlt, Upload } from "baseui/icon";
 import AddProjectForm from "./AddProjectForm";
 import FileUpload from "./FileUpload";
-import { styled } from "styletron-react";
 
 const ProjectDetails = () => {
     const [projectData, setProjectData] = useState([]);
@@ -106,7 +105,7 @@ console.log('projectId',projectId);
     setDataDeleted(false);
     try {
       const selectedProjectIds = selectedProjects.map(
-        (index) => projectData[index].Cust_id
+        (index) => projectData[index].Project_id
       );
   
       const response = await fetch('http://localhost:5000/deleteProject', {
@@ -200,18 +199,26 @@ console.log('projectId',projectId);
       />} {/* Render the form when showForm is true */}
 
       {showFileUpload && 
-       <FileUpload 
-       editingProject={editingProject} 
+      <div className="popup">
+        <FileUpload 
+         editingProject={editingProject} 
+         setMessage={setMessage}
+
 
         onClose={()=>{ 
         setShowFileUpload(false);
-        setEditingProject(null);    }} 
+        setEditingProject(null);   
+
+       }} 
 
         onUpload={()=>{ 
           setSelectedProjects([]);
+          setShowFileUpload(false);
           setProjectUpdated(true);
         }}
         />
+        </div>
+
       }
 
       {showProjects && (
@@ -287,6 +294,7 @@ console.log('projectId',projectId);
                  </div>
                  </th>
                  <th>S.No.</th>
+                 <th className="responsive-font">Project Code</th>
                  <th className="responsive-font">Project Name</th>
                  <th className="responsive-font">Project Description</th>
                  <th className="responsive-font">Product Description</th>
@@ -315,6 +323,7 @@ console.log('projectId',projectId);
                  </div>
                  </td>
                    <td>{index+1}.</td>
+                   <td className="responsive-font">{project.Project_Code}</td>
                    <td className="responsive-font" >{project.Project_Name}</td>
                    <td className="responsive-font">{project.Project_Description}</td>
                    <td className="responsive-font">{project.Product_Description}</td>

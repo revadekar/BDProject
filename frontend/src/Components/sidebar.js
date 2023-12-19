@@ -80,19 +80,23 @@ const Sidebar = ({ open, setOpen, activeMenuItem, setActiveMenuItem,setShowFabar
           setOpen(false);
         }}
       />
-      <Logo>
-       
-        <img
-          className={css({
-            width: '5rem',
-            height: '4rem',
-            marginRight: '0.5rem',
-          })}
-          src={logo}
-          alt="logo"
-        />
-       P & SO Dashboard
-      </Logo>
+             
+ <Logo >
+   <div>
+     <img
+       className={css({
+        width: '5vw',
+        height: '9vh',
+      })}
+      src={logo}
+      alt="logo"
+    />
+    </div>
+  <div>Business Process Management</div>
+</Logo>
+
+
+
       <nav ref={sidebarRef}>
         <ul className={css({ listStyle: 'none', padding: 0,})}>
           {menuData.map(({ icon, title }, index) => (
@@ -144,7 +148,6 @@ export default Sidebar;
 
 
 const SidebarWrapper = styled('section', {
-  paddingTop: '2rem',
   position: 'fixed',
   top: '10vh',
   left: '0',
@@ -156,14 +159,16 @@ const SidebarWrapper = styled('section', {
   background: '#363740',
   zIndex: '1',
   overflowY: 'hidden', // Hide horizontal scrollbar
-  padding: '0.6rem',
+  padding: '0.0rem',
   color: 'grey',
   transition: 'left 2s ease, width 1s ease',
 });
 
 const Logo = styled('div', {
-  margin: '2rem',
+  marginTop: '2rem',
+  marginBottom: '1rem',
   display: 'flex',
+  flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
   fontSize: '1rem',
@@ -171,4 +176,5 @@ const Logo = styled('div', {
   fontWeight: 'bold',
   boxSizing: 'border-box',
   background: 'none',
+  font: 'small-caption'
 });

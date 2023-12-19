@@ -14,6 +14,7 @@ const AddProjectForm = ({onCloseForm, onAddProject, setMessage}) => {
   const [errorMessage,setErrorMessage]= useState('');
 
   const [newProject, setNewProject] = useState({
+    Project_Code: null,
     Project_Name: null,
     Project_Description: null,
     Product_Description: null,
@@ -29,53 +30,56 @@ const AddProjectForm = ({onCloseForm, onAddProject, setMessage}) => {
 
   const handleFileUpload = (acceptedFiles) => {
     const file = acceptedFiles[0];
-    if (file.type !== 'application/pdf') {
-      setShowFileAlert(true);
-    } else {
-      setShowFileAlert(false);
-      const formData = new FormData();
-      formData.append('file', file);
-  
-      // Check if there's a previous file path
-      if (filePath) {
-        // If a previous file exists, send a request to delete it
-        fetch('http://localhost:5000/deleteTempFile', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ filePath }),
-        })
-          .then((response) => response.json())
-          .then((result) => {
-            console.log(result.message); // Log the deletion message
-          })
-          .catch((error) => {
-            console.error('Error deleting previous file:', error);
-          });
-      }
-  
-      // Proceed with uploading the new file
-      fetch('http://localhost:5000/upload', {
+     // Check if there's a previous file path
+     if (filePath) {
+      // If a previous file exists, send a request to delete it
+      fetch('http://localhost:5000/deleteTempFile', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ filePath }),
       })
-        .then((response) => {
-          if (response.ok) {
-            return response.json(); // Parse response as JSON
-          } else {
-            throw new Error('File upload failed');
-          }
-        })
+        .then((response) => response.json())
         .then((result) => {
-          console.log(result); // Log the server response
-          setNewProject({ ...newProject, project_document: file.name });
-          setFilePath(result.filePath); // Set the new file path
+          console.log(result.message); // Log the deletion message
         })
         .catch((error) => {
-          setErrorMessage('server error please try again later !');
-          console.error('Error:', error); // Handle errors here
+          console.error('Error deleting previous file:', error);
         });
+    }
+
+     if(file){
+      if (file.type !== 'application/pdf') {
+        setShowFileAlert(true);
+      } else {
+        setShowFileAlert(false);
+        const formData = new FormData();
+        formData.append('file', file);
+    
+        // Proceed with uploading the new file
+        fetch('http://localhost:5000/upload', {
+          method: 'POST',
+          body: formData,
+        })
+          .then((response) => {
+            if (response.ok) {
+              return response.json(); // Parse response as JSON
+            } else {
+              throw new Error('File upload failed');
+            }
+          })
+          .then((result) => {
+            console.log(result); // Log the server response
+            setNewProject({ ...newProject, project_document: file.name });
+            setFilePath(result.filePath); // Set the new file path
+          })
+          .catch((error) => {
+            setErrorMessage('server error please try again later !');
+            console.error('Error:', error); // Handle errors here
+          });
+      }
+
     }
   };
 
@@ -225,6 +229,7 @@ const AddProjectForm = ({onCloseForm, onAddProject, setMessage}) => {
         onCloseForm();
       })
       .catch((error) => {
+        setShowFileAlert(false);
         setShowErrorMessage(true);
         console.error('Error:', error);
       });
@@ -244,7 +249,7 @@ const AddProjectForm = ({onCloseForm, onAddProject, setMessage}) => {
           </div>
         )}
         {errorMessage && (<div className='error-message'><p className='custom-alert'>{errorMessage}</p></div>)}
-        <div className='d-flex justify-content-start mb-3 form1'>
+        <div className='d-flex justify-content-start mb-4 form1'>
           <div className='btn-group'>
           <Button type='button' className='flat-button' onClick={handleAddProject}>
                   Save
@@ -256,13 +261,27 @@ const AddProjectForm = ({onCloseForm, onAddProject, setMessage}) => {
         </div>
         {showFileAlert && <div className='custom-alert'><p className='error-message'>Invalid file ! Please upload PDF files only </p></div>} 
       <div className='d-flex justify-content-start'>
-         <div className='col-md-8'>
+         <div className='col-md-8 ' style={{marginRight: "1rem"}}>
           <div className='card userform'>
-            <div className='card-body'>
+            <div className='card-body form1'>
               <form className='form-inline'>
               <div className="form-group row mb-4">
+              <div className='col-md-6'>
+                    <label htmlFor='Project_Code' className='control-label mb-2'>Project Code:</label>
+                    <input
+                      type='text'
+                      className='form-control'
+                      id='Project_Code'
+                      name='Project_Code'
+                      value={newProject.Project_Code || ''}
+                      onChange={(e) =>
+                        setNewProject({ ...newProject, Project_Code: e.target.value })
+                      }
+                      placeholder='Enter Project Name'
+                    />
+                  </div>
                   <div className='col-md-6'>
-                    <label htmlFor='Project_Name' className='control-label'>Project Name:</label>
+                    <label htmlFor='Project_Name' className='control-label mb-2'>Project Name:</label>
                     <input
                       type='text'
                       className='form-control'
@@ -275,8 +294,11 @@ const AddProjectForm = ({onCloseForm, onAddProject, setMessage}) => {
                       placeholder='Enter Project Name'
                     />
                   </div>
-                  <div className='col-md-6'>
-                    <label htmlFor='Project_Description'>Project Description:</label>
+                 
+                </div>
+                <div className="form-group row mb-4">
+                <div className='col-md-6'>
+                    <label htmlFor='Project_Description' className='control-label mb-2'>Project Description:</label>
                     <input
                       type='text'
                       className='form-control'
@@ -289,10 +311,8 @@ const AddProjectForm = ({onCloseForm, onAddProject, setMessage}) => {
                       placeholder='Enter Project Description'
                     />
                   </div>
-                </div>
-                <div className="form-group row mb-4">
                   <div className='col-md-6'>
-                    <label htmlFor='Product_Description'>Product Description:</label>
+                    <label htmlFor='Product_Description' className='control-label mb-2'>Product Description:</label>
                     <input
                       type='text'
                       className='form-control'
@@ -305,8 +325,10 @@ const AddProjectForm = ({onCloseForm, onAddProject, setMessage}) => {
                       placeholder='Enter Product Description'
                     />
                   </div>
-                  <div className='col-md-6'>
-                    <label htmlFor='status_id'>Status:</label>
+                </div>
+                <div className="form-group row mb-4">
+                <div className='col-md-6'>
+                    <label htmlFor='status_id' className='control-label mb-2'>Status:</label>
                     <select
                       className='form-select'
                       id='status_id'
@@ -322,10 +344,8 @@ const AddProjectForm = ({onCloseForm, onAddProject, setMessage}) => {
                         ))}
                     </select>
                   </div>
-                </div>
-                <div className="form-group row mb-4">
                    <div className='col-md-6'>
-                    <label htmlFor='Cust_id'>Company Name:</label>
+                    <label htmlFor='Cust_id' className='control-label mb-2'>Company Name:</label>
                     <select
                     className='form-select'
                     id='Cust_id'
@@ -346,8 +366,90 @@ const AddProjectForm = ({onCloseForm, onAddProject, setMessage}) => {
                       ))}
                     </select>
                   </div>
+                </div>
+                <div className='form-group row mb-4'>
+                
                   <div className='col-md-6'>
-                    <label htmlFor='group_id'>Group Name:</label>
+                    <label htmlFor='Cat_id' className='control-label mb-2'>Category:</label>
+                    <select
+                    className='form-select'
+                    id='Cat_id'
+                    name='Cat_id'
+                    value={newProject.Cat_id || ''}
+                    onChange={(e) =>
+                      setNewProject({ ...newProject, Cat_id: e.target.value })
+                    }
+                    >
+                      <option value='' disabled>Select Category</option>
+                      {categoryData.map((Cat, index) => (
+                        <option
+                          key={index}
+                          value={Cat.Cat_id}
+                        >
+                          {Cat.Catgory_name}
+                        </option>
+                      ))}
+                    </select>
+                   </div>
+                   <div className='col-md-6'>
+                    <label htmlFor='Purchase_order' className='control-label mb-2'>Purchase Order:</label>
+                    <input
+                      type='text'
+                      className='form-control'
+                      id='Purchase_order'
+                      name='Purchase_order'
+                      value={newProject.Purchase_order || ''}
+                      onChange={(e) =>
+                        setNewProject({ ...newProject, Purchase_order: e.target.value })
+                      }
+                      placeholder='Purchase order no'
+                    />
+                   </div>
+                  </div>
+
+                   <div className="form-group row mb-0">
+                   <div className='col-md-6'>
+                 <label htmlFor='Remarks' className='control-label mb-2'>Remarks:</label>
+                 <input
+                 type='text'
+                  className='form-control'
+                         id='Remarks'
+                       name='Remarks'
+                      value={newProject.Remarks || ''}
+                   onChange={(e) =>
+           setNewProject({ ...newProject, Remarks: e.target.value })
+                      }
+                      placeholder='Enter remarks'
+                       />
+                    </div>
+                   <div className='col-md-6'>
+                   <label htmlFor='project_document' className='control-label mb-2'>Project Document:</label>
+                    {/* Message indicating accepted file types */}
+                    {/* <p className='mb-1 text-muted'>Only PDF files are allowed.</p> */}
+                    <input
+                     className="form-control"
+                      type="file"
+                      accept='.pdf'
+                      onChange={(e) => handleFileUpload(e.target.files)}
+                    />
+                       <div className="d-flex justify-content-end "><p className="text-muted">PDF files only</p></div> 
+                     </div>
+
+                </div>
+                <div className="form-group row mb-4">
+
+                  </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+        <div className='col-md-4'>
+          <div className='card userform'>
+            <div className='card-body '>
+              <div className="form-group row ">
+                <div className='mb-3'>
+                    <label htmlFor='group_id' className='control-label mb-2'>Group Name:</label>
                     <select
                     className='form-select'
                     id='group_id'
@@ -368,10 +470,8 @@ const AddProjectForm = ({onCloseForm, onAddProject, setMessage}) => {
                       ))}
                     </select>
                   </div>
-                </div>
-                <div className='form-group row mb-4'>
-                  <div className='col-md-6'>
-                    <label htmlFor='Emp_id'>Employee Name:</label>
+                <div className='mb-2'>
+                    <label htmlFor='Emp_id' className='control-label mb-2'>Employee Name:</label>
                     <select
                     className='form-select'
                     id='Emp_id'
@@ -391,79 +491,10 @@ const AddProjectForm = ({onCloseForm, onAddProject, setMessage}) => {
                         </option>
                       ))}
                     </select>
-                  </div>
-                  <div className='col-md-6'>
-                    <label htmlFor='Cat_id'>Category:</label>
-                    <select
-                    className='form-select'
-                    id='Cat_id'
-                    name='Cat_id'
-                    value={newProject.Cat_id || ''}
-                    onChange={(e) =>
-                      setNewProject({ ...newProject, Cat_id: e.target.value })
-                    }
-                    >
-                      <option value='' disabled>Select Category</option>
-                      {categoryData.map((Cat, index) => (
-                        <option
-                          key={index}
-                          value={Cat.Cat_id}
-                        >
-                          {Cat.Catgory_name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  </div>
-
-                  <div className="form-group row mb-4">
-                   <div className='col-md-6'>
-                    <label htmlFor='Purchase_order' className='control-label'>Purchase Order:</label>
-                    <input
-                      type='text'
-                      className='form-control'
-                      id='Purchase_order'
-                      name='Purchase_order'
-                      value={newProject.Purchase_order || ''}
-                      onChange={(e) =>
-                        setNewProject({ ...newProject, Purchase_order: e.target.value })
-                      }
-                      placeholder='Purchase order no'
-                    />
-                   </div>
-                   <div className='col-md-6'>
-                   <label htmlFor='project_document'>Project Document:</label>
-                    {/* Message indicating accepted file types */}
-                    {/* <p className='mb-1 text-muted'>Only PDF files are allowed.</p> */}
-                    <input
-                     className="form-control"
-                      type="file"
-                      accept='.pdf'
-                      onChange={(e) => handleFileUpload(e.target.files)}
-                      placeholder='.pdf only'
-                    />
-                     </div>
-
-                </div>
-                <div className="form-group row mb-4">
-                 <div className='col-md-10'>
-                 <label htmlFor='Remarks'>Remarks:</label>
-                 <textarea
-                  className='form-control'
-                         id='Remarks'
-                       name='Remarks'
-                      value={newProject.Remarks || ''}
-                   onChange={(e) =>
-           setNewProject({ ...newProject, Remarks: e.target.value })
-                      }
-                      placeholder='Enter remarks'
-                       />
                     </div>
-                  </div>
-
-              </form>
-            </div>
-          </div>
+                </div>
+             </div>
+           </div>
         </div>
       </div>
     </div>
