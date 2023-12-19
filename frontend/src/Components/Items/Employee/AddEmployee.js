@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "baseui/button";
+import { Button } from "react-bootstrap";
 
 const EmployeeForm=({onCloseForm,onAddEmployee})=>{
     const[GroupData,setGroupData]=useState([]);
+    const[Location,setLocation]=useState([]);
     const [showErrorMessage, setShowErrorMessage] = useState(false);
     const [showValidationMessage, setShowValidationMessage] = useState(false);
     const [nameValid, setNameValid] = useState(true);
@@ -54,7 +55,22 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
                 });
         },[])
 
-
+        useEffect(() => {
+          fetch("http://localhost:5000/getLocation", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              setLocation(data);
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+        }, []);
+  
 
     const handleCancel = () => {
         onCloseForm();
@@ -66,7 +82,7 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
         const selectedGroup = GroupData.find(
           (group) => group.Group_Name === newEmployee.Group_Name
         );
-        newEmployee.desig_code=DesignationData.find((desig)=>desig.desig_name===newEmployee.Designation).desig_code;
+        // newEmployee.desig_code=DesignationData.find((desig)=>desig.desig_name===newEmployee.Designation).desig_code;
     
         // Check if all required fields are filled
         if (
@@ -153,7 +169,6 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
             </div>
             <form
               className="form-horizontal"
-              style={{ fontFamily: "serif", fontWeight: "bold" }}
             >
               <div className="form-group row mb-3" >
                 <label
@@ -236,7 +251,7 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
                 >
                   <option value='' disabled selected> Select Designation</option>
                   {DesignationData.map((desig)=>(
-                    <option  value={desig.desig_name}>{desig.desig_name}</option>
+                    <option  value={desig.desig_code}>{desig.desig_name}</option>
                   ))}
                   </select>
                   {/* <input
@@ -335,18 +350,29 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
                   Location:
                 </label>
                 <div className="col-sm-8">
-                  <input
-                    type="text"
-                    id="Location"
-                    className="form-control"
-                    value={newEmployee.Location}
-                    onChange={(e) =>
-                      setNewEmployee({
-                        ...newEmployee,
-                        Location: e.target.value,
-                      })
-                    }
-                  />
+                  <div className="dropdown">
+                    <select
+                      id="Location"
+                      className="form-select"
+                      value={newEmployee.Location}
+                      onChange={(e) =>
+                        setNewEmployee({ ...newEmployee, Location: e.target.value })
+                      }
+                      required
+                    >
+                      <option value="" disabled selected>
+                        Select Location
+                      </option>
+                      {Location.map((Loc, index) => (
+                        <option
+                          key={index}
+                          value={Loc.Loc_Code}
+                        >
+                          {Loc.Location}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
               </div>
               <div className="form-group row mb-3" >
@@ -369,6 +395,15 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
               </div>
             </div>
                 <div className="d-flex justify-content-center">
+                <Button
+                 style={{ marginRight: "1rem" }}
+                      size="compact"
+                    
+                    className="flat-button"
+                    onClick={handleAddEmployee}
+                  >
+                    Save
+                  </Button>
                   <Button
                  className="flat-button btn btn-danger"
                  size="compact"
@@ -378,15 +413,7 @@ const EmployeeForm=({onCloseForm,onAddEmployee})=>{
                   >
                     Cancel
                   </Button>
-                  <Button
-style={{ marginLeft: "0.3rem" }}
-              size="compact"
-                    
-                    className="btn btn-danger flat-button"
-                    onClick={handleAddEmployee}
-                  >
-                    Save
-                  </Button>
+
                 </div>
             </form>
           </div>

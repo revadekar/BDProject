@@ -6,6 +6,7 @@ const EditEmployee = ({ onCloseForm, onEditEmployee, EditingEmployee }) => {
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [GroupData, setGroupData] = useState([]);
   const [DesignationData, setDesignationData] = useState([]);
+  const[Location,setLocation]=useState([]);
   const [showValidationMessage, setShowValidationMessage] = useState(false);
   const [GroupValid, setGroupValid] = useState(false);
   const [designationValid, setDesignationValid] = useState(false);
@@ -45,6 +46,21 @@ const EditEmployee = ({ onCloseForm, onEditEmployee, EditingEmployee }) => {
                       console.error('Error:', error);
                     });
             },[])
+            useEffect(() => {
+              fetch("http://localhost:5000/getLocation", {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              })
+                .then((response) => response.json())
+                .then((data) => {
+                  setLocation(data);
+                })
+                .catch((error) => {
+                  console.error("Error:", error);
+                });
+            }, []);
 
             useEffect(() => {
               const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -319,19 +335,30 @@ const EditEmployee = ({ onCloseForm, onEditEmployee, EditingEmployee }) => {
                 Location:
               </label>
               <div className="col-sm-8">
-                <input
-                  type="text"
-                  id="Location"
-                  className="form-control"
-                  value={newEmployee.Location}
-                  onChange={(e) =>
-                    setNewEmployee({
-                      ...newEmployee,
-                      Location: e.target.value,
-                    })
-                  }
-                />
-              </div>
+                  <div className="dropdown">
+                    <select
+                      id="Location"
+                      className="form-select"
+                      value={newEmployee.Location}
+                      onChange={(e) =>
+                        setNewEmployee({ ...newEmployee, Location: e.target.value })
+                      }
+                      required
+                    >
+                      <option value="" disabled selected>
+                        Select Location
+                      </option>
+                      {Location.map((Loc, index) => (
+                        <option
+                          key={index}
+                          value={Loc.Loc_Code}
+                        >
+                          {Loc.Location}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
             </div>
             <div className="form-group row mb-3" >
               <label htmlFor="Floor" className="control-label col-sm-4">

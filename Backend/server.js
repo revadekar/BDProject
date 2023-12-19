@@ -409,7 +409,20 @@ app.get('/getGroups',(req,res)=>{
   })
 })
 
-
+app.get('/getLocation',(req,res)=>{
+  const query='select * from Locations';
+  db.query(query,(error,result)=>{
+    if(error){
+      console.error('Error',error);
+      res.status(500).json({error:'Error getting Location'});
+    }else
+    {
+      //console.log(result);
+      console.log('Location fetched successfully');
+      res.status(201).json(result);
+    }
+  })
+})
 
 
 app.get('/getDesignation',(req,res)=>{

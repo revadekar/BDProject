@@ -7,7 +7,7 @@ import { Client as Styletron } from 'styletron-engine-atomic';
 import { Provider as StyletronProvider } from 'styletron-react';
 import { LightTheme, BaseProvider } from 'baseui';
 //import { useStyletron } from 'styletron-react';
-import Dashboard from './Components/dashboard';
+import Dashboard from "./Components/dashboard";
 import LoginPage from "./Components/login";
 //import Profile from "./Components/Items/Profile";
 //import Navbar from './Components/navbar';

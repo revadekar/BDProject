@@ -9,9 +9,9 @@ const EmployeeDetails = () => {
   const [showAddEmployeeForm, setShowAddEmployeeForm] = useState(false);
   const [showEditEmployeeForm, setShowEditEmployeeForm]= useState(false);
   const [showEmployees, setShowEmployees] = useState(true);
-  const[employeeAdded,setEmployeeAdded]=useState(false);
+  const [employeeAdded,setEmployeeAdded]=useState(false);
   const [EditingEmployee, setEditingEmployee] = useState(null);
-  const[employeeDeleted,setEmployeeDeleted]=useState(false);
+  const [employeeDeleted,setEmployeeDeleted]=useState(false);
   const [employeeUpdated,setEmployeeUpdated]=useState(false);
 
   useEffect(() => {
@@ -19,7 +19,6 @@ const EmployeeDetails = () => {
   }, [employees]);
 
   useEffect(() => {
-    setEmployeeUpdated(false);
     fetch('http://localhost:5000/getEmployees', {
       method: 'GET',
       headers: {
@@ -33,34 +32,24 @@ const EmployeeDetails = () => {
       .catch((error) => {
         console.error('Error:', error);
       });
-  }, [employeeAdded, employeeUpdated]);
+  }, [employeeAdded, employeeUpdated, employeeDeleted]);
+
+useEffect(() => {
+  // Use setTimeout to reset state after a delay
+  if (employeeAdded || employeeUpdated||employeeDeleted) {
+    const timeout = setTimeout(() => {
+      setEmployeeAdded(false);
+      setEmployeeUpdated(false);
+      setEmployeeDeleted(false);
+    }, 2000); // Adjust the delay (in milliseconds) as needed
+    return () => clearTimeout(timeout); // Cleanup the timeout on unmount
+  }
+}, [employeeAdded, employeeUpdated, employeeDeleted]);
 
   const handleEditClick=(employee)=>{
     setEditingEmployee(employee);
     setShowEditEmployeeForm(!showEditEmployeeForm);
   }
-  const updateEmployeesAfterEdit = (updatedEmployee) => {
-    setEmployees(prevEmployees =>
-      prevEmployees.map(emp => (emp.Emp_id === updatedEmployee.Emp_id ? updatedEmployee : emp))
-    );
-  };
-  {showEditEmployeeForm && (
-    <div className='popup'>
-      <EditEmployee
-        EditingEmployee={EditingEmployee}
-        onEditEmployee={(updatedEmployee) => {
-          setShowEmployees(true);
-          setShowEditEmployeeForm(false);
-          setEmployeeUpdated(true);
-          updateEmployeesAfterEdit(updatedEmployee); // Update the employees state
-        }}
-        onCloseForm={() => {
-          setShowEmployees(true);
-          setShowEditEmployeeForm(false);
-        }}
-      />
-    </div>
-  )}
 
   const handleDeleteClick=(emp)=>{
     const shouldDeleteEmp = window.confirm('Are you sure to delete this Employee ?');
@@ -93,12 +82,38 @@ const EmployeeDetails = () => {
   return (
  
     <div>
+      {employeeAdded && (
+  <div className="d-flex justify-content-center align-items-center" style={{ position: "fixed", top: "5rem", left: "50%", transform: "translate(-50%, -50%)", width: "50%" }}>
+    <div role="alert" style={{ backgroundColor: "lightgreen", padding:"1rem" }}>
+      Record inserted successfully!
+    </div>
+  </div>
+)}
+
+{/* // Update the styles for dataUpdated alert */}
+{employeeUpdated && (
+  <div className="custom-alert" >
+    <div className='success'>
+      Employee details updated successfully!
+    </div>
+  </div>
+)}
+
+{/* // Update the styles for dataDeleted alert */}
+{employeeDeleted && (
+  <div className="d-flex justify-content-center align-items-center" style={{ position: "fixed", top: "5rem", left: "50%", transform: "translate(-50%, -50%)", width: "max-content" }}>
+   <div role="alert" style={{ backgroundColor: "lightgreen", padding:"1rem" }}>
+      Employee details deleted successfully!
+    </div>
+  </div>
+)}
       <div style={{ marginRight: "10px" }}>
        <div className='d-flex justify-content-end form1 mb-4'>
         
       <Button className="button"
        
         onClick={() => {
+          setEmployeeAdded(false);
           setShowAddEmployeeForm(true);
           setShowEmployees(false);
         }}
@@ -122,6 +137,7 @@ const EmployeeDetails = () => {
                 <th>Employee Name</th>
                 <th>Designation</th>
                 <th>Email</th>
+                <th>Mobile</th>
                 <th>Office Landline</th>
                 <th>Location</th>
                 <th>Group Name</th>
@@ -138,6 +154,7 @@ const EmployeeDetails = () => {
                       <td>{emp.Employee_Name}</td>
                       <td>{emp.Designation}</td>
                       <td>{emp.Email}</td>
+                      <td>{emp.Mobile}</td>
                       <td>{emp.Office_landline}</td>
                       <td>{emp.Location}</td>
                       <td>{emp.Group_Name}</td>
