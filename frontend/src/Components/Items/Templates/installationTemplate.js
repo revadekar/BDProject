@@ -165,8 +165,8 @@ const InstallationTrainingReportForm = ({ onCancel }) => {
           </Button>
       </div>
     </div>
-   <div className='d-flex justify-content-center'>
-     <div className='card col-md-12 '>
+   <div className='d-flex justify-content-start'>
+     <div className='card col-md-8 '>
       <div className='card-body '>
       <Form id="InstallationForm">
        <div className='userform'>
@@ -190,7 +190,7 @@ const InstallationTrainingReportForm = ({ onCancel }) => {
         <Form.Label>Address:</Form.Label>
         <Form.Control
           as="textarea"
-          rows={3}
+          rows={1}
           name="address"
           value={formData.address}
           onChange={(e) => setFormData({ ...formData, address: e.target.value })}
@@ -338,7 +338,7 @@ const InstallationTrainingReportForm = ({ onCancel }) => {
         <div className='userform mb-3'>
             <Form.Group  controlId="satisfied" className='mb-3'>
             <div className='d-flex justify-content-start'>
-                <div className='col-sm-6'>
+                <div className='col-sm-8'>
                   <Form.Label>TRAINING HAS BEEN COMPLETED UPTO CUSTOMER SATISFACTION:</Form.Label>
                 </div>
                 <div className='col-sm-4'>
@@ -366,7 +366,7 @@ const InstallationTrainingReportForm = ({ onCancel }) => {
                 <div className='col-sm-4'>
                 <Form.Label >Signature of Head:</Form.Label>
                 </div>
-                <div className='col-sm-6'>
+                <div className='col-sm-8'>
                 <Form.Control
                 type='file'
                 name='signature'
@@ -383,7 +383,7 @@ const InstallationTrainingReportForm = ({ onCancel }) => {
         <div className='col-sm-4'>
         <Form.Label>Signature of Engineer :</Form.Label>
          </div>
-          <div className='col-sm-6'>
+          <div className='col-sm-8'>
           <Form.Control
             type='file'
             name='signature'

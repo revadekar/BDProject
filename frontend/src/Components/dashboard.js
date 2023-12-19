@@ -55,7 +55,7 @@ const Dashboard = () => {
 
             {open && <Sidebar open={open} setOpen={setOpen} setActiveMenuItem={setActiveMenuItem} setShowFabar={setShowFabar} />}
             <DashboardHeader open={open} setOpen={setOpen} />
-            <div className=' dashboardContent'>
+            <div className='dashboardContent'>
               {renderContent()}
             </div>
             
